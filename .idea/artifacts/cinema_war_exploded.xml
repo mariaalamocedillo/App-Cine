@@ -1,0 +1,49 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="cinema:war exploded">
+    <output-path>$PROJECT_DIR$/target/cinema</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <exploded>true</exploded>
+        <module>cinema</module>
+        <packaging>war</packaging>
+        <unpackNestedArchives>false</unpackNestedArchives>
+      </options>
+    </properties>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="cinema" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: jakarta.mvc:jakarta.mvc-api:2.0.0" />
+          <element id="library" level="project" name="Maven: org.jboss.logging:jboss-logging:3.4.1.Final" />
+          <element id="library" level="project" name="Maven: com.fasterxml:classmate:1.5.1" />
+          <element id="library" level="project" name="Maven: org.eclipse.krazo:krazo-core:2.0.1" />
+          <element id="library" level="project" name="Maven: org.apache.deltaspike.core:deltaspike-core-api:1.9.4" />
+          <element id="library" level="project" name="Maven: org.apache.deltaspike.core:deltaspike-core-impl:1.9.4" />
+          <element id="library" level="project" name="Maven: org.apache.deltaspike.modules:deltaspike-data-module-api:1.9.4" />
+          <element id="library" level="project" name="Maven: org.apache.deltaspike.modules:deltaspike-partial-bean-module-api:1.9.4" />
+          <element id="library" level="project" name="Maven: org.apache.deltaspike.modules:deltaspike-jpa-module-api:1.9.4" />
+          <element id="library" level="project" name="Maven: org.apache.deltaspike.modules:deltaspike-data-module-impl:1.9.4" />
+          <element id="library" level="project" name="Maven: org.apache.deltaspike.modules:deltaspike-partial-bean-module-impl:1.9.4" />
+          <element id="library" level="project" name="Maven: org.apache.deltaspike.modules:deltaspike-proxy-module-api:1.9.4" />
+          <element id="library" level="project" name="Maven: org.apache.deltaspike.modules:deltaspike-proxy-module-impl-asm:1.9.4" />
+          <element id="library" level="project" name="Maven: org.apache.deltaspike.modules:deltaspike-jpa-module-impl:1.9.4" />
+          <element id="library" level="project" name="Maven: org.hibernate:hibernate-validator:5.4.2.Final" />
+          <element id="library" level="project" name="Maven: javax.validation:validation-api:1.1.0.Final" />
+          <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot:2.6.1" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-core:5.3.13" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-jcl:5.3.13" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-context:5.3.13" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-aop:5.3.13" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-beans:5.3.13" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-expression:5.3.13" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/target/cinema/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="cinema/web/Web" />
+    </root>
+  </artifact>
+</component>
