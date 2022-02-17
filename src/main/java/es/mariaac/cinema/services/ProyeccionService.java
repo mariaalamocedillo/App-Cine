@@ -22,4 +22,6 @@ public class ProyeccionService {
     }
 
     public void guardar(Proyeccion proyeccion){proyeccionRepository.save(proyeccion);}
+
+
 }

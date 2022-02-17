@@ -17,38 +17,7 @@
 
 <body>
 
-<header>
-    <div class="collapse bg-dark" id="navbarHeader">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-8 col-md-7 py-4">
-                    <h4 class="text-white">About</h4>
-                    <p class="text-muted">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
-                </div>
-                <div class="col-sm-4 offset-md-1 py-4">
-                    <h4 class="text-white">Contact</h4>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-white">Follow on Twitter</a></li>
-                        <li><a href="#" class="text-white">Like on Facebook</a></li>
-                        <li><a href="#" class="text-white">Email me</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="navbar navbar-dark bg-dark box-shadow">
-        <div class="container d-flex justify-content-between">
-            <a href="#" class="navbar-brand d-flex align-items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-film" viewBox="0 0 16 16">
-                    <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm4 0v6h8V1H4zm8 8H4v6h8V9zM1 1v2h2V1H1zm2 3H1v2h2V4zM1 7v2h2V7H1zm2 3H1v2h2v-2zm-2 3v2h2v-2H1zM15 1h-2v2h2V1zm-2 3v2h2V4h-2zm2 3h-2v2h2V7zm-2 3v2h2v-2h-2zm2 3h-2v2h2v-2z"/></svg>
-                <strong>&nbsp;CinesPetri&nbsp;</strong>
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
-    </div>
-</header>
+<jsp:include page="/WEB-INF/layout/navBar.jsp" ></jsp:include>
 
 <main role="main">
 
@@ -57,14 +26,21 @@
             <h1 class="jumbotron-heading">Cines Petri®</h1>
             <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
             <p>
-                <a href="#" class="btn btn-primary my-2">Main call to action</a>
-                <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+                <a href="${mvc.basePath}/pelicula/proyectando" class="btn btn-primary my-2">Películas en proyección</a>
+                <a href="${mvc.basePath}/pelicula/" class="btn btn-secondary my-2">Todas las películas</a>
             </p>
         </div>
     </section>
 
     <div class="album py-5 bg-light">
         <div class="container">
+            <div class="row float-right" >
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-outline-primary">Todas</button>
+                    <a href="${mvc.basePath}/pelicula/proyectando"><button type="button" class="btn btn-outline-primary">Proyectando</button></a>
+                </div>
+            </div>
+
             <!--CARTAS CON LISTADO DE PELÍCULAS-->
             <c:if test="${not empty peliculas}">
                 <div class="row" id="peliculas">
@@ -77,7 +53,7 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="btn-group">
                                             <c:if test="${pelicula.enProyeccion}">
-                                                <button type="button" class="btn btn-sm btn-outline-secondary bg-info text-white" href="${mvc.basePath}/admin/pelicula/proyeccion/${pelicula.id}">Horarios</button>
+                                                <a href="${mvc.basePath}/pelicula/${pelicula.id}"><button type="button" class="btn btn-sm btn-outline-secondary bg-info text-white">Horarios</button></a>
                                             </c:if>
                                             <c:if test="${!pelicula.enProyeccion}">
                                                 <button type="button" class="btn btn-sm btn-outline-secondary" disabled>No proyectando</button>
@@ -117,3 +93,6 @@
 <script src="${pageContext.request.contextPath}/resources/js/holder.min.js"></script>
 </body>
 </html>
+
+
+

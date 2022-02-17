@@ -37,7 +37,7 @@ public class ProyeccionController {
     private Errores errores;
 
     @GET
-    @Path("/")  //TODO no deberia haber una lista con las proyecciones, deberia haber una lista de las peliculas que se proyectan, o una tabla??
+    @Path("/")
     public String index() {
         models.put("proyecciones", proyeccionService.findAll());
         return "admin/list-proyecciones";

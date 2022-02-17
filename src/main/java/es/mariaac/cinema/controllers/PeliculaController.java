@@ -4,6 +4,7 @@ import es.mariaac.cinema.configuration.LoaderDB;
 import es.mariaac.cinema.entities.Pelicula;
 import es.mariaac.cinema.repositories.PeliculaRepository;
 import es.mariaac.cinema.services.PeliculaService;
+import es.mariaac.cinema.services.ProyeccionService;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
@@ -22,7 +23,7 @@ import java.util.Optional;
 import static java.util.stream.Collectors.toList;
 
 @Slf4j
-@Path("/admin/pelicula")
+@Path("/pelicula")
 @Controller
 @RequestScoped
 public class PeliculaController {
@@ -31,6 +32,8 @@ public class PeliculaController {
 
     @Inject
     PeliculaService peliculaService;
+    @Inject
+    ProyeccionService proyeccionService;
 
     @Inject
     private BindingResult bindingResult;
@@ -50,6 +53,13 @@ public class PeliculaController {
     }
 
     @GET
+    @Path("/proyectando")
+    public String proyectando() {
+        models.put("peliculas", peliculaService.findProyectando());
+        return "list-peliculas";
+    }
+
+    @GET
     @Path("{id}")
     public String detalle(@PathParam("id") @NotNull Long id) {
 
@@ -57,9 +67,10 @@ public class PeliculaController {
 
         if (pelicula.isPresent()) {
             models.put("pelicula", pelicula.get());
+            models.put("proyecciones", pelicula.get().getProyecciones());
             return "detalle-pelicula";
         }
-        return "redirect:admin/pelicula";
+        return "redirect:pelicula";
     }
 
     @GET
@@ -84,7 +95,7 @@ public class PeliculaController {
         }
         peliculaService.guardar(pelicula);
         mensaje.setTexto("La peli " + pelicula.getTitulo() + " se guardó satisfactoriamente ! ");
-        return "redirect:admin/pelicula";
+        return "redirect:pelicula";
     }
 
 
@@ -97,7 +108,7 @@ public class PeliculaController {
             models.put("pelicula", pelicula.get());
             return "admin/form-pelicula";
         }
-        return "redirect:admin/pelicula";
+        return "redirect:pelicula";
     }
 
 

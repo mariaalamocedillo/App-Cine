@@ -15,10 +15,7 @@ public class EntityManagerProducer
   private EntityManagerFactory emf;
 
   @Produces // you can also make this @RequestScoped
-  public EntityManager create()
-  {
-    return emf.createEntityManager();
-  }
+  public EntityManager create() {return emf.createEntityManager();}
 
   public void close(@Disposes EntityManager em)
   {

@@ -13,6 +13,7 @@
 
     <!-- Custom styles for this template -->
     <link href="${pageContext.request.contextPath}/resources/css/album.css" rel="stylesheet"/>
+    <link href="${pageContext.request.contextPath}/resources/css/datatable-style.css" rel="stylesheet"/>
 </head>
 
 <body>
@@ -64,30 +65,31 @@
 
     <div class="container">
         <c:if test="${not empty proyecciones}">
-            <table class="table table-striped">
+            <!-- Table with stripped rows -->
+            <table class="table datatable">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Titulo</th>
+                    <th scope="col">Película</th>
                     <th scope="col">Sala</th>
                     <th scope="col">Comienzo</th>
+                    <th scope="col">Fecha</th>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach var="proyeccion" items="${proyecciones}">
                     <tr>
-                        <td>${proyeccion.id}</td>
-                        <td>${proyeccion.pelicula}</td>
-                        <td>${proyeccion.sala}</td>
+                        <th scope="row">${proyeccion.id}</th>
+                        <td>${proyeccion.sala.id}</td>
+                        <td>${proyeccion.pelicula.titulo}</td>
                         <td>${proyeccion.comienzo}</td>
+                        <td>${proyeccion.dia}</td>
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
         </c:if>
     </div>
-
-
 </main>
 
 <footer class="text-muted">
@@ -109,3 +111,32 @@
 <script src="${pageContext.request.contextPath}/resources/js/holder.min.js"></script>
 </body>
 </html>
+<%--
+<div>
+    <dl>
+        <dt>Código:</dt>
+        <dd>${pregunta.codigo}</dd>
+        <dt>Texto:</dt>
+        <dd>${pregunta.texto}</dd>
+        <dt>Dificultad:</dt>
+        <dd>${pregunta.dificultad}</dd>
+    </dl>
+</div>
+
+<div>
+    <table>
+        <caption><h2>Respuestas</h2></caption>
+        <tr>
+            <th>ID</th>
+            <th>Código</th>
+            <th>Texto</th>
+        </tr>
+        <c:forEach var="respuesta" items="${pregunta.respuestas}">
+            <tr>
+                <td>${respuesta.id}</td>
+                <td>${respuesta.codigo}</td>
+                <td>${respuesta.texto}</td>
+            </tr>
+        </c:forEach>
+    </table>
+</div>--%>

@@ -3,6 +3,8 @@ package es.mariaac.cinema.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
@@ -18,6 +20,9 @@ public class Proyeccion {
 
     @Column(nullable = false)
     private LocalTime comienzo;
+
+    @Column(nullable = false)
+    private LocalDate dia;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "sala_id", nullable = false)
