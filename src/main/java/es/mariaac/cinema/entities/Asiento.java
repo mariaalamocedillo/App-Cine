@@ -18,8 +18,8 @@ public class Asiento {
     @Column(nullable = false)
     private Integer numero;
 
-    //id de la sala
-
-
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "sala_id", nullable = false)
+    private Sala sala;
 
 }

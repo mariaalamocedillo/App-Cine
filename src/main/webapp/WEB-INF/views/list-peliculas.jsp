@@ -13,6 +13,9 @@
 
     <!-- Custom styles for this template -->
     <link href="${pageContext.request.contextPath}/resources/css/album.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/creativetimofficial/tailwind-starter-kit/compiled-tailwind.min.css" />
+
 </head>
 
 <body>
@@ -23,7 +26,7 @@
 
     <section class="jumbotron text-center">
         <div class="container">
-            <h1 class="jumbotron-heading">Cines Petri®</h1>
+            <h1>Cines Petri®</h1>
             <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
             <p>
                 <a href="${mvc.basePath}/pelicula/proyectando" class="btn btn-primary my-2">Películas en proyección</a>
@@ -34,12 +37,6 @@
 
     <div class="album py-5 bg-light">
         <div class="container">
-            <div class="row float-right" >
-                <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-outline-primary">Todas</button>
-                    <a href="${mvc.basePath}/pelicula/proyectando"><button type="button" class="btn btn-outline-primary">Proyectando</button></a>
-                </div>
-            </div>
 
             <!--CARTAS CON LISTADO DE PELÍCULAS-->
             <c:if test="${not empty peliculas}">
@@ -49,8 +46,8 @@
                             <div class="card mb-4 box-shadow">
                                 <img class="card-img-top" src="${pelicula.poster}" alt="Card image cap">
                                 <div class="card-body">
-                                    <h3>${pelicula.titulo}</h3>
-                                    <div class="d-flex justify-content-between align-items-center">
+                                    <h2>${pelicula.titulo}</h2>
+                                    <div class="d-flex justify-content-between align-items-center mt-2">
                                         <div class="btn-group">
                                             <c:if test="${pelicula.enProyeccion}">
                                                 <a href="${mvc.basePath}/pelicula/${pelicula.id}"><button type="button" class="btn btn-sm btn-outline-secondary bg-info text-white">Horarios</button></a>
@@ -88,11 +85,29 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script>window.jQuery || document.write('<script src="js/jquery-slim.min.js"><\/script>')</script>
+
+<script src="https://unpkg.com/@popperjs/core@2.9.1/dist/umd/popper.min.js" charset="utf-8"></script>
+<script>
+    function toggleNavbar(collapseID) {
+        document.getElementById(collapseID).classList.toggle("hidden");
+        document.getElementById(collapseID).classList.toggle("block");
+    }
+    function openDropdown(event,dropdownID){
+        let element = event.target;
+        while(element.nodeName !== "BUTTON"){
+            element = element.parentNode;
+        }
+        var popper = Popper.createPopper(element, document.getElementById(dropdownID), {
+            placement: 'bottom-start'
+        });
+        document.getElementById(dropdownID).classList.toggle("hidden");
+        document.getElementById(dropdownID).classList.toggle("block");
+    }
+</script>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
 <script src="${pageContext.request.contextPath}/resources/js/popper.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/holder.min.js"></script>
-</body>
+<script src="${pageContext.request.contextPath}/resources/js/holder.min.js"></script></body>
 </html>
-
-
-

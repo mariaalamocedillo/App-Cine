@@ -1,8 +1,7 @@
 package es.mariaac.cinema.controllers;
 
-import es.mariaac.cinema.configuration.LoaderDB;
 import es.mariaac.cinema.entities.Pelicula;
-import es.mariaac.cinema.repositories.PeliculaRepository;
+import es.mariaac.cinema.entities.Proyeccion;
 import es.mariaac.cinema.services.PeliculaService;
 import es.mariaac.cinema.services.ProyeccionService;
 import jakarta.enterprise.context.RequestScoped;
@@ -32,8 +31,6 @@ public class PeliculaController {
 
     @Inject
     PeliculaService peliculaService;
-    @Inject
-    ProyeccionService proyeccionService;
 
     @Inject
     private BindingResult bindingResult;
@@ -53,6 +50,13 @@ public class PeliculaController {
     }
 
     @GET
+    @Path("/admin")
+    public String listado() {
+        models.put("peliculas", peliculaService.findAll());
+        return "admin/list-peliculas";
+    }
+
+    @GET
     @Path("/proyectando")
     public String proyectando() {
         models.put("peliculas", peliculaService.findProyectando());
@@ -67,6 +71,7 @@ public class PeliculaController {
 
         if (pelicula.isPresent()) {
             models.put("pelicula", pelicula.get());
+            models.put("organizacionProyecciones", peliculaService.proyeccionesDias(pelicula.get()));
             models.put("proyecciones", pelicula.get().getProyecciones());
             return "detalle-pelicula";
         }
@@ -74,7 +79,7 @@ public class PeliculaController {
     }
 
     @GET
-    @Path("nueva")
+    @Path("admin/nueva")
     public String nueva() {
         log.debug("Añadir nueva pelicula");
         Pelicula pelicula = new Pelicula();
@@ -83,24 +88,30 @@ public class PeliculaController {
     }
 
     @POST
-    @Path("/nueva/submit")
+    @Path("admin/nueva/submit")
     @ValidateOnExecution(type = ExecutableType.NONE)
     public String nuevaSubmit(@Valid @BeanParam Pelicula pelicula) {
-        log.debug("Pelicula recibida: {}", pelicula);
-        if (bindingResult.isFailed()) {
-            logErrores();
-            setErrores();
-            models.put("pelicula", pelicula);
-            return "admin/form-pelicula";
+            log.debug("Pregunta recibida: {}", pelicula);
+            if (bindingResult.isFailed()) {
+                logErrores();
+                setErrores();
+                models.put("pelicula", pelicula);
+                return "admin/form-pelicula";
+            }
+            try {
+                peliculaService.guardar(pelicula);
+                mensaje.setTexto("La pregunta " + pelicula.getId() + " " + pelicula.getTitulo() + " se guardó satisfactoriamente ! ");
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+                mensaje.setTexto("Ocurrió un error y la peli " + pelicula.getId() + " " + pelicula.getTitulo() + " no se pudo almacenar.");
+            }
+            return "redirect:pelicula/admin";
+
         }
-        peliculaService.guardar(pelicula);
-        mensaje.setTexto("La peli " + pelicula.getTitulo() + " se guardó satisfactoriamente ! ");
-        return "redirect:pelicula";
-    }
 
 
     @GET
-    @Path("{id}/editar")
+    @Path("admin/editar/{id}")
     public String editar(@PathParam("id") Long id) {
         log.debug("Edit pelicula {}", id);
         Optional<Pelicula> pelicula = peliculaService.buscarPorId(id);
@@ -111,6 +122,25 @@ public class PeliculaController {
         return "redirect:pelicula";
     }
 
+    @GET
+    @Path("borrar/{id}")
+    public String borrar(@PathParam("id") @NotNull Long id) {
+        log.debug("Borrando pregunta {}", id);
+        Optional<Pelicula> pelicula = peliculaService.buscarPorId(id);
+
+        if (pelicula.isPresent()) {
+            Pelicula p = pelicula.get();
+            try {
+                peliculaService.borrar(p);
+                mensaje.setTexto("La pregunta " + p.getId()  + " " + p.getTitulo() + " se eliminó satisfactoriamente ! ");
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+                mensaje.setTexto("Ocurró un error y la pregunta " + p.getId() + " " + p.getTitulo() + " no se pudo eliminar.");
+            }
+        }
+
+        return "redirect:pelicula/admin";
+    }
 
     private void setErrores() {
         errores.setErrores(bindingResult.getAllErrors()

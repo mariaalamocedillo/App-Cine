@@ -1,101 +1,147 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <title>Pelicula</title>
-  <!-- Bootstrap -->
-  <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <!-- Custom styles for this template -->
-  <link href="${pageContext.request.contextPath}/resources/css/album.css" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/creativetimofficial/tailwind-starter-kit/compiled-tailwind.min.css" />
+  <title>Components / Accordion - NiceAdmin Bootstrap Template</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
 
-<body class="text-gray-800 antialiased">
+  <!-- Favicons -->
+  <link href="${pageContext.request.contextPath}/resources/assets/img/favicon.png" rel="icon">
+  <link href="${pageContext.request.contextPath}/resources/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-<jsp:include page="/WEB-INF/layout/navBar.jsp" ></jsp:include>
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
-<!--MAIN-->
-<main>
+  <!-- Vendor CSS Files -->
+  <link href="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/resources/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/resources/assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/resources/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/resources/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/resources/assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
-  <!--CONTENEDOR DE INFO-->
-  <section class="relative py-20 mt-5">
-    <div class="container mx-auto px-4">
-      <div class="items-center flex flex-wrap">
-        <div class="w-full md:w-4/12 ml-auto mr-auto px-4">
-          <img alt="..." class="max-w-full rounded-lg shadow-lg" src="${pelicula.poster}" />
+  <!-- Template Main CSS File -->
+  <link href="${pageContext.request.contextPath}/resources/assets/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+    * Template Name: NiceAdmin - v2.2.2
+    * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+</head>
+
+<body>
+<main id="main" class="main formul">
+
+  <div class="pagetitle">
+    <h1>Blank Page</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="${mvc.basePath}/pelicula/">Inicio</a></li>
+        <li class="breadcrumb-item">Detalles de ${pelicula.titulo}</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-4 m-auto">
+
+        <div class="container rounded-lg">
+          <div class="card-body">
+            <div class="mt-3 px-4 d-flex rounded-lg">
+              <img alt="..." class="img-fluid rounded-lg shadow-lg" width="auto" src="${pelicula.poster}">
+            </div>
+          </div>
         </div>
-        <div class="w-full md:w-5/12 ml-auto mr-auto px-4">
-          <div class="md:pr-12">
-            <!--<div class="text-pink-600 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-pink-300" >
-              <i class="fas fa-rocket text-xl"></i>
-            </div>-->
-            <h3 class="text-4xl font-semibold mb-3">${pelicula.titulo} </h3>
-            <span class="text-2xl">${pelicula.director} |</span><span class="text-gray-900"> ${pelicula.duracion} mins</span>
-            <p class="mt-4 text-lg leading-relaxed text-gray-600">
+
+      </div>
+
+      <div class="col-lg-8 m-auto">
+        <div class="card">
+          <div class="card-body">
+            <h1 class="title m-3">${pelicula.titulo} - A growing company</h1>
+            <h5 class="m-3 ">${pelicula.director} Pelicula |<span class="" id="duracion"> ${pelicula.duracion} mins </span></h5>
+            <p class="m-3">
               ${pelicula.descripcion}
+              DESCRIPCIONThe extension comes with three pre-built pages to help you get
+              started faster. You can change the text and images and you're
+              good to go.
             </p>
 
-          <c:if test="${not empty proyecciones}">
-            <div id="lista-proyecciones" class="relative m-3 justify-content-center text-center flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg bg-gray-100 ">
-              <div class="justify-content-center bg-gray-100 rounded">
-                <h6 class="text-xl font-semibold mb-3">Horarios</h6>
-                <form action="#ENLACEACTIONPARARESERVAR">
-                  <select name="fecha" id="fecha" class=" border border-solid border-blue rounded">
-                    <c:forEach var="proyeccion" items="${proyecciones}">
-                      <option value="${proyeccion.dia}">${proyeccion.dia}</option>
-                    </c:forEach>
-                  </select>
+        <c:if test="${not empty organizacionProyecciones && not empty proyecciones}">
+          <h3 class="text-center">Proyecciones</h3>
 
-                  <div id="horas" class="row mt-3 mb-3 justify-content-center">
-                      <c:forEach var="proyeccion" items="${proyecciones}">
-                      <span class="text-md font-semibold inline-block py-1 px-2 rounded-full text-pink-600 bg-pink-200 last:mr-0 mr-1">
-                        <a href="#ENLACE??????">${proyeccion.comienzo}</a>
-                      </span>
-                      </c:forEach>
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+              <c:forEach var="info" items="${organizacionProyecciones}">
+                <div class="accordion-item">
+
+                  <h2 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#tabs-${info.key}" aria-expanded="false" aria-controls="flush-collapseOne">
+                      ${info.key}
+                    </button>
+                  </h2>
+
+                  <div id="tabs-${info.key}" class="accordion-collapse collapse"
+                       aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">
+                            <c:forEach var="id" items="${info.value}">
+                              <c:forEach var="proyeccion" items="${proyecciones}">
+
+                                <c:if test="${id == proyeccion.id}">
+                                  <a id="${info.key}" href="${mvc.basePath}/reserva/pelicula/${proyeccion.id}"
+                                      class="badge rounded-pill bg-warning text-dark">${proyeccion.comienzo}</a>
+                                </c:if>
+
+                              </c:forEach>
+                            </c:forEach>
+                          </div>
+
                   </div>
-                </form>
-              </div>
+                </div>
+              </c:forEach>
             </div>
-            </c:if>
+
+        </c:if>
+
 
 
           </div>
         </div>
+
       </div>
     </div>
   </section>
-</main>
+
+</main><!-- End #main -->
 
 
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-<script src="https://unpkg.com/@popperjs/core@2.9.1/dist/umd/popper.min.js" charset="utf-8"></script>
-<script>
-  function toggleNavbar(collapseID) {
-    document.getElementById(collapseID).classList.toggle("hidden");
-    document.getElementById(collapseID).classList.toggle("block");
-  }
-  function openDropdown(event,dropdownID){
-    let element = event.target;
-    while(element.nodeName !== "BUTTON"){
-      element = element.parentNode;
-    }
-    var popper = Popper.createPopper(element, document.getElementById(dropdownID), {
-      placement: 'bottom-start'
-    });
-    document.getElementById(dropdownID).classList.toggle("hidden");
-    document.getElementById(dropdownID).classList.toggle("block");
-  }
-</script>
-  <!-- Bootstrap core JavaScript
-================================================== -->
-  <!-- Placed at the end of the document so the pages load faster -->
-  <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script>window.jQuery || document.write('<script src="js/jquery-slim.min.js"><\/script>')</script>
-  <script src="${pageContext.request.contextPath}/resources/js/popper.min.js"></script>
-  <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-  <script src="${pageContext.request.contextPath}/resources/js/holder.min.js"></script>
+<!-- Vendor JS Files -->
+<script src="${pageContext.request.contextPath}/resources/assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/assets/vendor/chart.js/chart.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/assets/vendor/echarts/echarts.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/assets/vendor/quill/quill.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="${pageContext.request.contextPath}/resources/assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/assets/vendor/php-email-form/validate.js"></script>
+
+<!-- Template Main JS File -->
+<script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
 
 </body>
+
 </html>
+

@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Lista de proyecciones</title>
+    <title>Lista de películas</title>
 
     <!-- Bootstrap -->
     <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
@@ -51,7 +51,6 @@
 </header>
 
 <main role="main">
-
     <section class="jumbotron text-center">
         <div class="container">
             <h1 class="jumbotron-heading">Cines Petri®</h1>
@@ -64,37 +63,54 @@
     </section>
 
     <div class="container">
-        <c:if test="${not empty proyecciones}">
+        <c:if test="${not empty peliculas}">
             <!-- Table with stripped rows -->
             <table class="table datatable">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Película</th>
-                    <th scope="col">Sala</th>
-                    <th scope="col">Comienzo</th>
-                    <th scope="col">Fecha</th>
+                    <th scope="col">Titulo</th>
+                    <th scope="col">Director</th>
+                    <th scope="col">Estudio</th>
                     <th scope="col">Acciones</th>
+                    <th scope="col">Proyecciones</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="proyeccion" items="${proyecciones}">
+                <c:forEach var="peli" items="${peliculas}">
                     <tr>
-                        <th scope="row">${proyeccion.id}</th>
-                        <td>${proyeccion.pelicula.titulo}</td>
-                        <td>${proyeccion.sala.id}</td>
-                        <td>${proyeccion.comienzo}</td>
-                        <td>${proyeccion.dia}</td>
+                        <th scope="row">${peli.id}</th>
+                        <td>${peli.titulo}</td>
+                        <td>${peli.director}</td>
+                        <td>${peli.estudio}</td>
                         <td>
-                            <button class="btn btn-danger"><a href="${mvc.basePath}/admin/proyeccion/borrar/${proyeccion.id}" class="text-light">Borrar</a></button>
-                            <button class="btn btn-info"><a href="${mvc.basePath}/admin/proyeccion/editar/${proyeccion.id}" class="text-light">Editar</a></button>
+                            <button class="btn btn-danger"><a href="${mvc.basePath}/pelicula/admin/borrar/${peli.id}" class="text-light">Borrar</a></button>
+                            <button class="btn btn-info"><a href="${mvc.basePath}/pelicula/admin/editar/${peli.id}" class="text-light">Editar</a></button>
+                        </td>
+                        <td>
+                            <form action="${mvc.basePath}/admin/proyeccion/nueva/${peli.id}" method="post">
+                                <div class="row">
+                                    <input type="date" id="dia" value="${dia}" name="dia" class="form-control col-7" required>
+                                    <button class="col btn btn-info mt-2 ml-2" id="submit" type="submit">Crear proyección</button>
+                                </div>
+                            </form>
                         </td>
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
+
         </c:if>
-        <button class="btn btn-info"><a href="${mvc.basePath}/admin/proyeccion/nueva" class="text-light">Nueva proyección</a></button>
+
+        <c:if test="${mensaje.texto != null}">
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="alert alert-success" id="success-alert">${mensaje.texto}</p>
+                </div>
+            </div>
+        </c:if>
+
+        <button class="btn btn-info"><a href="${mvc.basePath}/pelicula/admin/nueva" class="text-light">Nueva pelicula</a></button>
 
     </div>
 </main>
