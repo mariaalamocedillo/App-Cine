@@ -27,8 +27,7 @@
 
 </head>
 
-<body style="background-image: url('https://www.gannett-cdn.com/media/2021/09/09/USATODAY/usatsports/gettyimages-200495653-001.jpg'); height: 100vh;">
-
+<body class="imgfondo">
 
 <main id="main" class="main formul" >
 

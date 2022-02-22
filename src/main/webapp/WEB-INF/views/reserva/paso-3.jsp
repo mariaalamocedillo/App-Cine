@@ -46,7 +46,7 @@
       ======================================================== -->
 </head>
 
-<body>
+<body class="imgfondo">
 
 <main>
     <div class="container">
@@ -75,7 +75,8 @@
                             </div>
 
                             <div class="card-body">
-                                <h1>Holas ${reserva}</h1>
+                                <h1>Holas ${reserva.id}</h1>
+                                <h1>Serían ${reserva.precio}</h1>
                             </div>
                         </div>
 

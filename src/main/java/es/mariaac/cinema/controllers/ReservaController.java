@@ -1,11 +1,9 @@
 package es.mariaac.cinema.controllers;
 
 import es.mariaac.cinema.entities.*;
+import es.mariaac.cinema.repositories.AsientoReservadoRepository;
 import es.mariaac.cinema.repositories.ReservaRepository;
-import es.mariaac.cinema.services.ClienteService;
-import es.mariaac.cinema.services.ProyeccionService;
-import es.mariaac.cinema.services.ReservaService;
-import es.mariaac.cinema.services.SalaService;
+import es.mariaac.cinema.services.*;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
@@ -16,8 +14,12 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.executable.ExecutableType;
 import jakarta.validation.executable.ValidateOnExecution;
 import jakarta.ws.rs.*;
+import jdk.swing.interop.SwingInterOpUtils;
 import lombok.extern.slf4j.Slf4j;
 
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
@@ -32,10 +34,18 @@ public class ReservaController {
 
     @Inject
     ReservaService reservaService;
+
     @Inject
     ClienteService clienteService;
+
+    @Inject
+    AsientoService asientoService;
+
     @Inject
     SalaService salaService;
+
+    @Inject
+    AsientoReservadoService asientoReservadoService;
 
     @Inject
     ProyeccionService proyeccionService;
@@ -77,7 +87,7 @@ public class ReservaController {
 
 
     @POST
-    @Path("paso1/submit")
+    @Path("paso2")
     public String paso1Submit(@FormParam("id") Long id, @FormParam("email") String email,
                         @FormParam("psswd") String psswd) {
         Reserva reserva = new Reserva();
@@ -91,8 +101,7 @@ public class ReservaController {
         reserva.setPagada(false);
         reserva.setActiva(false);
         reserva.setReservada(false);
-        reserva.setPrecio(0);
-
+        reserva.setPrecio(0F);
 
         //si no encontramos los datos del cliente, volvemos al paso 1
         if (!clienteService.logear(email, psswd)){
@@ -105,8 +114,11 @@ public class ReservaController {
 
         //guardamos la reserva
         try {
+            models.put("asientos-estados", asientoReservadoService.sacarEstadosAsientos(reserva.getProyeccion()));
             reservaService.guardar(reserva);
+
             models.put("reserva", reserva);
+
             return "reserva/paso-2";
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -117,31 +129,49 @@ public class ReservaController {
 
 
     @POST
-    @Path("paso2/submit")
-    public String paso2Submit(@FormParam("id") Long reservaId, @FormParam("totalForm") Integer precio,
+    @Path("paso3")
+    public String paso2Submit(@FormParam("reserva") Long reservaId, @FormParam("precio") String precio,
                         @FormParam("ids") String idsSeats) {
         Optional<Reserva> reservaOpt = reservaService.buscarPorId(reservaId);
-
         if (reservaOpt.isEmpty()){
             mensaje.setTexto("Hubo un problema con su reserva, inténtelo más tarde");
             return "reserva/paso-2";
         }
         Reserva reserva = reservaOpt.get();
-        reserva.setActiva(true);    //la establecemos como activa y actualizamos el precio
-        reserva.setPrecio(precio);
-        reservaService.actualizar(reserva);
+        if (idsSeats == null || idsSeats.equals("")){
+            mensaje.setTexto("Debe seleccionar al menos un asiento");
+            models.put("reserva", reserva);
+            return "reserva/paso-2";
+        }
 
-        String[] sitios = idsSeats.trim().replaceAll("\"", "")
-                .replaceAll(" ", "").split(",");
+        reserva.setActiva(true);    //la establecemos como activa y actualizamos el precio
+        reserva.setPrecio(Float.valueOf(precio));
+        reserva.setReservada(true);
+        reservaService.guardar(reserva);
+
         System.out.println(idsSeats);
 
-        return "admin/edit-pelicula";
 
+        String[] sitios = idsSeats.trim().replaceAll(" ", "").split(",");
 
-/*
-        for (String sitio : sitios) {
-            System.out.println(sitio);
-            Asiento asiento = new Asiento();
+        //lista de asientos reservados (hay que asocierlo a asientoreservado) -> método de Reservade asiento
+
+        List<Asiento> asientos = new ArrayList<>();
+
+        System.out.println("Num sitios: "+sitios.length);
+
+        for (String id: sitios) {
+            Asiento asientoTemp = asientoService.buscarPorName(id);
+            if (asientoTemp != null){
+                asientos.add(asientoTemp);
+                try{
+                    asientoReservadoService.reservarAsiento(reserva, asientoTemp);
+                }catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                    mensaje.setTexto("Ocurrió un error y la reserva de los asientos no se pudo almacenar. ");
+                    return "reserva/paso-2";
+                }
+            }
         }
         //guardamos la reserva
         try {
@@ -153,7 +183,7 @@ public class ReservaController {
             mensaje.setTexto("Ocurrió un error y la reserva " + reserva.getId() + " no se pudo realizar.");
             return "reserva/paso-1";
         }
-*/
+
     }
 
 

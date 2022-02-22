@@ -5,7 +5,9 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "asiento_reservado")
+@Table(name = "asiento_reservado", uniqueConstraints = {
+        @UniqueConstraint(name = "uc_asiento_reservado", columnNames = {"proyeccion_id", "asiento_id", "reserva_id"})
+})
 public class Asiento_reservado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,12 +18,11 @@ public class Asiento_reservado {
     @JoinColumn(name = "proyeccion_id", nullable = false)
     private Proyeccion proyeccion;
 
-    @OneToOne(optional = false, orphanRemoval = true)
+    @OneToOne(optional = false)
     @JoinColumn(name = "asiento_id", nullable = false)
     private Asiento asiento;
 
-    @OneToOne(optional = false, orphanRemoval = true)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "reserva_id", nullable = false)
     private Reserva reserva;
-
 }

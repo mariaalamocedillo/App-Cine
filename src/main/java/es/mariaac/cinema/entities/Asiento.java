@@ -5,7 +5,9 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "asiento")
+@Table(name = "asiento", uniqueConstraints = {
+        @UniqueConstraint(name = "uc_asiento_fila_letra_sala_id", columnNames = {"fila", "letra", "sala_id"})
+})
 public class Asiento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,11 +17,10 @@ public class Asiento {
     @Column(nullable = false, length = 1)
     private String fila;
 
-    @Column(nullable = false)
-    private Integer numero;
+    @Column(nullable = false, length = 1)
+    private String letra;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "sala_id", nullable = false)
     private Sala sala;
-
 }

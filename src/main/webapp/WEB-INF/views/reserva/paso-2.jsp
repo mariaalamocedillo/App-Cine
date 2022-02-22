@@ -46,7 +46,7 @@
       ======================================================== -->
 </head>
 
-<body>
+<body class="imgfondo">
 
 <main>
     <div class="container">
@@ -57,7 +57,7 @@
                     <div class="col-lg-8 d-flex flex-column align-items-center justify-content-center">
 
                         <div class="d-flex justify-content-center py-4">
-                            <a href="index.html" class="logo d-flex align-items-center w-auto">
+                            <a href="${mvc.basePath}/pelicula" class="logo d-flex align-items-center w-auto">
                                 <img src="${pageContext.request.contextPath}/resources/assets/img/logo.png" alt="">
                                 <span class="d-block">Cines Petri</span>
                             </a>
@@ -103,11 +103,17 @@
                                                     <small>Occupied</small>
                                                 </li>
                                             </ul>
+<%--
+                                            <c:if test="${not empty organizacionProyecciones && not empty proyecciones}">
+                                            <c:forEach var="info" items="${organizacionProyecciones}">
+--%>
 
                                             <div class="container">
                                                 <div class="screen"></div>
 
                                                 <div class="row rowSeats">
+
+
                                                     <div class="seat" id="1a"></div>
                                                     <div class="seat" id="3a"></div>
                                                     <div class="seat" id="5a"></div>
@@ -166,22 +172,25 @@
                                                     <div class="seat occupied" id="12f"></div>
                                                     <div class="seat occupied" id="14f"></div>
                                                     <div class="seat" id="16f"></div>
+
+
+
                                                 </div>
                                             </div>
 
                                             <p class="text">
                                                 Seleccionaste <span id="count">0</span> asientos; el precio se queda en <span id="total">0</span>€
                                             </p>
-                                            <c:if test="${mensaje.texto != null && not empty mensaje.texto}">
+                                            <c:if test="${mensaje.texto != null}">
                                                 <div class="col-md-12">
                                                     <p class="alert alert-danger" id="success-alert">${mensaje.texto}</p>
                                                 </div>
                                             </c:if>
 
-                                            <form action="${mvc.basePath}/reserva/paso2/submit" method="post">
-                                                <input type="text" name="reserva" value="${reserva.id}" hidden>
-                                                <input type="text" id="ids" name="ids" hidden/>
-                                                <input type="number" id="totalForm" name="precio" hidden/>
+                                            <form action="${mvc.basePath}/reserva/paso3" method="post">
+                                                <input type="text" name="reserva" value="${reserva.id}" >
+                                                <input type="text" id="ids" name="ids" />
+                                                <input type="text" id="totalForm" name="precio" />
                                                 <input type="submit" class="btn btn-primary text-light" value="Siguiente">
                                             </form>
 

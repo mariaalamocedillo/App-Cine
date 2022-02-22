@@ -10,6 +10,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @ApplicationScoped
@@ -27,5 +28,15 @@ public class AsientoService {
 
     public void guardar(Asiento asiento){asientoRepository.save(asiento);}
 
+    public Asiento buscarPorName(String string){
+        List<Asiento> asientos = findAll();
+        for (Asiento asiento: asientos) {
+            String name = asiento.getFila() + asiento.getLetra();
+            if (name.trim().equalsIgnoreCase(string.trim())){
+                return asiento;
+            }
+        }
+        return null;
+    }
 
 }

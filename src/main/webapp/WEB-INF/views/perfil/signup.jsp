@@ -93,7 +93,7 @@
 
                                     <div class="col-12">
                                         <label for="yourPassword" class="form-label">Contraseña</label>
-                                        <input type="password" name="contrasena" value="${cliente.contrasena}" class="form-control" id="yourPassword" required>
+                                        <input type="password" name="contrasena" class="form-control" id="yourPassword" required>
                                     </div>
 
                                     <div class="col-12">
@@ -113,7 +113,7 @@
                                         <button class="btn btn-primary w-100" type="submit">Registrarse</button>
                                     </div>
                                     <div class="col-12">
-                                        <p class="small mb-0"><a href="${mvc.basePath}/usuario/login">Entrar en mi cuenta</a></p>
+                                        <p class="small mb-0"><a href="${mvc.basePath}/usuario">Entrar en mi cuenta</a></p>
                                     </div>
                                 </form>
 

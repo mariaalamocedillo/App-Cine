@@ -3,6 +3,9 @@ package es.mariaac.cinema.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Entity
 @Table(name = "reserva")
@@ -35,13 +38,9 @@ public class Reserva {
     private Cliente cliente;
 
     @Column(name = "precio")
-    private Integer precio;
+    private Float precio;
 
-    public Integer getPrecio() {
-        return precio;
-    }
+    @OneToMany(mappedBy = "reserva", orphanRemoval = true)
+    private List<Asiento_reservado> asientos = new ArrayList<>();
 
-    public void setPrecio(Integer precio) {
-        this.precio = precio;
-    }
 }

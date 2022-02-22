@@ -1,7 +1,6 @@
 package es.mariaac.cinema.services;
 
-import es.mariaac.cinema.entities.Pelicula;
-import es.mariaac.cinema.entities.Proyeccion;
+import es.mariaac.cinema.entities.*;
 import es.mariaac.cinema.repositories.ProyeccionRepository;
 import jakarta.annotation.Resource;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -10,6 +9,7 @@ import jakarta.transaction.SystemException;
 import jakarta.transaction.UserTransaction;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +18,8 @@ import java.util.Optional;
 public class ProyeccionService {
     @Inject
     ProyeccionRepository proyeccionRepository;
+    @Inject
+    AsientoReservadoService asientoReservadoService;
 
     @Resource
     UserTransaction transaction;
@@ -60,7 +62,4 @@ public class ProyeccionService {
             }
         }
     }
-
-
-
 }
