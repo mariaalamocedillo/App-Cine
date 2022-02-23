@@ -42,6 +42,9 @@ body{
   background-image: url('https://www.gannett-cdn.com/media/2021/09/09/USATODAY/usatsports/gettyimages-200495653-001.jpg');
   height: 100vh;
 }
+a:link, a:visited, a:active {
+  text-decoration:none;
+}
 .account-block .overlay {
   -webkit-box-flex: 1;
   -ms-flex: 1;

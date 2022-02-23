@@ -12,16 +12,6 @@ import java.util.List;
 @Table(name = "pelicula")
 public class Pelicula {
 
-    public Pelicula(){
-    }
-
-    public Pelicula(String titulo, String director, Integer duracion, String poster) {
-        this.titulo = titulo;
-        this.duracion = duracion;
-        this.director = director;
-        this.poster = poster;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

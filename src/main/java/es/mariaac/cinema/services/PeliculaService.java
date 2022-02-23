@@ -41,6 +41,9 @@ public class PeliculaService {
         return peliculas;
     }
 
+    public List<Pelicula> findProyectandoQ() {
+        return peliculaRepository.findProyectando();
+    }
 
     public void guardar(Pelicula pelicula){peliculaRepository.save(pelicula);}
 

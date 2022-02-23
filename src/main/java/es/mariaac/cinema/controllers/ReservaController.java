@@ -113,6 +113,7 @@ public class ReservaController {
         }
         Cliente cliente = clienteService.buscarPorEmail(email);
         reserva.setCliente(cliente);
+        models.put("precio", "8.5");
 
         //guardamos la reserva
         try {
@@ -146,6 +147,7 @@ public class ReservaController {
             models.put("reserva", reserva);
             return "reserva/paso-2";
         }
+        models.put("precio", "8.5");
 
         reserva.setActiva(true);    //la establecemos como activa y actualizamos el precio
         reserva.setPrecio(Float.valueOf(precio));
@@ -225,6 +227,8 @@ public class ReservaController {
             mensaje.setTexto("Ocurrió un error y la reserva de " + reserva.getProyeccion().getPelicula().getTitulo() + ") no se pudo almacenar.");
             return "reserva/paso-3";
         }
+        models.put("reserva", reservaService.findReservas(reserva.getCliente().getId()));
+
         return "perfil/perfil";
     }
     private Boolean validateCreditCardNumber(String str) {

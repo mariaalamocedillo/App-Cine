@@ -1,16 +1,13 @@
 package es.mariaac.cinema.controllers;
 
 import es.mariaac.cinema.entities.Pelicula;
-import es.mariaac.cinema.entities.Proyeccion;
 import es.mariaac.cinema.services.PeliculaService;
-import es.mariaac.cinema.services.ProyeccionService;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
 import jakarta.mvc.Models;
 import jakarta.mvc.binding.BindingResult;
 import jakarta.mvc.binding.ParamError;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.executable.ExecutableType;
 import jakarta.validation.executable.ValidateOnExecution;
@@ -59,7 +56,7 @@ public class PeliculaController {
     @GET
     @Path("/proyectando")
     public String proyectando() {
-        models.put("peliculas", peliculaService.findProyectando());
+        models.put("peliculas", peliculaService.findProyectandoQ());
         return "list-peliculas";
     }
 
@@ -90,24 +87,40 @@ public class PeliculaController {
     @POST
     @Path("admin/nueva/submit")
     @ValidateOnExecution(type = ExecutableType.NONE)
-    public String nuevaSubmit(@Valid @BeanParam Pelicula pelicula) {
-            log.debug("Pregunta recibida: {}", pelicula);
-            if (bindingResult.isFailed()) {
-                logErrores();
-                setErrores();
-                models.put("pelicula", pelicula);
-                return "admin/form-pelicula";
-            }
-            try {
-                peliculaService.guardar(pelicula);
-                mensaje.setTexto("La pregunta " + pelicula.getId() + " " + pelicula.getTitulo() + " se guardó satisfactoriamente ! ");
-            } catch (Exception e) {
-                log.error(e.getMessage(), e);
-                mensaje.setTexto("Ocurrió un error y la peli " + pelicula.getId() + " " + pelicula.getTitulo() + " no se pudo almacenar.");
-            }
-            return "redirect:pelicula/admin";
+    public String nuevaSubmit(@FormParam("id") Long id, @FormParam("titulo") String titulo,
+                              @FormParam("director") String director, @FormParam("duracion") Integer duracion,
+                              @FormParam("poster") String poster, @FormParam("descripcion") String descripcion,
+                              @FormParam("estudio") String estudio, @FormParam("enProyeccion") String enProyeccion) {
 
+        Optional<Pelicula> peliculaOpt = peliculaService.buscarPorId(id);
+        Pelicula pelicula;
+        if (peliculaOpt.isPresent()){   //nueva
+            pelicula = peliculaOpt.get();
+        } else {
+            pelicula = new Pelicula();
         }
+        pelicula.setDescripcion(descripcion);
+        pelicula.setTitulo(titulo);
+        pelicula.setDirector(director);
+        pelicula.setEstudio(estudio);
+        pelicula.setDuracion(duracion);
+        pelicula.setPoster(poster);
+        System.out.println("--------------------------" + enProyeccion);
+        if (enProyeccion != null) {
+            pelicula.setEnProyeccion(true);
+        } else {
+            pelicula.setEnProyeccion(false);
+        }
+
+        try {
+            peliculaService.guardar(pelicula);
+            mensaje.setTexto("La película " + pelicula.getId() + " " + pelicula.getTitulo() + " se guardó satisfactoriamente ! ");
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            mensaje.setTexto("Ocurrió un error y la película " + pelicula.getId() + " " + pelicula.getTitulo() + " no se pudo almacenar.");
+        }
+        return "redirect:pelicula/admin";
+    }
 
 
     @GET
@@ -123,19 +136,19 @@ public class PeliculaController {
     }
 
     @GET
-    @Path("borrar/{id}")
+    @Path("admin/borrar/{id}")
     public String borrar(@PathParam("id") @NotNull Long id) {
-        log.debug("Borrando pregunta {}", id);
+        log.debug("Borrando película {}", id);
         Optional<Pelicula> pelicula = peliculaService.buscarPorId(id);
 
         if (pelicula.isPresent()) {
             Pelicula p = pelicula.get();
             try {
                 peliculaService.borrar(p);
-                mensaje.setTexto("La pregunta " + p.getId()  + " " + p.getTitulo() + " se eliminó satisfactoriamente ! ");
+                mensaje.setTexto("La película de la pelicula num. " + p.getId()  + " (" + p.getTitulo() + ") se eliminó satisfactoriamente ! ");
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
-                mensaje.setTexto("Ocurró un error y la pregunta " + p.getId() + " " + p.getTitulo() + " no se pudo eliminar.");
+                mensaje.setTexto("Ocurrió un error y la proyección de la pelicula num. " + p.getId() + " (" + p.getTitulo() + ") no se pudo eliminar.");
             }
         }
 

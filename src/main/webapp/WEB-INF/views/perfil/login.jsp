@@ -41,7 +41,8 @@
     ======================================================== -->
 </head>
 
-<body>
+<body class="imgfondo">
+<jsp:include page="/WEB-INF/layout/navBar.jsp" ></jsp:include>
 
 <main>
     <div class="container">
@@ -64,7 +65,7 @@
                         <div class="d-flex justify-content-center py-4">
                             <a href="#enlace" class="logo d-flex align-items-center w-auto">
                                 <img src="${pageContext.request.contextPath}/resources/assets/img/logo.png" alt="">
-                                <span class="d-none d-lg-block">Cines Petri</span>
+                                <span class="d-none d-lg-block text-light">Cines Petri</span>
                             </a>
                         </div><!-- End Logo -->
 

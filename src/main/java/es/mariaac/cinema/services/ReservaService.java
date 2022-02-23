@@ -26,5 +26,6 @@ public class ReservaService {
 
     public void guardar(Reserva reserva){reservaRepository.save(reserva);}
 
+    public List<Reserva> findReservas(Long id){return reservaRepository.findReservas(id);}
 
 }

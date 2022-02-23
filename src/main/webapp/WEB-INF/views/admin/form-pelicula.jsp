@@ -28,6 +28,7 @@
 </head>
 
 <body class="imgfondo">
+<jsp:include page="/WEB-INF/layout/navAdmin.jsp" ></jsp:include>
 
 <main id="main" class="main formul" >
 
@@ -53,7 +54,7 @@
 
               <div class="col mb-3">
                 <label for="titulo" class=" col-form-label">Título</label>
-                <input type="text" id="titulo" class="form-control" value="${pelicula.titulo}" required>
+                <input type="text" id="titulo" name="titulo" class="form-control" value="${pelicula.titulo}" required>
                 <c:if test="${not empty error.getMensaje('titulo')}">
                   <span class="alert alert-danger">${error.getMensaje("titulo")}</span>
                 </c:if>
@@ -62,14 +63,14 @@
               <div class="row">
                 <div class="col mb-3">
                   <label for="director" class="col-form-label">Director</label>
-                  <input type="text" id="director" class="form-control" value="${pelicula.director}" required>
+                  <input type="text" id="director" name="director" class="form-control" value="${pelicula.director}" required>
                   <c:if test="${not empty error.getMensaje('director')}">
                     <span class="alert alert-danger">${error.getMensaje("director")}</span>
                   </c:if>
                 </div>
                 <div class="col mb-3">
                   <label for="estudio" class="col-form-label">Estudio</label>
-                  <input type="text" id="estudio" class="form-control" value="${pelicula.estudio}" required>
+                  <input type="text" id="estudio" name="estudio" class="form-control" value="${pelicula.estudio}" required>
                   <c:if test="${not empty error.getMensaje('estudio')}">
                     <span class="alert alert-danger">${error.getMensaje("estudio")}</span>
                   </c:if>

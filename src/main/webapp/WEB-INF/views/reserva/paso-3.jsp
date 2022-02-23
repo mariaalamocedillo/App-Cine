@@ -17,6 +17,9 @@
     <title>Checkout</title>
 
     <!-- Favicons -->
+    <link href="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/assets/img/favicon.png" rel="icon">
     <link href="${pageContext.request.contextPath}/resources/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
@@ -27,10 +30,12 @@
     <!-- Vendor CSS Files -->
     <link href="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/css/estilos.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/assets/css/style.css" rel="stylesheet">
 
 </head>
 
 <body class="imgfondo">
+<jsp:include page="/WEB-INF/layout/navBar.jsp" ></jsp:include>
 
 <main>
     <div class="container">
@@ -39,13 +44,6 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-10 d-flex flex-column align-items-center justify-content-center">
-
-                        <div class="d-flex justify-content-center py-4">
-                            <a href="${mvc.basePath}/pelicula" class="logo d-flex align-items-center w-auto" style="text-decoration:none;">
-                                <img src="${pageContext.request.contextPath}/resources/assets/img/logo.png" alt="">
-                                <h3 class="d-block text-light">Cines Petri</h3>
-                            </a>
-                        </div><!-- End Logo -->
 
                         <div class="card rounded-xl justify-content-between m-auto w-100">
                             <div class="card-header">
@@ -122,7 +120,7 @@
                                                     </div>
                                                     <div class="col-md-5 mb-5">
                                                         <label for="cc-expiration">CVC</label>
-                                                        <input type="number" class="form-control" id="cc-cvv" placeholder="" required="" maxlength="3">
+                                                        <input type="number" class="form-control" id="cc-cvv" placeholder="" required="" min="1" max="999">
                                                         <div class="invalid-feedback">
                                                             El CVC es necesario
                                                         </div>
@@ -178,7 +176,7 @@
 </script>
 
 <script src="${pageContext.request.contextPath}/resources/js/popper.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/holder.min.js"></script></body>
 <script src="${pageContext.request.contextPath}/resources/assets/vendor/tinymce/tinymce.min.js"></script>
 

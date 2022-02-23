@@ -9,12 +9,13 @@
     <title>Lista de peliculas</title>
 
     <!-- Bootstrap -->
-    <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Vendor CSS Files -->
+    <link href="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="${pageContext.request.contextPath}/resources/css/album.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/creativetimofficial/tailwind-starter-kit/compiled-tailwind.min.css" />
+    <!-- Template Main CSS File -->
+    <link href="${pageContext.request.contextPath}/resources/assets/css/style.css" rel="stylesheet">
 
 </head>
 
@@ -26,7 +27,7 @@
 
     <section class="jumbotron text-center">
         <div class="container">
-            <h1>Cines Petri®</h1>
+            <h1 class="h-50">Cines Petri®</h1>
             <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
             <p>
                 <a href="${mvc.basePath}/pelicula/proyectando" class="btn btn-primary my-2">Películas en proyección</a>
@@ -106,8 +107,13 @@
 </script>
 <!-- Bootstrap core JavaScript
 ================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
+<!-- Placed at the end of the document so the pages load faster
 <script src="${pageContext.request.contextPath}/resources/js/popper.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/holder.min.js"></script></body>
+<script src="${pageContext.request.contextPath}/resources/js/holder.min.js"></script></body>-->
+<script src="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/assets/vendor/tinymce/tinymce.min.js"></script>
+
+<script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
+
 </html>

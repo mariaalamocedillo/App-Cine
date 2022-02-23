@@ -42,11 +42,4 @@ public class ClienteService {
         return Objects.equals(buscarPorEmail(email).getContrasena(), contrasena);
     }
 
-/*    public Optional<Cliente> buscarPorEmail(String email) {
-        //return un cliente + contraseña; en logear se busca si coinciden;
-    }
-
-    public boolean logear(Cliente cliente){
-
-    }*/
 }

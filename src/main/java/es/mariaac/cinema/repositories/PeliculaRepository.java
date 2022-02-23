@@ -11,7 +11,7 @@ public abstract class PeliculaRepository extends AbstractFullEntityRepository<Pe
 
     public abstract Pelicula findById(String id);
 
-    @Query("select * from Pelicula p where enProyeccion == true")
+    @Query("select p from Pelicula p where enProyeccion = true")
     public abstract List<Pelicula> findProyectando();
 
     public List<Pelicula> findCriteriaProyectando() {

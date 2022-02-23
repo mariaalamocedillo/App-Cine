@@ -32,6 +32,8 @@ public class ProyeccionService {
         return proyeccionRepository.findOptionalBy(id);
     }
 
+    public List<Proyeccion> findProyectandoActual(){return proyeccionRepository.findProyectandoActual();}
+
     public Proyeccion guardar(Proyeccion proyeccion)  throws SystemException {
         log.debug("Guardando pregunta y sus relaciones asociadas");
         Proyeccion proyeccionGuardada = null;

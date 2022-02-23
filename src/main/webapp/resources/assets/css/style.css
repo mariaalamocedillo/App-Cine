@@ -36,7 +36,6 @@ h1, h2, h3, h4, h5, h6 {
 # Main
 --------------------------------------------------------------*/
 #main {
-  margin-top: 60px;
   padding: 20px 30px;
   transition: all 0.3s;
 }
@@ -609,6 +608,7 @@ h1, h2, h3, h4, h5, h6 {
   background-image: url('https://www.gannett-cdn.com/media/2021/09/09/USATODAY/usatsports/gettyimages-200495653-001.jpg');
   height: 100vh;
 }
+
 .sidebar-nav .nav-link i {
   font-size: 16px;
   margin-right: 10px;

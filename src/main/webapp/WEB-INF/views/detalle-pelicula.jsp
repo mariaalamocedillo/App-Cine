@@ -31,15 +31,11 @@
   <!-- Template Main CSS File -->
   <link href="${pageContext.request.contextPath}/resources/assets/css/style.css" rel="stylesheet">
 
-  <!-- =======================================================
-    * Template Name: NiceAdmin - v2.2.2
-    * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-    * Author: BootstrapMade.com
-    * License: https://bootstrapmade.com/license/
-    ======================================================== -->
 </head>
 
 <body>
+<jsp:include page="/WEB-INF/layout/navBar.jsp" ></jsp:include>
+
 <main id="main" class="main formul">
 
   <div class="pagetitle">
@@ -70,7 +66,7 @@
         <div class="card">
           <div class="card-body">
             <h1 class="title m-3">${pelicula.titulo} - A growing company</h1>
-            <h5 class="m-3 ">${pelicula.director} Pelicula |<span class="" id="duracion"> ${pelicula.duracion} mins </span></h5>
+            <h5 class="m-3 ">${pelicula.director} |<span class="" id="duracion"> ${pelicula.duracion} mins </span></h5>
             <p class="m-3">
               ${pelicula.descripcion}
             </p>

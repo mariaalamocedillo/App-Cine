@@ -1,5 +1,9 @@
 package es.mariaac.cinema.controllers;
 
+
+//TODO Falta: funcionar validacion formularios y crear página de perfil y servicio apiRest y sesiones
+
+
 import es.mariaac.cinema.entities.Pelicula;
 import es.mariaac.cinema.entities.Proyeccion;
 import es.mariaac.cinema.entities.Sala;
@@ -7,22 +11,20 @@ import es.mariaac.cinema.services.PeliculaService;
 import es.mariaac.cinema.services.ProyeccionService;
 import es.mariaac.cinema.services.SalaService;
 import jakarta.enterprise.context.RequestScoped;
-import jakarta.faces.annotation.RequestParameterMap;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
 import jakarta.mvc.Models;
 import jakarta.mvc.binding.BindingResult;
 import jakarta.mvc.binding.ParamError;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.executable.ExecutableType;
 import jakarta.validation.executable.ValidateOnExecution;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Request;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.Parameter;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,14 +58,15 @@ public class ProyeccionController {
     @GET
     @Path("/")
     public String index() {
-        models.put("proyecciones", proyeccionService.findAll());
+        models.put("proyecciones", proyeccionService.findProyectandoActual());
+
         return "admin/list-proyecciones";
     }
 
     @GET
     @Path("borrar/{id}")
     public String borrar(@PathParam("id") @NotNull Long id) {
-        log.debug("Borrando pregunta {}", id);
+        log.debug("Borrando proyección {}", id);
 
         Optional<Proyeccion> proyeccion = proyeccionService.buscarPorId(id);
 
@@ -88,6 +91,7 @@ public class ProyeccionController {
         Optional<Proyeccion> proyeccion = proyeccionService.buscarPorId(id);
 
         if (proyeccion.isPresent()) {
+            models.put("salas", salaService.findAll());
             models.put("proyeccion", proyeccion.get());
             return "admin/form-proyeccion";
         }
@@ -99,33 +103,44 @@ public class ProyeccionController {
     @Path("nueva/{idPelicula}")
     public String nueva(@PathParam("idPelicula") Long id, @FormParam(value="dia") String dia) {
         List<Sala> salas = salaService.findAll();
-        System.out.println(dia);
         Optional<Pelicula> pelicula = peliculaService.buscarPorId(id);
-
+        System.out.println("-------------------------------------------------"+dia);
         if (id != null && pelicula.isPresent()){
             models.put("pelicula", pelicula.get());
-            models.put("salas", salas);
         }else {
             models.put("peliculas", peliculaService.findAll());
-            models.put("salas", salas);
         }
-        return "admin/form-proyeccion";
 
+        models.put("dia", dia);
+
+        models.put("salas", salas);
+        return "admin/form-proyeccion";
     }
 
     @GET
     @Path("nueva/submit")
     @ValidateOnExecution(type = ExecutableType.NONE)
-    public String submitNueva(@Valid @BeanParam Proyeccion proyeccion) {
-
-        log.debug("Proyeccion recibida: {}", proyeccion);
-
-        if (bindingResult.isFailed()) {
-            logErrores();
-            setErrores();
-            models.put("proyeccion", proyeccion);
-            return "admin/form-proyeccion";
+    public String submitNueva(@FormParam("id") Long id, @FormParam("comienzo") String comienzo,
+                              @FormParam("dia") String dia, @FormParam("sala") String salaId,
+                              @FormParam("pelicula") String peliculaId) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
+        Optional<Sala> sala = salaService.buscarPorId(Long.valueOf(salaId));
+        Optional<Pelicula> pelicula = peliculaService.buscarPorId(Long.valueOf(peliculaId));
+        if (sala.isEmpty() || pelicula.isEmpty()){
+            mensaje.setTexto("Ocurrió un error; la sala o película no se encuentra disponible.");
+            return "admin/proyeccion";
         }
+
+        Optional<Proyeccion> proyeccionOpt = proyeccionService.buscarPorId(id);
+        Proyeccion proyeccion = new Proyeccion();
+        if (proyeccionOpt.isPresent()){   //actualiza
+            proyeccion = proyeccionOpt.get();
+        }
+        proyeccion.setDia(LocalDate.parse(dia, formatter));
+        proyeccion.setComienzo(LocalTime.parse(comienzo));
+        proyeccion.setPelicula(pelicula.get());
+        proyeccion.setSala(sala.get());
+
         try {
             proyeccionService.guardar(proyeccion);
             mensaje.setTexto("La proyeccion " + proyeccion.getId() + " de la película " + proyeccion.getPelicula().getTitulo() + " se guardó satisfactoriamente ! ");

@@ -1,6 +1,7 @@
 package es.mariaac.cinema.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.sql.Date;
@@ -9,10 +10,18 @@ import java.time.LocalTime;
 
 @Entity
 @Data
+@AllArgsConstructor
 @Table(name = "proyeccion", uniqueConstraints = {
         @UniqueConstraint(name = "uc_sala_comienzo", columnNames = {"comienzo", "sala_id"})
 })
 public class Proyeccion {
+    public Proyeccion(LocalTime comienzo, LocalDate dia, Sala sala, Pelicula pelicula) {
+        this.comienzo = comienzo;
+        this.dia = dia;
+        this.sala = sala;
+        this.pelicula = pelicula;
+    }
+    public Proyeccion(){}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

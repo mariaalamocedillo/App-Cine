@@ -21,11 +21,14 @@
 </c:if>
 
 <p class="alert alert-danger" id="cliente">${cliente.nombre}</p>
-<c:forEach var="reserva" items="${cliente.reservas}">
+<c:if test="${not empty reserva}">
+
+<c:forEach var="reserva" items="${reserva}">
 
     <p class="alert alert-danger" id="cliente">${reserva.id}</p>
     <p class="alert alert-danger" >${reserva.proyeccion.pelicula.titulo}</p>
 
 </c:forEach>
+</c:if>
 </body>
 </html>

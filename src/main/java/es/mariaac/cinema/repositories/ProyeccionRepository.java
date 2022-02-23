@@ -13,19 +13,11 @@ public abstract class ProyeccionRepository extends AbstractFullEntityRepository<
 
     public abstract Proyeccion findById(String id);
 
-    @Query("select p.dia, p.comienzo\n" +
-            "from proyeccion p where \n" +
-            "p.pelicula_id = IDDD\n" +
-            "and p.dia > now( );")
-    public abstract List<Proyeccion> findProyectando();
+    @Query("select p from Proyeccion p where dia > current_date;")//buscar jpql
+    public abstract List<Proyeccion> findProyectandoActual();
 
-    public List<Proyeccion> findCriteriaProyectando() {
-        return criteria()
-//      .gtOrEq(Pregunta_.dificultad, 3)
-                .getResultList();
-    }
-/*
-sacar horas de proyeccion de un dia
+
+/*TODo sacar horas de proyeccion de un dia
 select (p.comienzo) as proyecciones
 from proyeccion p where p.pelicula_id = XXXXXXXXXXXXXXXXX
 and p.dia = XXXXXXXXXXXXXXXX ;

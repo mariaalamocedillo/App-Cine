@@ -35,5 +35,7 @@ footer {
 footer p {
   margin-bottom: .25rem;
 }
-
+a:link, a:visited, a:active {
+  text-decoration:none;
+}
 .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }

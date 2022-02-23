@@ -44,6 +44,7 @@
 </head>
 
 <body class="imgfondo">
+<jsp:include page="/WEB-INF/layout/navBar.jsp" ></jsp:include>
 
 <main>
     <div class="container">
@@ -53,13 +54,6 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-10 d-flex flex-column align-items-center justify-content-center">
-
-                        <div class="d-flex justify-content-center py-4">
-                            <a href="${mvc.basePath}/pelicula" class="logo d-flex align-items-center w-auto">
-                                <img src="${pageContext.request.contextPath}/resources/assets/img/logo.png" alt="">
-                                <span class="d-none d-lg-block text-light">Cines Petri</span>
-                            </a>
-                        </div><!-- End Logo -->
 
                         <div class="card rounded-xl justify-content-between m-auto w-100">
                             <div class="card-header">
