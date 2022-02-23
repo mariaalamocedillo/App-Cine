@@ -43,7 +43,7 @@
 <main id="main" class="main formul">
 
   <div class="pagetitle">
-    <h1>Blank Page</h1>
+    <h1>${pelicula.titulo}</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="${mvc.basePath}/pelicula/">Inicio</a></li>
@@ -73,9 +73,6 @@
             <h5 class="m-3 ">${pelicula.director} Pelicula |<span class="" id="duracion"> ${pelicula.duracion} mins </span></h5>
             <p class="m-3">
               ${pelicula.descripcion}
-              DESCRIPCIONThe extension comes with three pre-built pages to help you get
-              started faster. You can change the text and images and you're
-              good to go.
             </p>
 
         <c:if test="${not empty organizacionProyecciones && not empty proyecciones}">

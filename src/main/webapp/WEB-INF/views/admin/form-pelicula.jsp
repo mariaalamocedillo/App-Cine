@@ -93,7 +93,6 @@
 
               <div class="col mb-3">
                 <label for="descripcion" class="col-form-label">Sipnosis</label>
-                <textarea class="form-control" id="descripcionno" name="descripcionnono" style="height: 100px" value="${pelicula.descripcion}"></textarea>
                 <input type="text" class="form-control" id="descripcion" name="descripcion" value="${pelicula.descripcion}"/>
                 <c:if test="${not empty error.getMensaje('descripcion')}">
                   <span class="alert alert-danger">${error.getMensaje("descripcion")}</span>
@@ -101,7 +100,7 @@
               </div>
               <div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="enProyeccion" value="${pelicula.enProyeccion}">
+                  <input class="form-check-input" type="checkbox" id="enProyeccion" name="enProyeccion" value="${pelicula.enProyeccion}">
                   <label class="form-check-label" for="enProyeccion">
                     En proyeccion
                   </label>

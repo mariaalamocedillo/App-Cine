@@ -31,7 +31,8 @@ function updateSelectedCount() {
   count.innerText = selectedSeatsCount;
   total.innerText = selectedSeatsCount * ticketPrice;
   totalForm.value = selectedSeatsCount * ticketPrice;
-  
+  console.log('hola')
+    cargaInfo();
   setMovieData(movieSelect.selectedIndex, movieSelect.value);
 }
 
@@ -74,7 +75,6 @@ container.addEventListener('click', e => {
             ids.push(targetId)
         }            
         idsSitio.value = ids;
-
         updateSelectedCount();
     }
 });
@@ -88,6 +88,20 @@ function remove(array, id){
     }
     return array;
 }
-
 // Initial count and total set
 updateSelectedCount();
+
+function cargaInfo(){
+    let asientos = document.querySelectorAll(".seat");
+    let ocupados = document.getElementById("ocupados").value.replace('[', '').replace(']', '');
+    console.log(ocupados)
+    console.log(ocupados.split(','))
+    let array = ocupados.split(',');
+    asientos.forEach(seat => {
+        array.forEach(sitioLlega => {
+            if (seat.getAttribute('id') === sitioLlega.trim()) {
+                seat.classList.add("occupied")
+            }
+        });
+    });
+}

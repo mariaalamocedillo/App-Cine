@@ -6,8 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -59,7 +59,7 @@
                         <div class="d-flex justify-content-center py-4">
                             <a href="${mvc.basePath}/pelicula" class="logo d-flex align-items-center w-auto">
                                 <img src="${pageContext.request.contextPath}/resources/assets/img/logo.png" alt="">
-                                <span class="d-block">Cines Petri</span>
+                                <span class="d-block text-light">Cines Petri</span>
                             </a>
                         </div><!-- End Logo -->
 
@@ -103,81 +103,70 @@
                                                     <small>Occupied</small>
                                                 </li>
                                             </ul>
-<%--
-                                            <c:if test="${not empty organizacionProyecciones && not empty proyecciones}">
-                                            <c:forEach var="info" items="${organizacionProyecciones}">
---%>
 
-                                            <div class="container">
+                                            <div class="container justify-content-center">
                                                 <div class="screen"></div>
-
                                                 <div class="row rowSeats">
-
-
                                                     <div class="seat" id="1a"></div>
+                                                    <div class="seat" id="2a"></div>
                                                     <div class="seat" id="3a"></div>
+                                                    <div class="seat" id="4a"></div>
                                                     <div class="seat" id="5a"></div>
+                                                    <div class="seat" id="6a"></div>
                                                     <div class="seat" id="7a"></div>
-                                                    <div class="seat" id="9a"></div>
-                                                    <div class="seat" id="11a"></div>
-                                                    <div class="seat" id="13a"></div>
-                                                    <div class="seat" id="15a"></div>
+                                                    <div class="seat" id="8a"></div>
                                                 </div>
                                                 <div class="row rowSeats">
+                                                    <div class="seat" id="1b"></div>
                                                     <div class="seat" id="2b"></div>
+                                                    <div class="seat" id="3b"></div>
                                                     <div class="seat" id="4b"></div>
+                                                    <div class="seat" id="5b"></div>
                                                     <div class="seat" id="6b"></div>
-                                                    <div class="seat occupied" id="8b"></div>
-                                                    <div class="seat occupied" id="10b"></div>
-                                                    <div class="seat" id="12b"></div>
-                                                    <div class="seat" id="14b"></div>
-                                                    <div class="seat" id="16b"></div>
+                                                    <div class="seat" id="7b"></div>
+                                                    <div class="seat" id="8b"></div>
                                                 </div>
                                                 <div class="row rowSeats">
                                                     <div class="seat" id="1c"></div>
+                                                    <div class="seat" id="2c"></div>
                                                     <div class="seat" id="3c"></div>
+                                                    <div class="seat" id="4c"></div>
                                                     <div class="seat" id="5c"></div>
+                                                    <div class="seat" id="6c"></div>
                                                     <div class="seat" id="7c"></div>
-                                                    <div class="seat" id="9c"></div>
-                                                    <div class="seat" id="11c"></div>
-                                                    <div class="seat occupied" id="13c"></div>
-                                                    <div class="seat occupied" id="15c"></div>
+                                                    <div class="seat" id="8c"></div>
                                                 </div>
                                                 <div class="row rowSeats">
+                                                    <div class="seat" id="1d"></div>
                                                     <div class="seat" id="2d"></div>
+                                                    <div class="seat" id="3d"></div>
                                                     <div class="seat" id="4d"></div>
+                                                    <div class="seat" id="5d"></div>
                                                     <div class="seat" id="6d"></div>
+                                                    <div class="seat" id="7d"></div>
                                                     <div class="seat" id="8d"></div>
-                                                    <div class="seat" id="10d"></div>
-                                                    <div class="seat" id="12d"></div>
-                                                    <div class="seat" id="14d"></div>
-                                                    <div class="seat" id="16d"></div>
                                                 </div>
                                                 <div class="row rowSeats">
                                                     <div class="seat" id="1e"></div>
+                                                    <div class="seat" id="2e"></div>
                                                     <div class="seat" id="3e"></div>
+                                                    <div class="seat" id="4e"></div>
                                                     <div class="seat" id="5e"></div>
-                                                    <div class="seat occupied" id="7e"></div>
-                                                    <div class="seat occupied" id="9e"></div>
-                                                    <div class="seat" id="11e"></div>
-                                                    <div class="seat" id="13e"></div>
-                                                    <div class="seat" id="15e"></div>
+                                                    <div class="seat" id="6e"></div>
+                                                    <div class="seat" id="7e"></div>
+                                                    <div class="seat" id="8e"></div>
                                                 </div>
                                                 <div class="row rowSeats">
+                                                    <div class="seat" id="1f"></div>
                                                     <div class="seat" id="2f"></div>
+                                                    <div class="seat" id="3f"></div>
                                                     <div class="seat" id="4f"></div>
+                                                    <div class="seat" id="5f"></div>
                                                     <div class="seat" id="6f"></div>
+                                                    <div class="seat" id="7f"></div>
                                                     <div class="seat" id="8f"></div>
-                                                    <div class="seat occupied" id="10f"></div>
-                                                    <div class="seat occupied" id="12f"></div>
-                                                    <div class="seat occupied" id="14f"></div>
-                                                    <div class="seat" id="16f"></div>
-
-
-
                                                 </div>
                                             </div>
-
                                             <p class="text">
                                                 Seleccionaste <span id="count">0</span> asientos; el precio se queda en <span id="total">0</span>€
                                             </p>
@@ -188,9 +177,9 @@
                                             </c:if>
 
                                             <form action="${mvc.basePath}/reserva/paso3" method="post">
-                                                <input type="text" name="reserva" value="${reserva.id}" >
-                                                <input type="text" id="ids" name="ids" />
-                                                <input type="text" id="totalForm" name="precio" />
+                                                <input type="text" name="reserva" value="${reserva.id}" hidden>
+                                                <input type="text" id="ids" name="ids" hidden/>
+                                                <input type="text" id="totalForm" name="precio" hidden/>
                                                 <input type="submit" class="btn btn-primary text-light" value="Siguiente">
                                             </form>
 
@@ -213,9 +202,8 @@
 
     </div>
 </main><!-- End #main -->
-
+<input id="ocupados" value="${asientosOcupados}" hidden>
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
 <!-- Vendor JS Files -->
 <script src="${pageContext.request.contextPath}/resources/assets/vendor/apexcharts/apexcharts.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

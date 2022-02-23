@@ -43,33 +43,25 @@ public class AsientoReservadoService {
         return asientos;
     }
 
-    public HashMap<Asiento, Boolean> sacarEstadosAsientos(Proyeccion proyeccion){
+    public List<String> sacarEstadosAsientos(Proyeccion proyeccion){
         Sala sala = proyeccion.getSala();
         //sacar todas las reservas con el id de esta proyeccion
         List<Asiento_reservado> asientosProyeccion = asientosProyeccion(proyeccion.getId());
-        HashMap<Asiento, Boolean> resultado = new HashMap<>();
         List<Asiento> asientosSala = sala.getAsientos();
+        List<String> array = new ArrayList<String>();
         for (int i = 0; i < asientosSala.size(); i++) {
             Asiento asiento = asientosSala.get(i);
             Boolean encontrado = false;
-
-            if (i%8==0){
-                resultado.put(new Asiento(), false);
-            }
-
             for (Asiento_reservado reservado: asientosProyeccion ) {
-                if (reservado.getAsiento() == asiento){
+                if (Objects.equals(reservado.getAsiento().getId(), asiento.getId())) {
                     encontrado = true;
                     break;
                 }
             }
-            if (encontrado) resultado.put(asiento, true);
-            else  resultado.put(asiento, false);
-
+            if (encontrado) array.add(asiento.getName().toLowerCase());
         }
-
-
-        return resultado;
+        System.out.println(array);
+        return array;
     }
 
 }

@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -55,7 +57,7 @@
                         <div class="d-flex justify-content-center py-4">
                             <a href="${mvc.basePath}/pelicula" class="logo d-flex align-items-center w-auto">
                                 <img src="${pageContext.request.contextPath}/resources/assets/img/logo.png" alt="">
-                                <span class="d-none d-lg-block">Cines Petri</span>
+                                <span class="d-none d-lg-block text-light">Cines Petri</span>
                             </a>
                         </div><!-- End Logo -->
 
@@ -74,7 +76,7 @@
                             <div class="row">
                                 <div class="col-lg-6 text-center">
                                     <div class="justify-content-between m-auto">
-                                        <img class="" src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSdQfe69qSKksn3drVCLfT1b2ADMzDBfgJQWmX9Ni0wZLzVptof" alt="" width="400">
+                                        <img class="" src="${proyeccion.getPelicula().getPoster()}" alt="" width="400">
                                     </div>
 
                                 </div>
@@ -103,15 +105,26 @@
                                                             <option selected>${proyeccion.comienzo}</option>
                                                         </select>
                                                     </div>
+                                                    <div class="container border-secondary">
+                                                        <div class="row">
 
-                                                    <div class="col-lg-6">
-                                                        <label for="comienzo">Hora sesión</label>
-                                                        <input type="email" class="form-control" name="email">
-                                                    </div>
+                                                        <div class="col-lg-6">
+                                                            <label for="comienzo">Email</label>
+                                                            <input type="email" class="form-control" name="email" required>
+                                                            <div class="invalid-feedback">
+                                                                Debe introducir su email
+                                                            </div>
+                                                        </div>
 
-                                                    <div class="col-lg-6">
-                                                        <label for="comienzo">Hora sesión</label>
-                                                        <input type="password" class="form-control" name="psswd">
+                                                        <div class="col-lg-6">
+                                                            <label for="comienzo">Contraseña</label>
+                                                            <input type="password" class="form-control" name="psswd" required>
+                                                            <div class="invalid-feedback">
+                                                                La contraseña es necesaria
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                        <span class="small">Si no tiene cuenta, debe registrarse antes de reservar (<a href="${mvc.basePath}/usuario/registro">Crear una cuenta</a>)</span>
                                                     </div>
 
                                                     <c:if test="${mensaje.texto != null}">
@@ -145,7 +158,28 @@
 <script src="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/assets/vendor/quill/quill.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/assets/vendor/php-email-form/validate.js"></script>
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+        'use strict';
 
+        window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
 <!-- Template Main JS File -->
 <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
 

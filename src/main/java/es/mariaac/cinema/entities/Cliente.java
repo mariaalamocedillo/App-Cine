@@ -39,6 +39,4 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente", orphanRemoval = true)
     private Set<Reserva> reserva = new LinkedHashSet<>();
 
-
-//TODO hacer un usuario para reservas online, o registrar las reservas que tengan hechas (con el codigo e email quedan exentos de llevar la entrada física)
 }

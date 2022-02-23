@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,9 +14,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Reserva</title>
-    <meta content="" name="description">
-    <meta content="" name="keywords">
+    <title>Checkout</title>
 
     <!-- Favicons -->
     <link href="${pageContext.request.contextPath}/resources/assets/img/favicon.png" rel="icon">
@@ -27,23 +26,8 @@
 
     <!-- Vendor CSS Files -->
     <link href="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/assets/vendor/quill/quill.snow.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/estilos.css" rel="stylesheet">
 
-    <!-- Template Main CSS File -->
-    <link href="${pageContext.request.contextPath}/resources/assets/css/style.css" rel="stylesheet">
-    <link href="booking-seats/css.css" rel="stylesheet">
-
-    <!-- =======================================================
-      * Template Name: NiceAdmin - v2.2.2
-      * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-      * Author: BootstrapMade.com
-      * License: https://bootstrapmade.com/license/
-      ======================================================== -->
 </head>
 
 <body class="imgfondo">
@@ -54,12 +38,12 @@
         <section class="section register min-vh-100 d-flex flex-column text-center py-4">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-lg-8 d-flex flex-column align-items-center justify-content-center">
+                    <div class="col-lg-10 d-flex flex-column align-items-center justify-content-center">
 
                         <div class="d-flex justify-content-center py-4">
-                            <a href="index.html" class="logo d-flex align-items-center w-auto">
+                            <a href="${mvc.basePath}/pelicula" class="logo d-flex align-items-center w-auto" style="text-decoration:none;">
                                 <img src="${pageContext.request.contextPath}/resources/assets/img/logo.png" alt="">
-                                <span class="d-block">Cines Petri</span>
+                                <h3 class="d-block text-light">Cines Petri</h3>
                             </a>
                         </div><!-- End Logo -->
 
@@ -68,15 +52,93 @@
                                 <nav>
                                     <ol class="breadcrumb mb-0" style="--bs-breadcrumb-divider: '>';">
                                         <li class="breadcrumb-item">Reserva</li>
-                                        <li class="breadcrumb-item active">Asientos</li>
-                                        <li class="breadcrumb-item">Pago</li>
+                                        <li class="breadcrumb-item">Asientos</li>
+                                        <li class="breadcrumb-item active">Pago</li>
                                     </ol>
                                 </nav>
                             </div>
 
                             <div class="card-body">
-                                <h1>Holas ${reserva.id}</h1>
-                                <h1>Serían ${reserva.precio}</h1>
+
+                                <div>
+                                    <div class="row">
+                                        <div class="col-md-4 order-md-2 mb-4">
+                                            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                                <span class="text-muted">Entradas para ${reserva.proyeccion.pelicula.titulo}</span>
+                                                <span class="badge badge-secondary badge-pill">${entradas.size()}</span>
+                                            </h4>
+                                            <!--Resumen de la compra-->
+                                            <ul class="list-group mb-3">
+                                                <c:forEach var="entrada" items="${entradas}">
+                                                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                                        <div>
+                                                            <h6 class="my-0">Entrada adulto ${entrada.getName()}</h6>
+                                                            <small class="text-muted">${entrada.sala.nombre}</small>
+                                                        </div>
+                                                        <span class="text-muted">8,50€</span>
+                                                    </li>
+                                                </c:forEach>
+
+                                                <li class="list-group-item d-flex justify-content-between">
+                                                    <span>Total </span>
+                                                    <strong>${reserva.precio}€</strong>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-8 order-md-1">
+                                            <form class="needs-validation" novalidate="" method="post" action="${mvc.basePath}/reserva/pagada">
+                                                <h4 class="mb-3">Pago</h4>
+
+                                                <div class="d-block my-3">
+                                                    <div class="custom-control custom-radio">
+                                                        <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked="" required="">
+                                                        <label class="custom-control-label" for="credit">Tarjeta de crédito</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="cc-name">Nombre completo</label>
+                                                        <input type="text" class="form-control" id="cc-name" placeholder="" required="">
+                                                        <small class="text-muted"></small>
+                                                        <div class="invalid-feedback">
+                                                            El nombre es necesario
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="cc-number">Número de la tarjeta</label>
+                                                        <input type="number" name="num-tarjeta" class="form-control" id="cc-number" placeholder="" required="">
+                                                        <div class="invalid-feedback">
+                                                            El número de la tarjeta es necesario
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row justify-content-center">
+                                                    <div class="col-md-5 mb-5">
+                                                        <label for="cc-expiration">Caducidad</label>
+                                                        <input type="month" class="form-control" id="cc-expiration" placeholder="" required="">
+                                                        <div class="invalid-feedback">
+                                                            Debe introducir la caducidad de la tarjeta
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5 mb-5">
+                                                        <label for="cc-expiration">CVC</label>
+                                                        <input type="number" class="form-control" id="cc-cvv" placeholder="" required="" maxlength="3">
+                                                        <div class="invalid-feedback">
+                                                            El CVC es necesario
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="text" name="reserva" value="${reserva.id}" hidden>
+                                                <c:if test="${mensaje.texto != null}">
+                                                    <div class="col-md-12">
+                                                        <p class="alert alert-danger" id="success-alert">${mensaje.texto}</p>
+                                                    </div>
+                                                </c:if>
+                                                <button class="btn col-5 btn-primary btn-lg btn-block" type="submit">Pagar</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -92,19 +154,37 @@
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-<!-- Vendor JS Files -->
-<script src="${pageContext.request.contextPath}/resources/assets/vendor/apexcharts/apexcharts.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/assets/vendor/chart.js/chart.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/assets/vendor/echarts/echarts.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/assets/vendor/quill/quill.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+        'use strict';
+
+        window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
+
+<script src="${pageContext.request.contextPath}/resources/js/popper.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/holder.min.js"></script></body>
 <script src="${pageContext.request.contextPath}/resources/assets/vendor/tinymce/tinymce.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/assets/vendor/php-email-form/validate.js"></script>
+
 
 <!-- Template Main JS File -->
 <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
-<script src="booking-seats/js.js"></script>
 
 </body>
 

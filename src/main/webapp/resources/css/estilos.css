@@ -38,6 +38,10 @@ body{
   height: 100%;
   position: relative;
 }
+.imgfondo{
+  background-image: url('https://www.gannett-cdn.com/media/2021/09/09/USATODAY/usatsports/gettyimages-200495653-001.jpg');
+  height: 100vh;
+}
 .account-block .overlay {
   -webkit-box-flex: 1;
   -ms-flex: 1;
@@ -72,3 +76,14 @@ body{
 
 /* Forms de sitios*/
 
+.container {
+  max-width: 960px;
+}
+
+.border-top { border-top: 1px solid #e5e5e5; }
+.border-bottom { border-bottom: 1px solid #e5e5e5; }
+.border-top-gray { border-top-color: #adb5bd; }
+
+.box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+
+.lh-condensed { line-height: 1.25; }

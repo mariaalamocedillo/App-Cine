@@ -31,12 +31,11 @@ public class AsientoService {
     public Asiento buscarPorName(String string){
         List<Asiento> asientos = findAll();
         for (Asiento asiento: asientos) {
-            String name = asiento.getFila() + asiento.getLetra();
+            String name = asiento.getName();
             if (name.trim().equalsIgnoreCase(string.trim())){
                 return asiento;
             }
         }
         return null;
     }
-
 }

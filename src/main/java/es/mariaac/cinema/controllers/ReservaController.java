@@ -97,6 +97,8 @@ public class ReservaController {
             mensaje.setTexto("Hubo un problema con su reserva, inténtelo más tarde");
             return "reserva/paso-1";
         }
+        models.put("asientosOcupados", asientoReservadoService.sacarEstadosAsientos(proyeccion.get()));
+
         reserva.setProyeccion(proyeccion.get());
         reserva.setPagada(false);
         reserva.setActiva(false);
@@ -114,7 +116,7 @@ public class ReservaController {
 
         //guardamos la reserva
         try {
-            models.put("asientos-estados", asientoReservadoService.sacarEstadosAsientos(reserva.getProyeccion()));
+            System.out.println(asientoReservadoService.sacarEstadosAsientos(reserva.getProyeccion()).size());
             reservaService.guardar(reserva);
 
             models.put("reserva", reserva);
@@ -138,6 +140,7 @@ public class ReservaController {
             return "reserva/paso-2";
         }
         Reserva reserva = reservaOpt.get();
+        models.put("asientosOcupados", asientoReservadoService.sacarEstadosAsientos(reserva.getProyeccion()));
         if (idsSeats == null || idsSeats.equals("")){
             mensaje.setTexto("Debe seleccionar al menos un asiento");
             models.put("reserva", reserva);
@@ -148,6 +151,7 @@ public class ReservaController {
         reserva.setPrecio(Float.valueOf(precio));
         reserva.setReservada(true);
         reservaService.guardar(reserva);
+        models.put("reserva", reserva);
 
         System.out.println(idsSeats);
 
@@ -168,7 +172,7 @@ public class ReservaController {
                     asientoReservadoService.reservarAsiento(reserva, asientoTemp);
                 }catch (Exception e) {
                     log.error(e.getMessage(), e);
-                    mensaje.setTexto("Ocurrió un error y la reserva de los asientos no se pudo almacenar. ");
+                    mensaje.setTexto("Ocurrió un error y no pudimos almacenar la reserva de los asientos. ");
                     return "reserva/paso-2";
                 }
             }
@@ -176,45 +180,79 @@ public class ReservaController {
         //guardamos la reserva
         try {
             reservaService.guardar(reserva);
-            models.put("reserva", reserva);
+            models.put("entradas", asientos);
             return "reserva/paso-3";
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             mensaje.setTexto("Ocurrió un error y la reserva " + reserva.getId() + " no se pudo realizar.");
-            return "reserva/paso-1";
+            return "reserva/paso-2";
         }
-
     }
 
 
-    /*
+
     @POST
-    @Path("/registro/submit")
+    @Path("/pagada")
     @ValidateOnExecution(type = ExecutableType.NONE)
-    public String nuevaSubmit(@FormParam("email") String email, @FormParam("contrasena") String psswd,
-                              @FormParam("tlfn") Long tlfn, @FormParam("nombre") String nombre) {
-        Cliente cliente = new Cliente(nombre, tlfn, email, psswd);
-        System.out.println(cliente);
-        log.debug("Nuevo cliente recibido: {}", cliente);
-        if (clienteService.buscarPorEmail(cliente.getEmail()) != null){
-            mensaje.setTexto("Este email ya está asociado a una cuenta");
-            return "perfil/signup";
+    public String nuevaSubmit(@FormParam("num-tarjeta") String numTarj, @FormParam("reserva") Long idReserva) {
+        Optional<Reserva> reservaOpt = reservaService.buscarPorId(idReserva);
+        if (reservaOpt.isEmpty()){
+            mensaje.setTexto("Hubo un problema con su reserva, inténtelo más tarde");
+            return "reserva/paso-3";
         }
+        Reserva reserva = reservaOpt.get();
+        if (numTarj == null){
+            mensaje.setTexto("Debe introducir el número de su tarjeta");
+            models.put("reserva", reserva);
+            return "reserva/paso-3";
+        }
+        if (!validateCreditCardNumber(numTarj)){
+            mensaje.setTexto("Debe introducir un número de tarjeta válido");
+            models.put("reserva", reserva);
+            return "reserva/paso-3";
+        }
+
+        reserva.setPagada(true);    //la establecemos como pagada
+
+        models.put("entradas", models.get("entradas"));
 
         try {
-            clienteService.guardar(cliente);
-            mensaje.setTexto("La cuenta de " + cliente.getEmail() + " se guardó satisfactoriamente ! ");
+            reservaService.guardar(reserva);
+
+            mensaje.setTexto("La reserva de " + reserva.getProyeccion().getPelicula().getTitulo() + " se guardó satisfactoriamente ! ");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            mensaje.setTexto("Ocurrió un error y la cuenta de " + cliente.getEmail() + " (" + cliente.getNombre() + ") no se pudo almacenar.");
-            return "perfil/signup";
+            mensaje.setTexto("Ocurrió un error y la reserva de " + reserva.getProyeccion().getPelicula().getTitulo() + ") no se pudo almacenar.");
+            return "reserva/paso-3";
         }
-
         return "perfil/perfil";
+    }
+    private Boolean validateCreditCardNumber(String str) {
+        //12345678903555 is a valid credit card number
+        //012850003580200 is a valid credit card number
+
+        int[] ints = new int[str.length()];
+        for (int i = 0; i < str.length(); i++) {
+            ints[i] = Integer.parseInt(str.substring(i, i + 1));
+        }
+        for (int i = ints.length - 2; i >= 0; i = i - 2) {
+            int j = ints[i];
+            j = j * 2;
+            if (j > 9) {
+                j = j % 10 + 1;
+            }
+            ints[i] = j;
+        }
+        int sum = 0;
+        for (int anInt : ints) {
+            sum += anInt;
+        }
+        //is a not valid credit card number");
+        return sum % 10 == 0;//is a valid credit card number");
     }
 
 
-
+/*
     @POST
     @Path("/registro/submit")
     @ValidateOnExecution(type = ExecutableType.NONE)

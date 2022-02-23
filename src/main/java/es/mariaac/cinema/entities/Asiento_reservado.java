@@ -18,11 +18,13 @@ public class Asiento_reservado {
     @JoinColumn(name = "proyeccion_id", nullable = false)
     private Proyeccion proyeccion;
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "asiento_id", nullable = false)
-    private Asiento asiento;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "reserva_id", nullable = false)
     private Reserva reserva;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "asiento_id", nullable = false)
+    private Asiento asiento;
+
 }

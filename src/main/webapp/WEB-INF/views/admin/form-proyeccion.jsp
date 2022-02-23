@@ -51,7 +51,7 @@
 
         <div class="card">
           <div class="card-body m-3">
-            <h3 class="m-5 text-center">Editar proyección</h3>
+            <h3 class="m-5 text-center">${not empty proyeccion.id ? 'Editar' : 'Nueva'} proyección</h3>
 
             <form id="form" action="${mvc.basePath}/admin/proyeccion/nueva/submit">
               <c:if test="${not empty proyeccion.id}">
@@ -77,73 +77,31 @@
                 <span class="alert alert-danger">${error.getMensaje("pelicula")}</span>
               </c:if>
 
-                <div class="col">
-                  <label for="dia">Día</label>
-                  <input type="date" id="dia" value="${proyeccion.dia}" name="dia" class="form-control" required>
-                </div>
+              <div class="col">
+                <label for="dia">Día</label>
+                <input type="date" id="dia" value="${proyeccion.dia}" name="dia" class="form-control" required>
+              </div>
 
 
           <!-- Vertical Pills Tabs -->
-          <div class="d-flex align-items-start border border-info rounded p-2 mt-3">
-            <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-              <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">16:00</button>
-              <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">18:30</button>
-              <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">21:00</button>
-<%--
-              <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-secondary active">
-                  <input type="radio" name="options" id="option1" autocomplete="off" checked> Active
-                </label>
-                <label class="btn btn-secondary">
-                  <input type="radio" name="options" id="option2" autocomplete="off"> Radio
-                </label>
-                <label class="btn btn-secondary">
-                  <input type="radio" name="options" id="option3" autocomplete="off"> Radio
-                </label>
-              </div>
---%>
+            <div class="col">
+              <label for="comienzo" class="form-label">Sala</label>
+              <select id="comienzo" name="comienzo" class="form-select">
+                <c:forEach var="sala" items="${salas}">
+                  <option value="${sala.id}">${sala.nombre}</option>
+                </c:forEach>
+              </select>
             </div>
-            <div class="tab-content" id="v-pills-tabContent">
-              <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-                <div class="col">
-                  <label for="comienzo16" class="form-label">Sala para las 16:00 </label>
-                  <select id="comienzo16" class="form-select">
-                    <option>sala xx</option>
-                    <option>sala xx</option>
-                    <option>sala xx</option>
-                  </select>
-                </div>
+              <div class="invalid-feedback">
+                <span class="alert alert-danger">${error.getMensaje("sala")}</span>
               </div>
-              <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-                <div class="col">
-                  <label for="comienzo18" class="form-label">Sala para las 18:30 </label>
-                  <select id="comienzo18" class="form-select">
-                    <option value="">sala xx</option>
-                    <option>sala xx</option>
-                    <option>sala xx</option>
-                  </select>
-                </div>
-              </div>
-              <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-                <div class="col">
-                  <label for="comienzo21" class="form-label">Sala para las 21:00 </label>
-                  <select id="comienzo21" class="form-select">
-                    <option>sala xx</option>
-                    <option>sala xx</option>
-                    <option>sala xx</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- End Vertical Pills Tabs -->
 
               <div class="row m-3">
                 <div class="col text-center">
                   <button type="submit" class="btn btn-primary">Guardar datos</button>
                 </div>
               </div>
-            </form><!-- End General Form Elements -->
+            </form>
 
           </div>
         </div>
