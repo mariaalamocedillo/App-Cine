@@ -14,7 +14,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Checkout</title>
+    <title>Pago reserva</title>
 
     <!-- Favicons -->
     <link href="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -34,7 +34,7 @@
 
 </head>
 
-<body class="imgfondo">
+<body class="imgfondo mt-0">
 <jsp:include page="/WEB-INF/layout/navBar.jsp" ></jsp:include>
 
 <main>
@@ -119,8 +119,8 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-md-5 mb-5">
-                                                        <label for="cc-expiration">CVC</label>
-                                                        <input type="number" class="form-control" id="cc-cvv" placeholder="" required="" min="1" max="999">
+                                                        <label>CVC</label>
+                                                        <input type="number" class="form-control" name="cc-cvv" placeholder="" required="" min="1" max="999">
                                                         <div class="invalid-feedback">
                                                             El CVC es necesario
                                                         </div>

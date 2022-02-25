@@ -62,12 +62,7 @@
                             <a href="${mvc.basePath}/pelicula/admin/editar/${peli.id}" class="text-light"><button class="btn btn-info">Editar</button></a>
                         </td>
                         <td>
-                            <form action="${mvc.basePath}/admin/proyeccion/nueva/${peli.id}" method="post">
-                                <div class="row">
-                                    <input type="date" id="dia" name="dia" class="form-control col-7" required>
-                                    <button class="col btn btn-info mt-2 ml-2" id="submit" type="submit">Crear proyección</button>
-                                </div>
-                            </form>
+                            <a href="${mvc.basePath}/admin/proyeccion/nueva/${peli.id}" class="text-light"><button class="col btn btn-info mt-2 ml-2" id="submit" type="submit">Crear proyección</button></a>
                         </td>
                     </tr>
                 </c:forEach>

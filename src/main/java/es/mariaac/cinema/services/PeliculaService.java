@@ -31,16 +31,6 @@ public class PeliculaService {
         return peliculaRepository.findOptionalBy(id);
     }
 
-    public List<Pelicula> findProyectando() {
-            //return peliculaRepository.findProyectando();
-        List<Pelicula> peliculas = findAll();
-        for (int i = 0; i < peliculas.size(); i++) {
-            if (!peliculas.get(i).getEnProyeccion())
-                peliculas.remove(peliculas.get(i));
-        }
-        return peliculas;
-    }
-
     public List<Pelicula> findProyectandoQ() {
         return peliculaRepository.findProyectando();
     }

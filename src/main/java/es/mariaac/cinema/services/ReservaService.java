@@ -28,4 +28,6 @@ public class ReservaService {
 
     public List<Reserva> findReservas(Long id){return reservaRepository.findReservas(id);}
 
+    public List<Reserva> findReservasAntiguas(Long id){return reservaRepository.findReservasAntiguas(id);}
+
 }

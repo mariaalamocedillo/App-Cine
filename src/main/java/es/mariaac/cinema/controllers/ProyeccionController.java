@@ -101,17 +101,14 @@ public class ProyeccionController {
 
     @GET
     @Path("nueva/{idPelicula}")
-    public String nueva(@PathParam("idPelicula") Long id, @FormParam(value="dia") String dia) {
+    public String nueva(@PathParam("idPelicula") Long id) {
         List<Sala> salas = salaService.findAll();
         Optional<Pelicula> pelicula = peliculaService.buscarPorId(id);
-        System.out.println("-------------------------------------------------"+dia);
         if (id != null && pelicula.isPresent()){
             models.put("pelicula", pelicula.get());
         }else {
             models.put("peliculas", peliculaService.findAll());
         }
-
-        models.put("dia", dia);
 
         models.put("salas", salas);
         return "admin/form-proyeccion";

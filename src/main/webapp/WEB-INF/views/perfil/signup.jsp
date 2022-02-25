@@ -35,22 +35,11 @@
     <link href="${pageContext.request.contextPath}/resources/assets/css/style.css" rel="stylesheet">
 </head>
 
-<body class="imgfondo">
+<body class="perfil">
 <jsp:include page="/WEB-INF/layout/navBar.jsp" ></jsp:include>
 
 <main>
     <div class="container">
-        <c:if test="${not empty error.errores}">
-            <div class="alert alert-danger">
-                <h4>Lista de errores</h4>
-                <dl>
-                    <c:forEach var="err" items="${error.errores}">
-                        <dt>${err.getParamName()}</dt>
-                        <dd>${err.getMessage()}</dd>
-                    </c:forEach>
-                </dl>
-            </div>
-        </c:if>
         <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
             <div class="container">
                 <div class="row justify-content-center">

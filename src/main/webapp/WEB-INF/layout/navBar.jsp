@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!--NAVBAR-->
-<header id="header" class="header d-flex align-items-center mb-4">
+<header id="header" class="header d-flex align-items-center mb-4 mt-0">
 
     <div class="d-flex align-items-center justify-content-between">
         <a href="${mvc.basePath}/pelicula" class="logo d-flex align-items-center">

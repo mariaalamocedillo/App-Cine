@@ -21,6 +21,8 @@ import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.util.stream.Collectors.toList;
 
@@ -79,8 +81,7 @@ public class ReservaController {
         Sala sala = new Sala();
         if (salaService.buscarPorId(id).isPresent())
             sala = salaService.buscarPorId(id).get();
-
-        salaService.establecerAsientos(2, sala.getId());
+        salaService.establecerAsientos(sala.getId());
         models.put("sala", sala);
         return "admin/edit-pelicula";
     }
@@ -92,16 +93,14 @@ public class ReservaController {
                         @FormParam("psswd") String psswd) {
         Reserva reserva = new Reserva();
         Optional<Proyeccion> proyeccion = proyeccionService.buscarPorId(id);
-
         if (proyeccion.isEmpty()){
             mensaje.setTexto("Hubo un problema con su reserva, inténtelo más tarde");
             return "reserva/paso-1";
         }
         models.put("asientosOcupados", asientoReservadoService.sacarEstadosAsientos(proyeccion.get()));
-
         reserva.setProyeccion(proyeccion.get());
         reserva.setPagada(false);
-        reserva.setActiva(false);
+        reserva.setActiva(true);
         reserva.setReservada(false);
         reserva.setPrecio(0F);
 
@@ -117,11 +116,8 @@ public class ReservaController {
 
         //guardamos la reserva
         try {
-            System.out.println(asientoReservadoService.sacarEstadosAsientos(reserva.getProyeccion()).size());
             reservaService.guardar(reserva);
-
             models.put("reserva", reserva);
-
             return "reserva/paso-2";
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -149,14 +145,12 @@ public class ReservaController {
         }
         models.put("precio", "8.5");
 
-        reserva.setActiva(true);    //la establecemos como activa y actualizamos el precio
         reserva.setPrecio(Float.valueOf(precio));
         reserva.setReservada(true);
         reservaService.guardar(reserva);
         models.put("reserva", reserva);
 
         System.out.println(idsSeats);
-
 
         String[] sitios = idsSeats.trim().replaceAll(" ", "").split(",");
 
@@ -196,7 +190,8 @@ public class ReservaController {
     @POST
     @Path("/pagada")
     @ValidateOnExecution(type = ExecutableType.NONE)
-    public String nuevaSubmit(@FormParam("num-tarjeta") String numTarj, @FormParam("reserva") Long idReserva) {
+    public String nuevaSubmit(@FormParam("num-tarjeta") String numTarj, @FormParam("cc-cvv") String numCvv,
+                              @FormParam("reserva") Long idReserva) {
         Optional<Reserva> reservaOpt = reservaService.buscarPorId(idReserva);
         if (reservaOpt.isEmpty()){
             mensaje.setTexto("Hubo un problema con su reserva, inténtelo más tarde");
@@ -208,7 +203,7 @@ public class ReservaController {
             models.put("reserva", reserva);
             return "reserva/paso-3";
         }
-        if (!validateCreditCardNumber(numTarj)){
+        if (!validateCreditCard(numTarj, numCvv)){
             mensaje.setTexto("Debe introducir un número de tarjeta válido");
             models.put("reserva", reserva);
             return "reserva/paso-3";
@@ -231,13 +226,14 @@ public class ReservaController {
 
         return "perfil/perfil";
     }
-    private Boolean validateCreditCardNumber(String str) {
+    private Boolean validateCreditCard(String card, String cvc) {
         //12345678903555 is a valid credit card number
         //012850003580200 is a valid credit card number
+        //5061      561  are cvc valid number
 
-        int[] ints = new int[str.length()];
-        for (int i = 0; i < str.length(); i++) {
-            ints[i] = Integer.parseInt(str.substring(i, i + 1));
+        int[] ints = new int[card.length()];
+        for (int i = 0; i < card.length(); i++) {
+            ints[i] = Integer.parseInt(card.substring(i, i + 1));
         }
         for (int i = ints.length - 2; i >= 0; i = i - 2) {
             int j = ints[i];
@@ -251,39 +247,17 @@ public class ReservaController {
         for (int anInt : ints) {
             sum += anInt;
         }
-        //is a not valid credit card number");
-        return sum % 10 == 0;//is a valid credit card number");
+
+        // Regex to check valid CVV number.
+        String regex = "^[0-9]{3,4}$";
+        Pattern p = Pattern.compile(regex);
+        if (cvc == null)
+            return false;
+        Matcher m = p.matcher(cvc);
+
+        return sum % 10 == 0 && m.matches();
     }
 
-
-/*
-    @POST
-    @Path("/registro/submit")
-    @ValidateOnExecution(type = ExecutableType.NONE)
-    public String nuevaSubmit(@Valid @BeanParam Cliente cliente) {
-        log.debug("Nuevo cliente recibido: {}", cliente);
-        if (clienteService.buscarPorEmail(cliente.getEmail()) != null){
-            mensaje.setTexto("Este email ya está asociado a una cuenta");
-            return "perfil/signup";
-        }
-        if (bindingResult.isFailed()) {
-            logErrores();
-            setErrores();
-            models.put("cliente", cliente);
-            return "perfil/signup";
-        }
-        try {
-            clienteService.guardar(cliente);
-            mensaje.setTexto("La cuenta de " + cliente.getEmail() + " se guardó satisfactoriamente ! ");
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            mensaje.setTexto("Ocurrió un error y la cuenta de " + cliente.getEmail() + " (" + cliente.getNombre() + ") no se pudo almacenar.");
-            return "perfil/signup";
-        }
-
-        return "perfil/perfil";
-    }
-*/
 
         private void setErrores() {
         errores.setErrores(bindingResult.getAllErrors()

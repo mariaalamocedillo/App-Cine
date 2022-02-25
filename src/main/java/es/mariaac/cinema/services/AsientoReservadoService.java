@@ -32,36 +32,15 @@ public class AsientoReservadoService {
         guardar(asiento_reservado);
     }
 
-    public List<Asiento_reservado> asientosProyeccion(Long idProyeccion){
-        List<Asiento_reservado> todosReservados = findAll();
-        List<Asiento_reservado> asientos = new ArrayList<>();
-        for (Asiento_reservado reservado: todosReservados) {
-            if (Objects.equals(reservado.getProyeccion().getId(), idProyeccion)){
-                asientos.add(reservado);
-            }
-        }
-        return asientos;
-    }
-
     public List<String> sacarEstadosAsientos(Proyeccion proyeccion){
-        Sala sala = proyeccion.getSala();
         //sacar todas las reservas con el id de esta proyeccion
-        List<Asiento_reservado> asientosProyeccion = asientosProyeccion(proyeccion.getId());
-        List<Asiento> asientosSala = sala.getAsientos();
-        List<String> array = new ArrayList<String>();
-        for (int i = 0; i < asientosSala.size(); i++) {
-            Asiento asiento = asientosSala.get(i);
-            Boolean encontrado = false;
-            for (Asiento_reservado reservado: asientosProyeccion ) {
-                if (Objects.equals(reservado.getAsiento().getId(), asiento.getId())) {
-                    encontrado = true;
-                    break;
-                }
-            }
-            if (encontrado) array.add(asiento.getName().toLowerCase());
+        List<Asiento_reservado> asientosProyeccion = asientoReservadoRepository.findAsientosReservadosProyeccion(proyeccion.getId());
+        List<String> asientosNames = new ArrayList<String>();
+        for (Asiento_reservado asiento_reservado : asientosProyeccion) {
+            Asiento reservado = asiento_reservado.getAsiento();
+            asientosNames.add(reservado.getName().toLowerCase());
         }
-        System.out.println(array);
-        return array;
+        return asientosNames;
     }
 
 }

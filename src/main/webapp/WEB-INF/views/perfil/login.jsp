@@ -41,23 +41,12 @@
     ======================================================== -->
 </head>
 
-<body class="imgfondo">
+<body class="perfil">
 <jsp:include page="/WEB-INF/layout/navBar.jsp" ></jsp:include>
 
-<main>
+<main class="mt-1">
     <div class="container">
-        <c:if test="${not empty error.errores}">
-            <div class="alert alert-danger">
-                <h4>Lista de errores</h4>
-                <dl>
-                    <c:forEach var="err" items="${error.errores}">
-                        <dt>${err.getParamName()}</dt>
-                        <dd>${err.getMessage()}</dd>
-                    </c:forEach>
-                </dl>
-            </div>
-        </c:if>
-        <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+        <section class="section register d-flex flex-column align-items-center justify-content-center py-4">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">

@@ -24,7 +24,7 @@ public class SalaService {
         return salaRepository.findOptionalBy(id);
     }
 
-    public Boolean establecerAsientos(Integer numAsientos, Long idSala){
+    public Boolean establecerAsientos(Long idSala){
         Optional<Sala> salaOpt = buscarPorId(idSala);
         if (salaOpt.isEmpty()){
             return false;
@@ -52,4 +52,5 @@ public class SalaService {
 
         return true;
     }
+
 }
