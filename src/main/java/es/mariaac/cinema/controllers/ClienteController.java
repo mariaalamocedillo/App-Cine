@@ -1,15 +1,20 @@
 package es.mariaac.cinema.controllers;
 
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import es.mariaac.cinema.configuration.MvcConfig;
 import es.mariaac.cinema.entities.Cliente;
 import es.mariaac.cinema.entities.Reserva;
 import es.mariaac.cinema.services.ClienteService;
 import es.mariaac.cinema.services.ReservaService;
+import es.mariaac.cinema.services.TestQRCode;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
 import jakarta.mvc.Models;
 import jakarta.mvc.binding.BindingResult;
 import jakarta.mvc.binding.ParamError;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.executable.ExecutableType;
@@ -17,6 +22,11 @@ import jakarta.validation.executable.ValidateOnExecution;
 import jakarta.ws.rs.*;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
@@ -99,9 +109,32 @@ public class ClienteController {
     @GET
     @Path("canjeo/{id}")
     public String canjeo(@PathParam("id") Long id) {
+        //TODO comprobar que la reserva es del cliente loggeado por sesion y que hay una sesion
         Optional<Reserva> reserva = reservaService.buscarPorId(id);
         if (reserva.isEmpty())
             return "redirect:perfil";
+
+        TestQRCode qr = new TestQRCode();
+
+        ServletContext sc = request.getServletContext();
+        String reportPath = sc.getRealPath("/resources/canjeos");
+
+        File f = new File(reportPath+"/qrCode"+ reserva.get().getId() +".png");
+        String text = "Reserva num.: " + id +
+                " Sala: " + reserva.get().getProyeccion().getSala().getId()+
+                "Num. asientos: " + reserva.get().getAsientos().size();
+
+
+        try {
+
+            qr.generateQR(f, text, 300, 300);
+            System.out.println("QRCode Generated: " + f.getAbsolutePath());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        models.put("qr-img", f);
         models.put("reserva", reserva.get());
         return "reserva/canjeo";
     }

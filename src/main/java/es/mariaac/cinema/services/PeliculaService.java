@@ -8,11 +8,9 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.SystemException;
 import jakarta.transaction.UserTransaction;
-import jakarta.validation.constraints.Future;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.*;
 
 @Slf4j
@@ -35,14 +33,13 @@ public class PeliculaService {
         return peliculaRepository.findProyectando();
     }
 
-    public void guardar(Pelicula pelicula){peliculaRepository.save(pelicula);}
+    public Pelicula guardar(Pelicula pelicula){ return peliculaRepository.save(pelicula);}
 
     public void borrar(Pelicula pelicula) throws SystemException {
         log.debug("Borrando peli y sus proyecciones asociadas");
         try {
             transaction.begin();
             peliculaRepository.attachAndRemove(pelicula);
-            //preguntaRepository.remove(pregunta); // da excepción de intento de borrado de una entidad desligada
             transaction.commit();
         } catch (Exception e) {
             log.debug ("Se ha producido una excepción", e);

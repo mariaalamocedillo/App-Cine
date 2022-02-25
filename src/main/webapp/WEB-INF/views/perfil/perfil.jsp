@@ -110,7 +110,10 @@
                                                 <h5 class="card-title">Reserva para ${reserva.getProyeccion().getPelicula().getTitulo()}</h5>
                                                 <div class="row">
                                                     <div class="col-lg-3 col-md-4 label ">Día</div>
-                                                    <div class="col-lg-9 col-md-8">${reserva.getProyeccion().getDia()}</div>
+                                                    <div class="col-lg-6 col-md-4">${reserva.getProyeccion().getDia()}</div>
+                                                    <div class="col-lg-3 col-md-4">
+                                                        <a href="${mvc.basePath}/usuario/canjeo/${reserva.id}"><button class="btn btn-info text-light">Canjear</button></a>
+                                                    </div>
                                                 </div>
 
                                                 <div class="row">
@@ -121,9 +124,6 @@
                                                 <div class="row">
                                                     <div class="col-lg-3 col-md-4 label ">Duración</div>
                                                     <div class="col-lg-9 col-md-8">${reserva.getProyeccion().getPelicula().getDuracion()} mins</div>
-
-                                                    <div class="col-lg-9 col-md-8">${reserva.getProyeccion().getPelicula().getDuracion()} mins</div>
-
                                                 </div>
 
                                                 <div class="row">
@@ -137,7 +137,6 @@
                                                         <c:forEach var="reservado" items="${reserva.getAsientos()}">
                                                             <span>${reservado.getAsiento().getName()}</span>
                                                         </c:forEach>
-
                                                     </div>
                                                 </div>
 

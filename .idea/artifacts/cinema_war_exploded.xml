@@ -38,6 +38,10 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-aop:5.3.13" />
           <element id="library" level="project" name="Maven: org.springframework:spring-beans:5.3.13" />
           <element id="library" level="project" name="Maven: org.springframework:spring-expression:5.3.13" />
+          <element id="library" level="project" name="Maven: com.google.zxing:core:3.2.1" />
+          <element id="library" level="project" name="Maven: com.google.zxing:javase:3.2.1" />
+          <element id="library" level="project" name="Maven: com.beust:jcommander:1.48" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.13.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">

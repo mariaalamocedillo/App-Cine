@@ -43,7 +43,7 @@
         <section class="section register min-vh-100 d-flex flex-column text-center py-4">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-lg-10 d-flex flex-column align-items-center justify-content-center">
+                    <div class="col-lg-8 d-flex flex-column align-items-center justify-content-center">
 
                         <div class="card rounded-xl justify-content-between m-auto w-100">
                             <div class="card-header">
@@ -54,7 +54,12 @@
                                 <c:if test="${not empty reserva}">
                                 <div>
                                     <div class="row">
-                                        <img src="${qr-img}" alt="qr-reserva">
+                                        <img src="${pageContext.request.contextPath}/resources/canjeos/qrCode${reserva.id}.png" alt="qr-reserva">
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label ">Película</div>
+                                        <div class="col-lg-9 col-md-8">${reserva.getProyeccion().getPelicula().getTitulo()}</div>
                                     </div>
 
                                     <div class="row">
