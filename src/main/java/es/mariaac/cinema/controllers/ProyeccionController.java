@@ -1,7 +1,7 @@
 package es.mariaac.cinema.controllers;
 
 
-//TODO Falta: funcionar validacion formularios y crear página de perfil y servicio apiRest y sesiones
+//TODO Falta: funcionar validacion formularios
 
 
 import es.mariaac.cinema.entities.Pelicula;

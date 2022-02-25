@@ -12,5 +12,5 @@ public class Mostrador {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    //TODO falta como un horario donde sale el empleado asignado (en otra tabla?)
+    //TODO ELIMINAR???
 }

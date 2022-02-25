@@ -1,10 +1,10 @@
 package es.mariaac.cinema.entities;
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -27,9 +27,11 @@ public class Proyeccion {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @JsonRawValue
     @Column(nullable = false)
     private LocalTime comienzo;
 
+    @JsonRawValue
     @Column(nullable = false)
     private LocalDate dia;
 
@@ -37,6 +39,7 @@ public class Proyeccion {
     @JoinColumn(name = "sala_id", nullable = false)
     private Sala sala;
 
+    @JsonBackReference
     @ManyToOne(optional = false)
     @JoinColumn(name = "pelicula_id", nullable = false)
     private Pelicula pelicula;

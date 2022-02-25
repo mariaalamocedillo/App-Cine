@@ -1,6 +1,7 @@
 package es.mariaac.cinema.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.Type;
@@ -32,7 +33,7 @@ public class Pelicula {
     private Integer duracion;
 
     @OneToMany(mappedBy = "pelicula", orphanRemoval = true)
-    @JsonIgnore
+    @JsonManagedReference
     private List<Proyeccion> proyecciones = new ArrayList<>();
 
     @Column(nullable = true)

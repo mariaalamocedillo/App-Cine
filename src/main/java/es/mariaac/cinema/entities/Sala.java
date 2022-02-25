@@ -1,13 +1,11 @@
 package es.mariaac.cinema.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
-
 @Entity
 @Data
 @Table(name = "sala")
@@ -20,6 +18,7 @@ public class Sala {
     @Column(name = "nombre", nullable = false, unique = true, length = 50)
     private String nombre;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "sala", orphanRemoval = true)
     private List<Asiento> asientos = new ArrayList<>();
 
