@@ -16,6 +16,9 @@
 
     <!-- Template Main CSS File -->
     <link href="${pageContext.request.contextPath}/resources/assets/css/style.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Prompt:wght@500&display=swap" rel="stylesheet">
 
 </head>
 
@@ -27,11 +30,10 @@
 
     <section class="jumbotron text-center">
         <div class="container">
-            <h1 class="h-50">Cines Petri®</h1>
-            <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
+            <h1 class="h-50" style="font-family: 'Creepster', cursive; font-size: 150px;">Cines Petri®</h1>
             <p>
                 <a href="${mvc.basePath}/pelicula/proyectando" class="btn btn-primary my-2">Películas en proyección</a>
-                <a href="${mvc.basePath}/pelicula/" class="btn btn-secondary my-2">Todas las películas</a>
+                <a href="${mvc.basePath}/pelicula/" class="btn btn-secondary my-2">Explorar todas las películas</a>
             </p>
         </div>
     </section>
@@ -45,7 +47,9 @@
                     <c:forEach var="pelicula" items="${peliculas}">
                         <div class="col-md-4">
                             <div class="card mb-4 box-shadow">
-                                <img class="card-img-top" src="${pelicula.poster}" alt="Card image cap">
+                                <div class="embed-responsive embed-responsive-16by9">
+                                    <img class="card-img-top embed-responsive-item" src="${pelicula.poster}" onerror="this.onerror=null; this.src='https://pro2-bar-s3-cdn-cf4.myportfolio.com/103d250a-40b3-4687-9be6-19619654b2bb/5b2dc8f9-8c14-470a-8b49-8ab9841e9e3b_rw_1920.jpg?h=e4b97e8d665ee793187594b165c2e34a'" alt="Card image cap">
+                                </div>
                                 <div class="card-body">
                                     <h2>${pelicula.titulo}</h2>
                                     <div class="d-flex justify-content-between align-items-center mt-2">
@@ -72,14 +76,6 @@
 
 </main>
 
-<footer class="text-muted">
-    <div class="container">
-        <p class="float-right">
-            <a href="#">Back to top</a>
-        </p>
-        <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-    </div>
-</footer>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
@@ -88,23 +84,7 @@
 <script>window.jQuery || document.write('<script src="js/jquery-slim.min.js"><\/script>')</script>
 
 <script src="https://unpkg.com/@popperjs/core@2.9.1/dist/umd/popper.min.js" charset="utf-8"></script>
-<script>
-    function toggleNavbar(collapseID) {
-        document.getElementById(collapseID).classList.toggle("hidden");
-        document.getElementById(collapseID).classList.toggle("block");
-    }
-    function openDropdown(event,dropdownID){
-        let element = event.target;
-        while(element.nodeName !== "BUTTON"){
-            element = element.parentNode;
-        }
-        var popper = Popper.createPopper(element, document.getElementById(dropdownID), {
-            placement: 'bottom-start'
-        });
-        document.getElementById(dropdownID).classList.toggle("hidden");
-        document.getElementById(dropdownID).classList.toggle("block");
-    }
-</script>
+
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster

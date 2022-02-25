@@ -9,11 +9,11 @@
     <title>Lista de proyecciones</title>
 
     <!-- Bootstrap -->
-    <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap5.min.css">
+    <link href="${pageContext.request.contextPath}/resources/assets/css/style.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="${pageContext.request.contextPath}/resources/css/album.css" rel="stylesheet"/>
-    <link href="${pageContext.request.contextPath}/resources/assets/css/style.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
@@ -65,6 +65,11 @@
             </table>
         </c:if>
         <a href="${mvc.basePath}/admin/proyeccion/nueva/0" class="text-light"><button class="btn btn-info">Nueva proyección</button></a>
+        <c:if test="${not empty mensaje.texto}">
+            <div class="alert alert-danger mt-2">
+                    ${mensaje.texto}
+            </div>
+        </c:if>
 
     </div>
 </main>
@@ -81,12 +86,13 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="${pageContext.request.contextPath}/resources/js/popper.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/holder.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Template Main JS File -->
 <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
+
+<script src="${pageContext.request.contextPath}/resources/js/popper.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/holder.min.js"></script>
 
 </body>
 </html>

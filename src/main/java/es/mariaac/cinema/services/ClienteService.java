@@ -25,21 +25,8 @@ public class ClienteService {
 
     public void guardar(Cliente cliente){clienteRepository.save(cliente);}
 
-    public Cliente buscarPorEmail(String email){
-        List<Cliente> clientes = findAll();
-        for (Cliente cliente: clientes) {
-            if (cliente.getEmail().equals(email)){
-                return cliente;
-            }
-        }
-        return null;
-    }
+    public Cliente buscarPorEmail(String email){return clienteRepository.findByEmail(email);}
 
-    public Boolean logear(String email, String contrasena){
-        if (buscarPorEmail(email) == null){
-            return false;
-        }
-        return Objects.equals(buscarPorEmail(email).getContrasena(), contrasena);
-    }
+    public Boolean logear(String email, String contrasena){return clienteRepository.logear(email, contrasena) != null;}
 
 }

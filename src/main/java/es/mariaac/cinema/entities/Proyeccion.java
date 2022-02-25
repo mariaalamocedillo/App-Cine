@@ -12,7 +12,7 @@ import java.time.LocalTime;
 @Data
 @AllArgsConstructor
 @Table(name = "proyeccion", uniqueConstraints = {
-        @UniqueConstraint(name = "uc_sala_comienzo", columnNames = {"comienzo", "sala_id"})
+        @UniqueConstraint(name = "uc_sala_comienzo_dia", columnNames = {"comienzo", "sala_id", "dia"})
 })
 public class Proyeccion {
     public Proyeccion(LocalTime comienzo, LocalDate dia, Sala sala, Pelicula pelicula) {
@@ -43,9 +43,5 @@ public class Proyeccion {
     @ManyToOne(optional = false)
     @JoinColumn(name = "pelicula_id", nullable = false)
     private Pelicula pelicula;
-
-
-//    `equipo_limpieza_id` int NOT NULL,
-//    UNIQUE INDEX `Projection_ak_1` (`auditorium_id`,`screening_start`),
 
 }

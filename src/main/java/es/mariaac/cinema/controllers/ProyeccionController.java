@@ -114,52 +114,46 @@ public class ProyeccionController {
         return "admin/form-proyeccion";
     }
 
-    @GET
+    @POST
     @Path("nueva/submit")
     @ValidateOnExecution(type = ExecutableType.NONE)
     public String submitNueva(@FormParam("id") Long id, @FormParam("comienzo") String comienzo,
-                              @FormParam("dia") String dia, @FormParam("sala") String salaId,
-                              @FormParam("pelicula") String peliculaId) {
+                              @FormParam("dia") String dia, @FormParam("sala") Long salaId,
+                              @FormParam("peliculaId") Long peliculaId) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
-        Optional<Sala> sala = salaService.buscarPorId(Long.valueOf(salaId));
-        Optional<Pelicula> pelicula = peliculaService.buscarPorId(Long.valueOf(peliculaId));
+
+        Optional<Sala> sala = salaService.buscarPorId(salaId);
+        Optional<Pelicula> pelicula = peliculaService.buscarPorId(peliculaId);
         if (sala.isEmpty() || pelicula.isEmpty()){
+            models.put("salas", salaService.findAll());
+            models.put("peliculas", peliculaService.findAll());
             mensaje.setTexto("Ocurrió un error; la sala o película no se encuentra disponible.");
-            return "admin/proyeccion";
+            return "admin/form-proyeccion";
         }
 
         Optional<Proyeccion> proyeccionOpt = proyeccionService.buscarPorId(id);
-        Proyeccion proyeccion = new Proyeccion();
+        Proyeccion proyeccion;
         if (proyeccionOpt.isPresent()){   //actualiza
             proyeccion = proyeccionOpt.get();
+        } else {
+            proyeccion = new Proyeccion();
         }
+        Pelicula pelicula1 = pelicula.get();
         proyeccion.setDia(LocalDate.parse(dia, formatter));
         proyeccion.setComienzo(LocalTime.parse(comienzo));
-        proyeccion.setPelicula(pelicula.get());
+        proyeccion.setPelicula(pelicula1);
         proyeccion.setSala(sala.get());
 
         try {
             proyeccionService.guardar(proyeccion);
+            pelicula1.setEnProyeccion(true);
+            peliculaService.guardar(pelicula1);
             mensaje.setTexto("La proyeccion " + proyeccion.getId() + " de la película " + proyeccion.getPelicula().getTitulo() + " se guardó satisfactoriamente ! ");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             mensaje.setTexto("Ocurrió un error y la proyección " + proyeccion.getId() + " de la película " + proyeccion.getPelicula().getTitulo() + " no se pudo almacenar.");
         }
         return "redirect:admin/proyeccion";
-    }
-
-
-    private void setErrores() {
-        errores.setErrores(bindingResult.getAllErrors()
-                .stream()
-                .collect(toList()));
-    }
-
-    private void logErrores() {
-        bindingResult.getAllErrors()
-                .stream()
-                .forEach((ParamError t) ->
-                        log.debug("Error de validación: {} {}", t.getParamName(), t.getMessage()));
     }
 
 }

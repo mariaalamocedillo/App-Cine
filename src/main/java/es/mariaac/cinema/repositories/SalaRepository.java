@@ -1,6 +1,5 @@
 package es.mariaac.cinema.repositories;
 
-import es.mariaac.cinema.entities.Cliente;
 import es.mariaac.cinema.entities.Sala;
 import org.apache.deltaspike.data.api.EntityRepository;
 import org.apache.deltaspike.data.api.Repository;
