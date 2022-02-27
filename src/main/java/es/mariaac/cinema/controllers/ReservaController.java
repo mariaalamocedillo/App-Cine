@@ -48,9 +48,6 @@ public class ReservaController {
     AsientoService asientoService;
 
     @Inject
-    SalaService salaService;
-
-    @Inject
     HttpServletRequest request;
 
     @Inject
@@ -73,20 +70,6 @@ public class ReservaController {
         models.put("proyeccion", proyeccion.get());
         return "reserva/paso-1";
     }
-
-//TODO BORRAR ESTO y el método de servicio que usa
-
-    @GET
-    @Path("sala/{id}")
-    public String asientosSalas(@PathParam("id") Long id) {
-        Sala sala = new Sala();
-        if (salaService.buscarPorId(id).isPresent())
-            sala = salaService.buscarPorId(id).get();
-        salaService.establecerAsientos(sala.getId());
-        models.put("sala", sala);
-        return "admin/edit-pelicula";
-    }
-
 
     @POST
     @Path("paso2")

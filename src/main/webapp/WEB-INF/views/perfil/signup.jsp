@@ -123,7 +123,7 @@
 
 <!-- Vendor JS Files -->
 <script src="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/assets/vendor/php-email-form/validate.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/form-validation.js"></script>
 
 <!-- Template Main JS File -->
 <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>

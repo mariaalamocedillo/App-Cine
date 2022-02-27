@@ -13,8 +13,6 @@ import java.util.*;
 public class SalaService {
     @Inject
     SalaRepository salaRepository;
-    @Inject
-    AsientoService asientoService;
 
     public List<Sala> findAll () {
         return salaRepository.findAll();
@@ -24,7 +22,8 @@ public class SalaService {
         return salaRepository.findOptionalBy(id);
     }
 
-    public Boolean establecerAsientos(Long idSala){
+    //Método usado para cargar los datos de los asientos (en lugar de manualmente)
+    /*public Boolean establecerAsientos(Long idSala){
         Optional<Sala> salaOpt = buscarPorId(idSala);
         if (salaOpt.isEmpty()){
             return false;
@@ -51,6 +50,6 @@ public class SalaService {
         System.out.println(sala);
 
         return true;
-    }
+    }*/
 
 }

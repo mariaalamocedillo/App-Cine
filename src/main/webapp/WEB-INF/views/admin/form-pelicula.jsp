@@ -35,13 +35,6 @@
   <section class="section">
     <div class="row">
       <div class="col-lg-6 justify-content-between m-auto">
-        <c:if test="${not empty error.errores}">
-          <div class="row">
-            <div class="col-md-12">
-              <p class="alert alert-danger">${error.errores}</p>
-            </div>
-          </div>
-        </c:if>
         <div class="card">
           <div class="card-body m-3">
             <h3 class="m-5 text-center">${not empty pelicula.id ? 'Editar' : 'Nueva'} película</h3>
@@ -55,49 +48,49 @@
               <div class="col mb-3">
                 <label for="titulo" class=" col-form-label">Título</label>
                 <input type="text" id="titulo" name="titulo" class="form-control" value="${pelicula.titulo}" required>
-                <c:if test="${not empty error.getMensaje('titulo')}">
-                  <span class="alert alert-danger">${error.getMensaje("titulo")}</span>
-                </c:if>
+                <div class="invalid-feedback">
+                  <span class="alert alert-danger">Debe introduucir el título de la película</span>
+                </div>
               </div>
 
               <div class="row">
                 <div class="col mb-3">
                   <label for="director" class="col-form-label">Director</label>
                   <input type="text" id="director" name="director" class="form-control" value="${pelicula.director}" required>
-                  <c:if test="${not empty error.getMensaje('director')}">
-                    <span class="alert alert-danger">${error.getMensaje("director")}</span>
-                  </c:if>
+                  <div class="invalid-feedback">
+                    <span class="alert alert-danger">Debe indicar el nombre del director</span>
+                  </div>
                 </div>
                 <div class="col mb-3">
                   <label for="estudio" class="col-form-label">Estudio</label>
                   <input type="text" id="estudio" name="estudio" class="form-control" value="${pelicula.estudio}" required>
-                  <c:if test="${not empty error.getMensaje('estudio')}">
-                    <span class="alert alert-danger">${error.getMensaje("estudio")}</span>
-                  </c:if>
+                  <div class="invalid-feedback">
+                    <span class="alert alert-danger">Debe indicar el estudio/productora</span>
+                  </div>
                 </div>
               </div>
               <div class="col mb-3">
                 <label for="poster" class=" col-form-label">Url del póster</label>
                 <input type="url" id="poster" name="poster" class="form-control" value="${pelicula.poster}" required>
-                <c:if test="${not empty error.getMensaje('poster')}">
-                  <span class="alert alert-danger">${error.getMensaje("poster")}</span>
-                </c:if>
+                <div class="invalid-feedback">
+                  <span class="alert alert-danger">Debe introudcir el URL del póster</span>
+                </div>
               </div>
 
               <div class="col mb-3">
                 <label for="duracion" class="col-form-label">Duración</label>
                 <input type="number" name="duracion" id="duracion" class="form-control" value="${pelicula.duracion}" required>
-                <c:if test="${not empty error.getMensaje('duracion')}">
-                    <span class="alert alert-danger">${error.getMensaje("duracion")}</span>
-                </c:if>
+                <div class="invalid-feedback">
+                    <span class="alert alert-danger">Debe introducir la duración de la película en minutos</span>
+                </div>
               </div>
 
               <div class="col mb-3">
                 <label for="descripcion" class="col-form-label">Sipnosis</label>
                 <input type="text" class="form-control" id="descripcion" name="descripcion" value="${pelicula.descripcion}"/>
-                <c:if test="${not empty error.getMensaje('descripcion')}">
-                  <span class="alert alert-danger">${error.getMensaje("descripcion")}</span>
-                </c:if>
+                <div class="invalid-feedback">
+                  <span class="alert alert-danger">Debe introducir la sipnosis</span>
+                </div>
               </div>
               <div>
                 <div class="form-check">
@@ -105,9 +98,6 @@
                   <label class="form-check-label" for="enProyeccion">
                     En proyeccion
                   </label>
-                  <c:if test="${not empty error.getMensaje('enProyeccion')}">
-                    <span class="alert alert-danger">${error.getMensaje("enProyeccion")}</span>
-                  </c:if>
                 </div>
               </div>
 

@@ -7,7 +7,6 @@ import jakarta.inject.Inject;
 import jakarta.persistence.NoResultException;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @ApplicationScoped

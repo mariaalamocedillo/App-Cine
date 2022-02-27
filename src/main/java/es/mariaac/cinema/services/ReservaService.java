@@ -1,10 +1,7 @@
 package es.mariaac.cinema.services;
 
-import es.mariaac.cinema.entities.Cliente;
 import es.mariaac.cinema.entities.Reserva;
-import es.mariaac.cinema.entities.Sala;
 import es.mariaac.cinema.repositories.ReservaRepository;
-import es.mariaac.cinema.repositories.SalaRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 

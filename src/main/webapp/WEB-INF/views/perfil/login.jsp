@@ -74,9 +74,9 @@
                                             <span class="input-group-text" id="inputGroupPrepend">@</span>
                                             <input type="text" name="email" value="${email}" class="form-control" id="email" required>
                                             <div class="invalid-feedback">Please enter your email.</div>
-                                            <c:if test="${not empty error.getMensaje('email')}">
-                                                <span class="alert alert-danger">${error.getMensaje("email")}</span>
-                                            </c:if>
+                                            <div class="invalid-feedback">
+                                                <span class="alert alert-danger">Debe introducir un email</span>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -84,9 +84,9 @@
                                         <label for="contrasena" class="form-label">Password</label>
                                         <input type="password" name="contrasena" value="${contrasena}" class="form-control" id="contrasena" required>
                                         <div class="invalid-feedback">Please enter your password!</div>
-                                        <c:if test="${not empty error.getMensaje('contrasena')}">
-                                            <span class="alert alert-danger">${error.getMensaje("contrasena")}</span>
-                                        </c:if>
+                                        <div class="invalid-feedback">
+                                            <span class="alert alert-danger">Debe introducir su contraseña</span>
+                                        </div>
                                     </div>
                                     <c:if test="${mensaje.texto != null}">
                                             <div class="col-md-12">
@@ -121,6 +121,7 @@
 
 <!-- Template Main JS File -->
 <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/form-validation.js"></script>
 
 </body>
 

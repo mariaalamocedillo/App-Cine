@@ -19,12 +19,4 @@ public abstract class ProyeccionRepository extends AbstractFullEntityRepository<
     @Query("select p from Proyeccion p where dia > current_date and pelicula.id = ?1")//buscar jpql
     public abstract List<Proyeccion> findActualId(Long id);
 
-
-/*TODo sacar horas de proyeccion de un dia
-select (p.comienzo) as proyecciones
-from proyeccion p where p.pelicula_id = XXXXXXXXXXXXXXXXX
-and p.dia = XXXXXXXXXXXXXXXX ;
-
-* */
-
 }
