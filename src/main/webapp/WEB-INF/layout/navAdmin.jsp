@@ -22,7 +22,7 @@
 
             <li class="nav-item ">
                 <a class="nav-link nav-icon search-bar-toggle " href="${mvc.basePath}/pelicula">
-                    <i class="bi bi-film"></i> Interfaz user
+                    Interfaz user
                 </a>
             </li>
 

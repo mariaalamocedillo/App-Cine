@@ -86,7 +86,7 @@
 
                                                 <form class="row g-3 needs-validation" action="${mvc.basePath}/reserva/paso2" method="post">
                                                     <input type="text" name="id" value="${proyeccion.id}" hidden>
-                                                    <h5>${proyeccion.pelicula.titulo} | <span class="small">duracion</span></h5>
+                                                    <h5>${proyeccion.pelicula.titulo} | <span class="small">${proyeccion.pelicula.duracion} mins</span></h5>
 
                                                     <div class="col-lg-6">
                                                         <label for="dia">Día</label>

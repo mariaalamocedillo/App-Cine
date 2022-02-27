@@ -168,7 +168,12 @@ public class ClienteController {
         HttpSession session = request.getSession();
         session.setAttribute("clienteId", clienteService.buscarPorEmail(email).get().getId());
         session.setAttribute("clienteName", clienteService.buscarPorEmail(email).get().getNombre());
-
+        //comprobamos si viene de otra página (del primer paso de una reserva)
+        if (session.getAttribute("rutaOrigen") != null){
+            String rutaOrigen = session.getAttribute("rutaOrigen").toString();
+            session.removeAttribute("rutaOrigen");
+            return rutaOrigen;
+        }
         return "perfil/perfil";
     }
 

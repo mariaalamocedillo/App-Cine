@@ -57,8 +57,8 @@
                             <div class="card-body">
 
                                 <div class="pt-4 pb-2">
-                                    <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
-                                    <p class="text-center small">Enter your personal details to create account</p>
+                                    <h5 class="card-title text-center pb-0 fs-4">Craer una cuenta</h5>
+                                    <p class="text-center small">Introduzca los datos para crear una cuenta</p>
                                 </div>
 
                                 <form method="post" action="${mvc.basePath}/usuario/registro/submit" class="row g-3 needs-validation" novalidate>
@@ -69,7 +69,7 @@
                                     </div>
 
                                     <div class="col-12">
-                                        <label for="yourEmail" class="form-label">Your Email</label>
+                                        <label for="yourEmail" class="form-label">Email</label>
                                         <input type="email" name="email" value="${cliente.email}" class="form-control" id="yourEmail" required>
                                     </div>
 
@@ -89,7 +89,7 @@
                                     <div class="col-12">
                                         <div class="form-check">
                                             <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
-                                            <label class="form-check-label" for="acceptTerms">Acepto y estoy de acuerdo con los <a href="${pageContext.request.contextPath}/resources/assets/img/cuckooo.webp">términos y condiciones</a></label>
+                                            <label class="form-check-label" for="acceptTerms">Acepto y estoy de acuerdo los <a href="https://i.imgur.com/qh2CT.jpg">términos y condiciones</a></label>
                                         </div>
                                     </div>
 
@@ -103,7 +103,7 @@
                                         <button class="btn btn-primary w-100" type="submit">Registrarse</button>
                                     </div>
                                     <div class="col-12">
-                                        <p class="small mb-0"><a href="${mvc.basePath}/usuario">Entrar en mi cuenta</a></p>
+                                        <p class="small mb-0">¿Ya tienes cuenta? <a href="${mvc.basePath}/usuario">Entrar en mi cuenta</a></p>
                                     </div>
                                 </form>
 
