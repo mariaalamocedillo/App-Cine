@@ -321,9 +321,9 @@ INSERT INTO cinemadb.reserva (activa,pagada,precio,reservada,cliente_id,proyecci
 	 (1,1,51.0,1,3,3),
 	 (1,1,34.0,1,4,3),
 	 (1,1,42.5,1,4,12),
-	 (1,0,8.5,1,5,1);
+	 (1,1,8.5,1,5,1);
 INSERT INTO cinemadb.reserva (activa,pagada,precio,reservada,cliente_id,proyeccion_id) VALUES
-	 (1,0,34.0,1,3,11);
+	 (1,1,34.0,1,3,11);
 
 INSERT INTO cinemadb.asiento_reservado (asiento_id,proyeccion_id,reserva_id) VALUES
 	 (22,1,1),
