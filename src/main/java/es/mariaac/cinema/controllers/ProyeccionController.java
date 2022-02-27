@@ -15,7 +15,6 @@ import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
 import jakarta.mvc.Models;
 import jakarta.mvc.binding.BindingResult;
-import jakarta.mvc.binding.ParamError;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.executable.ExecutableType;
 import jakarta.validation.executable.ValidateOnExecution;
@@ -28,7 +27,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.stream.Collectors.toList;
 @Slf4j
 @Path("/admin/proyeccion")
 @Controller
@@ -41,13 +39,7 @@ public class ProyeccionController {
     ProyeccionService proyeccionService;
 
     @Inject
-    private BindingResult bindingResult;
-
-    @Inject
     private Mensaje mensaje;
-
-    @Inject
-    private Errores errores;
 
     @Inject
     private PeliculaService peliculaService;
@@ -59,7 +51,6 @@ public class ProyeccionController {
     @Path("/")
     public String index() {
         models.put("proyecciones", proyeccionService.findProyectandoActual());
-
         return "admin/list-proyecciones";
     }
 
@@ -133,11 +124,8 @@ public class ProyeccionController {
 
         Optional<Proyeccion> proyeccionOpt = proyeccionService.buscarPorId(id);
         Proyeccion proyeccion;
-        if (proyeccionOpt.isPresent()){   //actualiza
-            proyeccion = proyeccionOpt.get();
-        } else {
-            proyeccion = new Proyeccion();
-        }
+        //actualiza
+        proyeccion = proyeccionOpt.orElseGet(Proyeccion::new);
         Pelicula pelicula1 = pelicula.get();
         proyeccion.setDia(LocalDate.parse(dia, formatter));
         proyeccion.setComienzo(LocalTime.parse(comienzo));

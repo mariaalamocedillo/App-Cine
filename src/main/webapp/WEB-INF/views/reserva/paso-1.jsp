@@ -99,28 +99,6 @@
                                                             <option selected>${proyeccion.comienzo}</option>
                                                         </select>
                                                     </div>
-                                                    <div class="container border-secondary">
-                                                        <div class="row">
-
-                                                        <div class="col-lg-6">
-                                                            <label for="comienzo">Email</label>
-                                                            <input type="email" class="form-control" name="email" required>
-                                                            <div class="invalid-feedback">
-                                                                Debe introducir su email
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-lg-6">
-                                                            <label for="comienzo">Contraseña</label>
-                                                            <input type="password" class="form-control" name="psswd" required>
-                                                            <div class="invalid-feedback">
-                                                                La contraseña es necesaria
-                                                            </div>
-                                                        </div>
-                                                        </div>
-                                                        <span class="small">Si no tiene cuenta, debe registrarse antes de reservar (<a href="${mvc.basePath}/usuario/registro">Crear una cuenta</a>)</span>
-                                                    </div>
-
                                                     <c:if test="${mensaje.texto != null}">
                                                         <div class="col-md-12">
                                                             <p class="alert alert-danger" id="success-alert">${mensaje.texto}</p>

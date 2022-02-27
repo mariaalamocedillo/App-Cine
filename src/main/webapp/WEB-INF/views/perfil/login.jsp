@@ -68,17 +68,6 @@
                                 </div>
 
                                 <form class="row g-3 needs-validation" novalidate action="${mvc.basePath}/usuario/login" method="post">
-                                    <c:if test="${not empty error.errores}">
-                                        <div class="alert alert-danger">
-                                            <h4>Lista de errores</h4>
-                                            <dl>
-                                                <c:forEach var="err" items="${error.errores}">
-                                                    <dt>${err.getParamName()}</dt>
-                                                    <dd>${err.getMessage()}</dd>
-                                                </c:forEach>
-                                            </dl>
-                                        </div>
-                                    </c:if>
                                     <div class="col-12">
                                         <label for="email" class="form-label">Email</label>
                                         <div class="input-group has-validation">

@@ -11,15 +11,19 @@ import jakarta.mvc.Models;
 import jakarta.mvc.binding.BindingResult;
 import jakarta.mvc.binding.ParamError;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.executable.ExecutableType;
 import jakarta.validation.executable.ValidateOnExecution;
 import jakarta.ws.rs.*;
 import jdk.swing.interop.SwingInterOpUtils;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.swing.text.html.Option;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,33 +51,32 @@ public class ReservaController {
     SalaService salaService;
 
     @Inject
+    HttpServletRequest request;
+
+    @Inject
     AsientoReservadoService asientoReservadoService;
 
     @Inject
     ProyeccionService proyeccionService;
 
-    @Inject
-    private BindingResult bindingResult;
 
     @Inject
     private Mensaje mensaje;
 
-    @Inject
-    private Errores errores;
 
     @GET
     @Path("pelicula/{id}")
     public String paso1(@PathParam("id") Long id) {
         Optional<Proyeccion> proyeccion = proyeccionService.buscarPorId(id);
-
-        if (!proyeccion.isPresent()){
+        if (proyeccion.isEmpty()){
             models.put("mensajeError", "Hubo un problema con su reserva, inténtelo más tarde");
             return "redirect:pelicula";
         }
-
         models.put("proyeccion", proyeccion.get());
         return "reserva/paso-1";
     }
+
+//TODO BORRAR ESTO y el método de servicio que usa
 
     @GET
     @Path("sala/{id}")
@@ -89,39 +92,42 @@ public class ReservaController {
 
     @POST
     @Path("paso2")
-    public String paso1Submit(@FormParam("id") Long id, @FormParam("email") String email,
-                        @FormParam("psswd") String psswd) {
+    public String paso1Submit(@FormParam("id") Long id) {
+        //comprobamos si está loggeado (si no lo está, le redigirá automáticamente a login)
+        Cliente cliente = compruebaSesion();
+        if (cliente == null)
+            return "redirect:usuario";
+
         Reserva reserva = new Reserva();
         Optional<Proyeccion> proyeccion = proyeccionService.buscarPorId(id);
         if (proyeccion.isEmpty()){
             mensaje.setTexto("Hubo un problema con su reserva, inténtelo más tarde");
             return "reserva/paso-1";
         }
-        models.put("asientosOcupados", asientoReservadoService.sacarEstadosAsientos(proyeccion.get()));
+
+        //actualizamos la reserva
         reserva.setProyeccion(proyeccion.get());
         reserva.setPagada(false);
         reserva.setActiva(true);
         reserva.setReservada(false);
         reserva.setPrecio(0F);
 
-        //si no encontramos los datos del cliente, volvemos al paso 1
-        if (!clienteService.logear(email, psswd)){
-            models.put( "proyeccion", proyeccion.get());
-            mensaje.setTexto("Email o contraseña no válidos");
-            return "reserva/paso-1";
-        }
-        Cliente cliente = clienteService.buscarPorEmail(email);
+
+        //configuramos los datos que necesitaremos
         reserva.setCliente(cliente);
+        models.put("asientosOcupados", asientoReservadoService.sacarEstadosAsientos(proyeccion.get()));
         models.put("precio", "8.5");
 
         //guardamos la reserva
         try {
             reservaService.guardar(reserva);
+            HttpSession session = request.getSession();
+            session.setAttribute("reservaId", reserva.getId());
             models.put("reserva", reserva);
             return "reserva/paso-2";
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            mensaje.setTexto("Ocurrió un error y la reserva "+ e +" " + reserva.getId() + " no se pudo realizar.");
+            mensaje.setTexto("Ocurrió un error y la reserva no se pudo realizar.");
             return "reserva/paso-1";
         }
     }
@@ -129,14 +135,23 @@ public class ReservaController {
 
     @POST
     @Path("paso3")
-    public String paso2Submit(@FormParam("reserva") Long reservaId, @FormParam("precio") String precio,
-                        @FormParam("ids") String idsSeats) {
-        Optional<Reserva> reservaOpt = reservaService.buscarPorId(reservaId);
-        if (reservaOpt.isEmpty()){
+    public String paso2Submit(@FormParam("precio") String precio, @FormParam("ids") String idsSeats) {
+        Cliente cliente = compruebaSesion();
+        if (cliente == null)
+            return "redirect:usuario";
+        HttpSession session = request.getSession();
+        Reserva reserva ;
+        try {
+            Optional<Reserva> reservaOpt = reservaService.buscarPorId(Long.parseLong(session.getAttribute("reservaId").toString()));
+            if (reservaOpt.isEmpty()) {
+                mensaje.setTexto("Hubo un problema con su reserva, inténtelo más tarde");
+                return "reserva/paso-2";
+            }
+            reserva = reservaOpt.get();
+        } catch (NullPointerException n){
             mensaje.setTexto("Hubo un problema con su reserva, inténtelo más tarde");
             return "reserva/paso-2";
         }
-        Reserva reserva = reservaOpt.get();
         models.put("asientosOcupados", asientoReservadoService.sacarEstadosAsientos(reserva.getProyeccion()));
         if (idsSeats == null || idsSeats.equals("")){
             mensaje.setTexto("Debe seleccionar al menos un asiento");
@@ -144,21 +159,20 @@ public class ReservaController {
             return "reserva/paso-2";
         }
         models.put("precio", "8.5");
+        //comprueba si cliente de la reserva es igual al de la sesión
+        if (!Objects.equals(cliente.getId(), reserva.getCliente().getId())){
+            mensaje.setTexto("Hubo un error con su reserva, inténtelo de nuevo más tarde");
+            return "redirect:reserva/paso-1/"+reserva.getProyeccion().getId();
+        }
 
         reserva.setPrecio(Float.valueOf(precio));
         reserva.setReservada(true);
         reservaService.guardar(reserva);
         models.put("reserva", reserva);
 
-        System.out.println(idsSeats);
-
         String[] sitios = idsSeats.trim().replaceAll(" ", "").split(",");
-
-        //lista de asientos reservados (hay que asocierlo a asientoreservado) -> método de Reservade asiento
-
+        //lista de asientos reservados (hay que asociarlo a asientoreservado) -> método de Reserva de asiento
         List<Asiento> asientos = new ArrayList<>();
-
-        System.out.println("Num sitios: "+sitios.length);
 
         for (String id: sitios) {
             Asiento asientoTemp = asientoService.buscarPorName(id);
@@ -190,20 +204,35 @@ public class ReservaController {
     @POST
     @Path("/pagada")
     @ValidateOnExecution(type = ExecutableType.NONE)
-    public String nuevaSubmit(@FormParam("num-tarjeta") String numTarj, @FormParam("cc-cvv") String numCvv,
-                              @FormParam("reserva") Long idReserva) {
-        Optional<Reserva> reservaOpt = reservaService.buscarPorId(idReserva);
-        if (reservaOpt.isEmpty()){
+    public String nuevaSubmit(@FormParam("num-tarjeta") String numTarj, @FormParam("cc-cvv") String numCvv) {
+        HttpSession session = request.getSession();
+        Reserva reserva ;
+        try {
+            Optional<Reserva> reservaOpt = reservaService.buscarPorId(Long.parseLong(session.getAttribute("reservaId").toString()));
+            if (reservaOpt.isEmpty()) {
+                mensaje.setTexto("Hubo un problema con su reserva, inténtelo más tarde");
+                return "reserva/paso-3";
+            }
+            reserva = reservaOpt.get();
+        } catch (NullPointerException n){
             mensaje.setTexto("Hubo un problema con su reserva, inténtelo más tarde");
             return "reserva/paso-3";
         }
-        Reserva reserva = reservaOpt.get();
+
+        Cliente cliente = compruebaSesion();
+        if (cliente == null)
+            return "redirect:usuario";
+        //comprueba si cliente de la reserva es igual al de la sesión
+        if (!Objects.equals(cliente.getId(), reserva.getCliente().getId())){
+            mensaje.setTexto("Hubo un error con su reserva, inténtelo de nuevo más tarde");
+            return "redirect:reserva/paso-1/"+reserva.getProyeccion().getId();
+        }
+
         if (numTarj == null){
             mensaje.setTexto("Debe introducir el número de su tarjeta");
             models.put("reserva", reserva);
             return "reserva/paso-3";
-        }
-        if (!validateCreditCard(numTarj, numCvv)){
+        }else if (!validateCreditCard(numTarj, numCvv)){
             mensaje.setTexto("Debe introducir un número de tarjeta válido");
             models.put("reserva", reserva);
             return "reserva/paso-3";
@@ -215,7 +244,6 @@ public class ReservaController {
 
         try {
             reservaService.guardar(reserva);
-
             mensaje.setTexto("La reserva de " + reserva.getProyeccion().getPelicula().getTitulo() + " se guardó satisfactoriamente ! ");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -223,8 +251,9 @@ public class ReservaController {
             return "reserva/paso-3";
         }
         models.put("reserva", reservaService.findReservas(reserva.getCliente().getId()));
+        session.removeAttribute("reservaId");
 
-        return "perfil/perfil";
+        return "redirect:usuario/perfil";
     }
     private Boolean validateCreditCard(String card, String cvc) {
         //12345678903555 is a valid credit card number
@@ -258,18 +287,21 @@ public class ReservaController {
         return sum % 10 == 0 && m.matches();
     }
 
+    //TODO: que pase el enlace de donde qeuría ir (id de peli para reservar)
+     //           mensaje.setTexto("Debe entrar en su cuenta antes de hacer una reserva");
 
-        private void setErrores() {
-        errores.setErrores(bindingResult.getAllErrors()
-                .stream()
-                .collect(toList()));
+
+    private Cliente compruebaSesion(){
+        Cliente cliente;
+        try {
+            HttpSession session = request.getSession();
+            Optional<Cliente> clienteOpt = clienteService.buscarPorId(Long.parseLong(session.getAttribute("clienteId").toString()));
+            if (clienteOpt.isEmpty())
+                return null;
+            cliente = clienteOpt.get();
+        } catch (NullPointerException n){
+            return null;
+        }
+        return cliente;
     }
-
-    private void logErrores() {
-        bindingResult.getAllErrors()
-                .stream()
-                .forEach((ParamError t) ->
-                        log.debug("Error de validación: {} {}", t.getParamName(), t.getMessage()));
-    }
-
 }

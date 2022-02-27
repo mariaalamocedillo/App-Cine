@@ -46,6 +46,7 @@
                     <th scope="col">Titulo</th>
                     <th scope="col">Director</th>
                     <th scope="col">Estudio</th>
+                    <th scope="col">Num proyecciones</th>
                     <th scope="col">Acciones</th>
                     <th scope="col">Proyecciones</th>
                 </tr>
@@ -57,12 +58,21 @@
                         <td>${peli.titulo}</td>
                         <td>${peli.director}</td>
                         <td>${peli.estudio}</td>
+                        <td>${peli.getProyecciones().size()}</td>
                         <td>
                             <a href="${mvc.basePath}/pelicula/admin/borrar/${peli.id}" class="text-light"><button class="btn btn-danger">Borrar</button></a>
                             <a href="${mvc.basePath}/pelicula/admin/editar/${peli.id}" class="text-light"><button class="btn btn-info">Editar</button></a>
                         </td>
                         <td>
-                            <a href="${mvc.basePath}/admin/proyeccion/nueva/${peli.id}" class="text-light"><button class="col btn btn-info mt-2 ml-2" id="submit" type="submit">Crear proyección</button></a>
+                            <c:choose>
+                                <c:when test = "${peli.enProyeccion ==true}">
+                                    <a href="${mvc.basePath}/admin/proyeccion/nueva/${peli.id}" class="text-light"><button class="col btn mt-2 ml-2 btn-info" value="${peli.enProyeccion}" type="submit">Crear proyección</button></a>
+                                </c:when>
+                                <c:otherwise>
+                                    <button class="col btn mt-2 ml-2 btn-outline-danger" value="${peli.enProyeccion}" disabled type="submit">No proyectando</button>
+                                </c:otherwise>
+                            </c:choose>
+
                         </td>
                     </tr>
                 </c:forEach>

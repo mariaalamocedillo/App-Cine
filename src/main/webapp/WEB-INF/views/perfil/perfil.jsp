@@ -95,13 +95,18 @@
 
                         </ul>
                         <div class="tab-content pt-2">
+                            <c:if test="${mensaje.texto != null}">
+                                <div class="col-md-12">
+                                    <p class="alert alert-success" id="success-alert">${mensaje.texto}</p>
+                                </div>
+                            </c:if>
 
                             <div class="tab-pane fade show active profile-overview" id="reservas-activas">
                                 <h5 class="card-title">Reservas no canjeadas</h5>
                         <c:if test="${not empty reservas}">
                             <c:forEach var="reserva" items="${reservas}">
                                 <div class="card mb-3">
-                                    <div class="row g-0 mb-0">
+                                    <div class="row g-0 mb-0"><%--TODO CAMBIAR LOS METODOS POR ACCESO TIPO OBJETO--%>
                                         <div class="col-md-4 box">
                                             <img src="${reserva.getProyeccion().getPelicula().getPoster()}" class="figure-img img-fluid rounded rounded-start" alt="...">
                                         </div>
@@ -156,7 +161,7 @@
                             <div class="tab-pane fade profile-edit pt-3" id="reservas-antiguas">
                                 <h5 class="card-title">Reservas ya canjeadas</h5>
                                 <c:if test="${not empty reservasAntiguas}">
-                                    <c:forEach var="reserva" items="${reservas}">
+                                    <c:forEach var="reserva" items="${reservasAntiguas}">
                                         <div class="card mb-3">
                                             <div class="row g-0 mb-0">
                                                 <div class="col">

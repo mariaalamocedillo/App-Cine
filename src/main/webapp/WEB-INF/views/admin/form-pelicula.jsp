@@ -35,7 +35,7 @@
   <section class="section">
     <div class="row">
       <div class="col-lg-6 justify-content-between m-auto">
-        <c:if test="${not empty error.errores}}">
+        <c:if test="${not empty error.errores}">
           <div class="row">
             <div class="col-md-12">
               <p class="alert alert-danger">${error.errores}</p>

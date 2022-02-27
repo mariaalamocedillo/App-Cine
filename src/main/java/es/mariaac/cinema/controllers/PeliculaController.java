@@ -2,12 +2,11 @@ package es.mariaac.cinema.controllers;
 
 import es.mariaac.cinema.entities.Pelicula;
 import es.mariaac.cinema.services.PeliculaService;
+import es.mariaac.cinema.services.ProyeccionService;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
 import jakarta.mvc.Models;
-import jakarta.mvc.binding.BindingResult;
-import jakarta.mvc.binding.ParamError;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.executable.ExecutableType;
 import jakarta.validation.executable.ValidateOnExecution;
@@ -15,8 +14,6 @@ import jakarta.ws.rs.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
-
-import static java.util.stream.Collectors.toList;
 
 @Slf4j
 @Path("/pelicula")
@@ -30,13 +27,11 @@ public class PeliculaController {
     PeliculaService peliculaService;
 
     @Inject
-    private BindingResult bindingResult;
+    private ProyeccionService proyeccionService;
+
 
     @Inject
     private Mensaje mensaje;
-
-    @Inject
-    private Errores errores;
 
 
     @GET
@@ -69,7 +64,7 @@ public class PeliculaController {
         if (pelicula.isPresent()) {
             models.put("pelicula", pelicula.get());
             models.put("organizacionProyecciones", peliculaService.proyeccionesDias(pelicula.get()));
-            models.put("proyecciones", pelicula.get().getProyecciones());
+            models.put("proyecciones", proyeccionService.findActualId(pelicula.get().getId()));
             return "detalle-pelicula";
         }
         return "redirect:pelicula";
@@ -94,11 +89,8 @@ public class PeliculaController {
 
         Optional<Pelicula> peliculaOpt = peliculaService.buscarPorId(id);
         Pelicula pelicula;
-        if (peliculaOpt.isPresent()){   //nueva
-            pelicula = peliculaOpt.get();
-        } else {
-            pelicula = new Pelicula();
-        }
+        //nueva
+        pelicula = peliculaOpt.orElseGet(Pelicula::new);
         pelicula.setDescripcion(descripcion);
         pelicula.setTitulo(titulo);
         pelicula.setDirector(director);
@@ -106,11 +98,7 @@ public class PeliculaController {
         pelicula.setDuracion(duracion);
         pelicula.setPoster(poster);
         System.out.println("--------------------------" + enProyeccion);
-        if (enProyeccion != null) {
-            pelicula.setEnProyeccion(true);
-        } else {
-            pelicula.setEnProyeccion(false);
-        }
+        pelicula.setEnProyeccion(enProyeccion != null);
 
         try {
             peliculaService.guardar(pelicula);
@@ -153,19 +141,6 @@ public class PeliculaController {
         }
 
         return "redirect:pelicula/admin";
-    }
-
-    private void setErrores() {
-        errores.setErrores(bindingResult.getAllErrors()
-                .stream()
-                .collect(toList()));
-    }
-
-    private void logErrores() {
-        bindingResult.getAllErrors()
-                .stream()
-                .forEach((ParamError t) ->
-                        log.debug("Error de validación: {} {}", t.getParamName(), t.getMessage()));
     }
 
 }

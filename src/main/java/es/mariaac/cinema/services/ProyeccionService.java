@@ -18,8 +18,6 @@ import java.util.Optional;
 public class ProyeccionService {
     @Inject
     ProyeccionRepository proyeccionRepository;
-    @Inject
-    AsientoReservadoService asientoReservadoService;
 
     @Resource
     UserTransaction transaction;
@@ -33,6 +31,8 @@ public class ProyeccionService {
     }
 
     public List<Proyeccion> findProyectandoActual(){return proyeccionRepository.findProyectandoActual();}
+
+    public List<Proyeccion> findActualId(Long id){return proyeccionRepository.findActualId(id);}
 
     public Proyeccion guardar(Proyeccion proyeccion)  throws SystemException {
         log.debug("Guardando pregunta y sus relaciones asociadas");

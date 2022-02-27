@@ -18,7 +18,27 @@
     <link href="${pageContext.request.contextPath}/resources/assets/css/style.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Prompt:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Praise&display=swap" rel="stylesheet">
+    <style>
+        .box{
+            width: 415px;
+            height: 616px;
+            background: #CCC;
+            overflow: hidden;
+        }
+
+        .box img{
+            width: 100%;
+            height: auto;
+        }
+        @supports(object-fit: cover){
+            .box img{
+                height: 100%;
+                object-fit: cover;
+                object-position: center center;
+            }
+        }
+    </style>
 
 </head>
 
@@ -30,7 +50,7 @@
 
     <section class="jumbotron text-center">
         <div class="container">
-            <h1 class="h-50" style="font-family: 'Creepster', cursive; font-size: 150px;">Cines Petri®</h1>
+            <h1 class="h-50" style="font-family: 'Praise', cursive; font-size: 150px;">Cines Petri®</h1>
             <p>
                 <a href="${mvc.basePath}/pelicula/proyectando" class="btn btn-primary my-2">Películas en proyección</a>
                 <a href="${mvc.basePath}/pelicula/" class="btn btn-secondary my-2">Explorar todas las películas</a>
@@ -47,7 +67,7 @@
                     <c:forEach var="pelicula" items="${peliculas}">
                         <div class="col-md-4">
                             <div class="card mb-4 box-shadow">
-                                <div class="embed-responsive embed-responsive-16by9">
+                                <div class="embed-responsive embed-responsive-16by9 box">
                                     <img class="card-img-top embed-responsive-item" src="${pelicula.poster}" onerror="this.onerror=null; this.src='https://pro2-bar-s3-cdn-cf4.myportfolio.com/103d250a-40b3-4687-9be6-19619654b2bb/5b2dc8f9-8c14-470a-8b49-8ab9841e9e3b_rw_1920.jpg?h=e4b97e8d665ee793187594b165c2e34a'" alt="Card image cap">
                                 </div>
                                 <div class="card-body">
@@ -58,7 +78,7 @@
                                                 <a href="${mvc.basePath}/pelicula/${pelicula.id}"><button type="button" class="btn btn-sm btn-outline-secondary bg-info text-white">Horarios</button></a>
                                             </c:if>
                                             <c:if test="${!pelicula.enProyeccion}">
-                                                <button type="button" class="btn btn-sm btn-outline-secondary" disabled>No proyectando</button>
+                                                <button type="button" class="btn btn-sm btn-outline-secondary">No proyectando | Ver info</button>
                                             </c:if>
 
                                         </div>

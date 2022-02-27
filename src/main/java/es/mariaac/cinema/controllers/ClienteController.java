@@ -9,8 +9,6 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
 import jakarta.mvc.Models;
-import jakarta.mvc.binding.BindingResult;
-import jakarta.mvc.binding.ParamError;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -20,9 +18,9 @@ import jakarta.ws.rs.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
+import java.util.Objects;
 import java.util.Optional;
 
-import static java.util.stream.Collectors.toList;
 
 @Slf4j
 @Path("/usuario")
@@ -42,58 +40,61 @@ public class ClienteController {
     HttpServletRequest request;
 
     @Inject
-    private BindingResult bindingResult;
-
-    @Inject
     private Mensaje mensaje;
-
-    @Inject
-    private Errores errores;
 
     @GET
     @Path("/")
-    public String index() {
-        return "perfil/login";
-    }
+    public String index() {return "perfil/login";}
 
     @POST
     @Path("login")
     public String login(@FormParam("email") String email, @FormParam("contrasena") String psswd) {
         if (clienteService.logear(email, psswd)) {
-            models.put("reservas", reservaService.findReservas(clienteService.buscarPorEmail(email).getId()));
-            models.put("reservasAntiguas", reservaService.findReservasAntiguas(clienteService.buscarPorEmail(email).getId()));
-            models.put("cliente", clienteService.buscarPorEmail(email));
-            //HttpSession session = request.getSession();
-            //session.setAttribute("cliente", clienteService.buscarPorEmail(email).getId());
-            return "perfil/perfil";
+            HttpSession session = request.getSession();
+            session.setAttribute("clienteId", clienteService.buscarPorEmail(email).getId());
+            session.setAttribute("clienteName", clienteService.buscarPorEmail(email).getNombre());
+            return "redirect:usuario/perfil";
         } else{
-            models.put("mensajeError", "Nombre de usuario o contraseña inválido");
+            mensaje.setTexto("Nombre de usuario o contraseña inválido");
             return "perfil/login";
         }
     }
-    @POST
+    @GET
     @Path("logout")
     public String logout() {
-        //HttpSession session = request.getSession();
-        //session.invalidate();
-        return "perfil/login";
+        HttpSession session = request.getSession();
+        session.invalidate();
+        return "redirect:usuario";
     }
 
     @GET
     @Path("perfil")
     public String perfil() {
-        HttpSession session = request.getSession();
-        Optional<Cliente> cliente = clienteService.buscarPorId(Long.parseLong(session.getAttribute("cliente").toString()));
-        if (cliente.isPresent()) {
-            models.put("cliente", cliente.get());
-            return "perfil/signup";
+        try {
+            HttpSession session = request.getSession();
+            Optional<Cliente> cliente = clienteService.buscarPorId(Long.parseLong(session.getAttribute("clienteId").toString()));
+            if (cliente.isPresent()) {
+                models.put("cliente", cliente.get());
+                models.put("reservas", reservaService.findReservas(cliente.get().getId()));
+                models.put("reservasAntiguas", reservaService.findReservasAntiguas(cliente.get().getId()));
+                return "perfil/perfil";
+            }
+        } catch (NullPointerException ignored){
         }
-        return "redirect:login";
+        return "redirect:usuario";
     }
 
     @GET
     @Path("registro")
     public String nueva() {
+        try {
+            HttpSession session = request.getSession();
+            Optional<Cliente> cliente = clienteService.buscarPorId(Long.parseLong(session.getAttribute("clienteId").toString()));
+            if (cliente.isPresent()) {
+                return "redirect:usuario/perfil";
+            }
+        } catch (NullPointerException ignored){
+        }
         Cliente user = new Cliente();
         models.put("cliente", user);
         return "perfil/signup";
@@ -102,10 +103,22 @@ public class ClienteController {
     @GET
     @Path("canjeo/{id}")
     public String canjeo(@PathParam("id") Long id) {
-        //TODO comprobar que la reserva es del cliente loggeado por sesion y que hay una sesion
+        Cliente cliente;
+        try {
+            HttpSession session = request.getSession();
+            Optional<Cliente> clienteOpt = clienteService.buscarPorId(Long.parseLong(session.getAttribute("clienteId").toString()));
+            cliente = clienteOpt.orElseGet(Cliente::new);
+            if (clienteOpt.isEmpty()){
+                return "redirect:usuario";
+            }
+        } catch (NullPointerException ignored){
+            return "redirect:usuario";
+        }
         Optional<Reserva> reserva = reservaService.buscarPorId(id);
         if (reserva.isEmpty())
-            return "redirect:perfil";
+            return "redirect:usuario/perfil";
+        if (!Objects.equals(reserva.get().getCliente().getId(), cliente.getId()))
+            return "redirect:usuario/logout";
 
         TestQRCode qr = new TestQRCode();
 
@@ -116,18 +129,12 @@ public class ClienteController {
         String text = "Reserva num.: " + id +
                 " Sala: " + reserva.get().getProyeccion().getSala().getId()+
                 "Num. asientos: " + reserva.get().getAsientos().size();
-
-
         try {
-
             qr.generateQR(f, text, 300, 300);
             System.out.println("QRCode Generated: " + f.getAbsolutePath());
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        models.put("qr-img", f);
         models.put("reserva", reserva.get());
         return "reserva/canjeo";
     }
@@ -153,26 +160,11 @@ public class ClienteController {
             mensaje.setTexto("Ocurrió un error y la cuenta de " + cliente.getEmail() + " (" + cliente.getNombre() + ") no se pudo almacenar.");
             return "perfil/signup";
         }
-        //HttpSession session = request.getSession();
-        //session.setAttribute("cliente", clienteService.buscarPorEmail(email).getId());
+        HttpSession session = request.getSession();
+        session.setAttribute("clienteId", clienteService.buscarPorEmail(email).getId());
+        session.setAttribute("clienteName", clienteService.buscarPorEmail(email).getNombre());
 
         return "perfil/perfil";
-    }
-
-
-
-
-    private void setErrores() {
-        errores.setErrores(bindingResult.getAllErrors()
-                .stream()
-                .collect(toList()));
-    }
-
-    private void logErrores() {
-        bindingResult.getAllErrors()
-                .stream()
-                .forEach((ParamError t) ->
-                        log.debug("Error de validación: {} {}", t.getParamName(), t.getMessage()));
     }
 
 }

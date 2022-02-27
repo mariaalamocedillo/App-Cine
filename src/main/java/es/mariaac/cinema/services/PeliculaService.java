@@ -3,6 +3,7 @@ package es.mariaac.cinema.services;
 import es.mariaac.cinema.entities.Pelicula;
 import es.mariaac.cinema.entities.Proyeccion;
 import es.mariaac.cinema.repositories.PeliculaRepository;
+import es.mariaac.cinema.repositories.ProyeccionRepository;
 import jakarta.annotation.Resource;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -18,6 +19,8 @@ import java.util.*;
 public class PeliculaService {
     @Inject
     PeliculaRepository peliculaRepository;
+    @Inject
+    ProyeccionRepository proyeccionRepository;
     @Resource
     UserTransaction transaction;
 
@@ -50,7 +53,7 @@ public class PeliculaService {
     }
 
     public HashMap<LocalDate, List<Long>> proyeccionesDias(Pelicula pelicula){
-        List<Proyeccion> proyecciones = pelicula.getProyecciones();
+        List<Proyeccion> proyecciones = proyeccionRepository.findActualId(pelicula.getId());
         List<LocalDate> dias =  new ArrayList<>();
         List<Long> ids;
         HashMap<LocalDate, List<Long>> resultados = new HashMap<>();

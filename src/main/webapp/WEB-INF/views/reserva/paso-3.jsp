@@ -96,7 +96,7 @@
                                                 <div class="row">
                                                     <div class="col-md-6 mb-3">
                                                         <label for="cc-name">Nombre completo</label>
-                                                        <input type="text" class="form-control" id="cc-name" placeholder="" required="">
+                                                        <input type="text" class="form-control" id="cc-name" value="${clienteName}" placeholder="" required="">
                                                         <small class="text-muted"></small>
                                                         <div class="invalid-feedback">
                                                             El nombre es necesario

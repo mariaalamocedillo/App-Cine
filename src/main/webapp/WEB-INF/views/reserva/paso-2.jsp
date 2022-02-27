@@ -171,7 +171,6 @@
                                             </c:if>
 
                                             <form action="${mvc.basePath}/reserva/paso3" method="post">
-                                                <input type="text" name="reserva" value="${reserva.id}" hidden>
                                                 <input type="text" id="ids" name="ids" hidden/>
                                                 <input type="text" id="totalForm" name="precio" hidden/>
                                                 <input type="submit" class="btn btn-primary text-light" value="Siguiente">

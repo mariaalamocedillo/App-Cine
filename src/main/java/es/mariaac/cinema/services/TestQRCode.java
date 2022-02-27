@@ -38,25 +38,5 @@ public class TestQRCode {
 
     }
 
-/*
-    public String decoder(File file) throws Exception {
-
-        FileInputStream inputStream = new FileInputStream(file);
-
-        BufferedImage image = ImageIO.read(inputStream);
-
-        int width = image.getWidth();
-        int height = image.getHeight();
-        int[] pixels = new int[width * height];
-
-        LuminanceSource source = new BufferedImageLuminanceSource(image);
-        BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
-
-        // decode the barcode
-        QRCodeReader reader = new QRCodeReader();
-        Result result = reader.decode(bitmap);
-        return new String(result.getText());
-    }
-*/
 }
 

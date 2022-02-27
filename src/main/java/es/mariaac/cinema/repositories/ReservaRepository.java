@@ -14,7 +14,7 @@ public abstract class ReservaRepository extends AbstractFullEntityRepository<Res
     public abstract List<Reserva> findReservas(Long id);
 
     @Query("select r from Reserva r where cliente.id = ?1 " +
-            "and proyeccion.dia < current_date")
+            "and proyeccion.dia < current_date and pagada = true")
     public abstract List<Reserva> findReservasAntiguas(Long id);
 
 }
