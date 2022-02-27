@@ -106,16 +106,16 @@
                         <c:if test="${not empty reservas}">
                             <c:forEach var="reserva" items="${reservas}">
                                 <div class="card mb-3">
-                                    <div class="row g-0 mb-0"><%--TODO CAMBIAR LOS METODOS POR ACCESO TIPO OBJETO--%>
+                                    <div class="row g-0 mb-0">
                                         <div class="col-md-4 box">
-                                            <img src="${reserva.getProyeccion().getPelicula().getPoster()}" class="figure-img img-fluid rounded rounded-start" alt="...">
+                                            <img src="${reserva.proyeccion.pelicula.getPoster()}" class="figure-img img-fluid rounded rounded-start" alt="...">
                                         </div>
                                         <div class="col">
                                             <div class="card-body">
                                                 <h5 class="card-title">Reserva para <a href="${mvc.basePath}/pelicula/${reserva.proyeccion.pelicula.id}">${reserva.proyeccion.pelicula.titulo}</a></h5>
                                                 <div class="row">
                                                     <div class="col-lg-3 col-md-4 label ">Día</div>
-                                                    <div class="col-lg-6 col-md-4">${reserva.getProyeccion().getDia()}</div>
+                                                    <div class="col-lg-6 col-md-4">${reserva.proyeccion.getDia()}</div>
                                                     <div class="col-lg-3 col-md-4">
                                                         <a href="${mvc.basePath}/usuario/canjeo/${reserva.id}"><button class="btn btn-info text-light">Canjear</button></a>
                                                     </div>
@@ -123,24 +123,24 @@
 
                                                 <div class="row">
                                                     <div class="col-lg-3 col-md-4 label ">Comienzo</div>
-                                                    <div class="col-lg-9 col-md-8">${reserva.getProyeccion().getComienzo()}</div>
+                                                    <div class="col-lg-9 col-md-8">${reserva.proyeccion.comienzo}</div>
                                                 </div>
 
                                                 <div class="row">
                                                     <div class="col-lg-3 col-md-4 label ">Duración</div>
-                                                    <div class="col-lg-9 col-md-8">${reserva.getProyeccion().getPelicula().getDuracion()} mins</div>
+                                                    <div class="col-lg-9 col-md-8">${reserva.proyeccion.pelicula.duracion} mins</div>
                                                 </div>
 
                                                 <div class="row">
                                                     <div class="col-lg-3 col-md-4 label ">Sala</div>
-                                                    <div class="col-lg-9 col-md-8">${reserva.getProyeccion().getSala().getNombre()}</div>
+                                                    <div class="col-lg-9 col-md-8">${reserva.proyeccion.sala.nombre}</div>
                                                 </div>
 
                                                 <div class="row">
                                                     <div class="col-lg-3 col-md-4 label">Asientos</div>
                                                     <div class="col-lg-9 col-md-8">
                                                         <c:forEach var="reservado" items="${reserva.getAsientos()}">
-                                                            <span>${reservado.getAsiento().getName()}</span>
+                                                            <span>${reservado.asiento.getName()}</span>
                                                         </c:forEach>
                                                     </div>
                                                 </div>

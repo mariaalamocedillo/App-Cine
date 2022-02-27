@@ -66,3 +66,8 @@ Tras el pago, se actualiza la reserva como pagada y se dirige al perfil del usua
 ***
 ## REST API
 Respecto al servicio rest, se puede consultar los datos de una película, junto con sus proyecciones accediendo a [este enlace](http://localhost:8080/cinema/mvc/api/pelicula/3). Para mostrar los datos de las proyecciones (relacion many-to-many) se necesitaron las anotaciones de `@JsonManagedReference` en el listado de proyecciones de la entidad película y la anotación de `@JsonBackReference` en el id de la película en la entidad proyección. También se usó la anotación de `@JsonRawValue` en la hora y dia de la proyección amostrar, puesto que el uso de variables de tipo fecha y hora entraba en conflicto al transformar en JSON; con esta anotación simplemente la escribe 'a pelo' (sin comillas). También se puso un `@JsonIgnore` en la entidad de sala, en la lista de asientos, puesto que no es relevante a la hora de mostrar la información de una proyección de la película (todas las salas tienen los mismos; solo nos interesa el nombre e id, incluso sobraría el nombre).
+
+#Problemas encontrados
+- En la página de detalle de película, con ciertas películas al abrir el desplegable de acordeón, el póster y la tarjeta se mueve de forma extraña.
+- No conseguí crear una forma segura de acceder a la parte de administración; la única opción rápida sería una tabla de usuarios administradores, pero no lo ví necesario dada la embergadura del proyecto
+

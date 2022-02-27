@@ -159,7 +159,6 @@ public class ClienteController {
 
         try {
             clienteService.guardar(cliente);
-            mensaje.setTexto("La cuenta de " + cliente.getEmail() + " se creó satisfactoriamente ! ");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             mensaje.setTexto("Ocurrió un error y la cuenta de " + cliente.getEmail() + " (" + cliente.getNombre() + ") no se pudo almacenar.");
@@ -174,6 +173,7 @@ public class ClienteController {
             session.removeAttribute("rutaOrigen");
             return rutaOrigen;
         }
+        mensaje.setTexto("La cuenta de " + cliente.getEmail() + " se creó satisfactoriamente ! ");
         return "perfil/perfil";
     }
 
