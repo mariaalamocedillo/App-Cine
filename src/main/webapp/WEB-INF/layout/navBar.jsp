@@ -13,7 +13,7 @@
     <div class="d-flex align-items-center justify-content-between">
         <a href="${mvc.basePath}/pelicula" class="logo d-flex align-items-center">
             <img src="${pageContext.request.contextPath}/resources/assets/img/logo.png" alt="">
-            <span>Cines Petri</span>
+            <span class="fontPraise">Cines Petri</span>
         </a>
     </div><!-- End Logo -->
 
@@ -23,7 +23,7 @@
 
             <li class="nav-item ">
                 <a class="nav-link nav-icon search-bar-toggle " href="${mvc.basePath}/pelicula">
-                    <i class="bi bi-film"></i> Películas
+                    Películas
                 </a>
             </li>
 

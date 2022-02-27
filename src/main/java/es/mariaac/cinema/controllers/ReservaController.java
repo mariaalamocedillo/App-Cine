@@ -68,10 +68,8 @@ public class ReservaController {
     @Path("pelicula/{id}")
     public String paso1(@PathParam("id") Long id) {
         Optional<Proyeccion> proyeccion = proyeccionService.buscarPorId(id);
-        if (proyeccion.isEmpty()){
-            models.put("mensajeError", "Hubo un problema con su reserva, inténtelo más tarde");
+        if (proyeccion.isEmpty())
             return "redirect:pelicula";
-        }
         models.put("proyeccion", proyeccion.get());
         return "reserva/paso-1";
     }
@@ -94,24 +92,25 @@ public class ReservaController {
     @Path("paso2")
     public String paso1Submit(@FormParam("id") Long id) {
         //comprobamos si está loggeado (si no lo está, le redigirá automáticamente a login)
-        Cliente cliente = compruebaSesion();
-        if (cliente == null)
-            return "redirect:usuario";
-
-        Reserva reserva = new Reserva();
         Optional<Proyeccion> proyeccion = proyeccionService.buscarPorId(id);
         if (proyeccion.isEmpty()){
-            mensaje.setTexto("Hubo un problema con su reserva, inténtelo más tarde");
+            mensaje.setTexto("Parece que hubo un problema con su reserva, inténtelo más tarde");
             return "reserva/paso-1";
         }
+        Cliente cliente = compruebaSesion();
+        if (cliente == null) {
+            HttpSession session = request.getSession();
+            session.setAttribute("rutaOrigen", "redirect:reserva/pelicula/" + proyeccion.get().getId());
+            return "redirect:usuario";
+        }
 
+        Reserva reserva = new Reserva();
         //actualizamos la reserva
         reserva.setProyeccion(proyeccion.get());
         reserva.setPagada(false);
         reserva.setActiva(true);
         reserva.setReservada(false);
         reserva.setPrecio(0F);
-
 
         //configuramos los datos que necesitaremos
         reserva.setCliente(cliente);
@@ -190,7 +189,7 @@ public class ReservaController {
         //guardamos la reserva
         try {
             reservaService.guardar(reserva);
-            models.put("entradas", asientos);
+            session.setAttribute("entradas", asientos);
             return "reserva/paso-3";
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -252,7 +251,7 @@ public class ReservaController {
         }
         models.put("reserva", reservaService.findReservas(reserva.getCliente().getId()));
         session.removeAttribute("reservaId");
-
+        session.removeAttribute("entradas");
         return "redirect:usuario/perfil";
     }
     private Boolean validateCreditCard(String card, String cvc) {
@@ -286,10 +285,6 @@ public class ReservaController {
 
         return sum % 10 == 0 && m.matches();
     }
-
-    //TODO: que pase el enlace de donde qeuría ir (id de peli para reservar)
-     //           mensaje.setTexto("Debe entrar en su cuenta antes de hacer una reserva");
-
 
     private Cliente compruebaSesion(){
         Cliente cliente;

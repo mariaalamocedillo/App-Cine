@@ -33,13 +33,13 @@
 
 </head>
 
-<body>
+<body class="imgfondo">
 <jsp:include page="/WEB-INF/layout/navBar.jsp" ></jsp:include>
 
 <main id="main" class="main formul">
 
   <div class="pagetitle">
-    <h1>${pelicula.titulo}</h1>
+    <h1 class="text-light">${pelicula.titulo}</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="${mvc.basePath}/pelicula/">Inicio</a></li>

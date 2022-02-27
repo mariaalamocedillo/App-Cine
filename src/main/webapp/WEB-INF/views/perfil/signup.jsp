@@ -89,7 +89,7 @@
                                     <div class="col-12">
                                         <div class="form-check">
                                             <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
-                                            <label class="form-check-label" for="acceptTerms">Acepto y estoy de acuerdo con los <a href="#">términos y condiciones</a></label>
+                                            <label class="form-check-label" for="acceptTerms">Acepto y estoy de acuerdo con los <a href="${pageContext.request.contextPath}/resources/assets/img/cuckooo.webp">términos y condiciones</a></label>
                                         </div>
                                     </div>
 

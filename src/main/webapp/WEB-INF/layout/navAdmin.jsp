@@ -12,7 +12,7 @@
     <div class="d-flex align-items-center justify-content-between">
         <a href="${mvc.basePath}/pelicula" class="logo d-flex align-items-center">
             <img src="${pageContext.request.contextPath}/resources/assets/img/logo.png" alt="">
-            <span>Cines Petri</span>
+            <span class="fontPraise">Cines Petri</span>
         </a>
     </div><!-- End Logo -->
 

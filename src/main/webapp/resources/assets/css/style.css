@@ -4,6 +4,7 @@
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 */
+@import url('https://fonts.googleapis.com/css2?family=Praise&display=swap');
 
 /*--------------------------------------------------------------
 # General
@@ -329,6 +330,25 @@ h1, h2, h3, h4, h5, h6 {
   border-bottom: 2px solid #4154f1;
 }
 
+.boxCard{
+  width: 415px;
+  height: 616px;
+  background: #CCC;
+  overflow: hidden;
+}
+
+.boxCard img{
+  width: 100%;
+  height: auto;
+}
+@supports(object-fit: cover){
+  .boxCard img{
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+  }
+}
+
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
@@ -345,10 +365,9 @@ h1, h2, h3, h4, h5, h6 {
   margin-right: 6px;
 }
 .logo span {
-  font-size: 26px;
-  font-weight: 700;
+  font-size: 50px;
   color: #012970;
-  font-family: "Nunito", sans-serif;
+  font-family: 'Praise', cursive !important;
 }
 
 .header {
@@ -430,7 +449,8 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0;
 }
 .header-nav .nav-icon {
-  font-size: 20px;
+  font-family: 'Praise', cursive !important;
+  font-size: 35px;
   color: #012970;
 }
 .header-nav .nav-profile {
@@ -1081,4 +1101,8 @@ h1, h2, h3, h4, h5, h6 {
   text-align: center;
   font-size: 13px;
   color: #012970;
+}
+.fontPraise{
+  font-family: 'Praise', cursive !important;
+  font-size: 150px;
 }

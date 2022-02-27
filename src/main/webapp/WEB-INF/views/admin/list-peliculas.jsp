@@ -10,6 +10,8 @@
 
     <!-- Bootstrap -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/assets/img/favicon.png" rel="icon">
+    <link href="${pageContext.request.contextPath}/resources/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap5.min.css">
     <link href="${pageContext.request.contextPath}/resources/assets/css/style.css" rel="stylesheet">
@@ -58,7 +60,7 @@
                         <td>${peli.titulo}</td>
                         <td>${peli.director}</td>
                         <td>${peli.estudio}</td>
-                        <td>${peli.getProyecciones().size()}</td>
+                        <td>${peli.enProyeccion == false ? '-' : peli.getProyecciones().size()}</td>
                         <td>
                             <a href="${mvc.basePath}/pelicula/admin/borrar/${peli.id}" class="text-light"><button class="btn btn-danger">Borrar</button></a>
                             <a href="${mvc.basePath}/pelicula/admin/editar/${peli.id}" class="text-light"><button class="btn btn-info">Editar</button></a>

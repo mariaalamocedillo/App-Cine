@@ -101,7 +101,7 @@
                                                     </div>
                                                     <c:if test="${mensaje.texto != null}">
                                                         <div class="col-md-12">
-                                                            <p class="alert alert-danger" id="success-alert">${mensaje.texto}</p>
+                                                            <p class="alert alert-danger">${mensaje.texto}</p>
                                                         </div>
                                                     </c:if>
                                                     <div class="col-12 mt-3 text-center">

@@ -120,16 +120,16 @@
                                                     </div>
                                                     <div class="col-md-5 mb-5">
                                                         <label>CVC</label>
-                                                        <input type="number" class="form-control" name="cc-cvv" placeholder="" required="" min="1" max="999">
+                                                        <input type="number" class="form-control" name="cc-cvv" placeholder="" required="" min="1" max="9999">
                                                         <div class="invalid-feedback">
-                                                            El CVC es necesario
+                                                            El CVC debe ser entre 0 y 4 cifras
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <input type="text" name="reserva" value="${reserva.id}" hidden>
                                                 <c:if test="${mensaje.texto != null}">
                                                     <div class="col-md-12">
-                                                        <p class="alert alert-danger" id="success-alert">${mensaje.texto}</p>
+                                                        <p class="alert alert-danger">${mensaje.texto}</p>
                                                     </div>
                                                 </c:if>
                                                 <button class="btn col-5 btn-primary btn-lg btn-block" type="submit">Pagar</button>

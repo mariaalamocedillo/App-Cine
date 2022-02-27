@@ -51,8 +51,13 @@ public class ClienteController {
     public String login(@FormParam("email") String email, @FormParam("contrasena") String psswd) {
         if (clienteService.logear(email, psswd)) {
             HttpSession session = request.getSession();
-            session.setAttribute("clienteId", clienteService.buscarPorEmail(email).getId());
-            session.setAttribute("clienteName", clienteService.buscarPorEmail(email).getNombre());
+            session.setAttribute("clienteId", clienteService.buscarPorEmail(email).get().getId());
+            session.setAttribute("clienteName", clienteService.buscarPorEmail(email).get().getNombre());
+            if (session.getAttribute("rutaOrigen") != null){
+                String rutaOrigen = session.getAttribute("rutaOrigen").toString();
+                session.removeAttribute("rutaOrigen");
+                return rutaOrigen;
+            }
             return "redirect:usuario/perfil";
         } else{
             mensaje.setTexto("Nombre de usuario o contraseña inválido");
@@ -82,22 +87,6 @@ public class ClienteController {
         } catch (NullPointerException ignored){
         }
         return "redirect:usuario";
-    }
-
-    @GET
-    @Path("registro")
-    public String nueva() {
-        try {
-            HttpSession session = request.getSession();
-            Optional<Cliente> cliente = clienteService.buscarPorId(Long.parseLong(session.getAttribute("clienteId").toString()));
-            if (cliente.isPresent()) {
-                return "redirect:usuario/perfil";
-            }
-        } catch (NullPointerException ignored){
-        }
-        Cliente user = new Cliente();
-        models.put("cliente", user);
-        return "perfil/signup";
     }
 
     @GET
@@ -139,6 +128,22 @@ public class ClienteController {
         return "reserva/canjeo";
     }
 
+    @GET
+    @Path("registro")
+    public String nueva() {
+        try {
+            HttpSession session = request.getSession();
+            Optional<Cliente> cliente = clienteService.buscarPorId(Long.parseLong(session.getAttribute("clienteId").toString()));
+            if (cliente.isPresent()) {
+                return "redirect:usuario/perfil";
+            }
+        } catch (NullPointerException ignored){
+        }
+        Cliente user = new Cliente();
+        models.put("cliente", user);
+        return "perfil/signup";
+    }
+
     @POST
     @Path("/registro/submit")
     @ValidateOnExecution(type = ExecutableType.NONE)
@@ -147,22 +152,22 @@ public class ClienteController {
         Cliente cliente = new Cliente(nombre, tlfn, email, psswd);
         System.out.println(cliente);
         log.debug("Nuevo cliente recibido: {}", cliente);
-        if (clienteService.buscarPorEmail(cliente.getEmail()) != null){
+        if (clienteService.buscarPorEmail(cliente.getEmail()).isPresent()){
             mensaje.setTexto("Este email ya está asociado a una cuenta");
             return "perfil/signup";
         }
 
         try {
             clienteService.guardar(cliente);
-            mensaje.setTexto("La cuenta de " + cliente.getEmail() + " se guardó satisfactoriamente ! ");
+            mensaje.setTexto("La cuenta de " + cliente.getEmail() + " se creó satisfactoriamente ! ");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             mensaje.setTexto("Ocurrió un error y la cuenta de " + cliente.getEmail() + " (" + cliente.getNombre() + ") no se pudo almacenar.");
             return "perfil/signup";
         }
         HttpSession session = request.getSession();
-        session.setAttribute("clienteId", clienteService.buscarPorEmail(email).getId());
-        session.setAttribute("clienteName", clienteService.buscarPorEmail(email).getNombre());
+        session.setAttribute("clienteId", clienteService.buscarPorEmail(email).get().getId());
+        session.setAttribute("clienteName", clienteService.buscarPorEmail(email).get().getNombre());
 
         return "perfil/perfil";
     }

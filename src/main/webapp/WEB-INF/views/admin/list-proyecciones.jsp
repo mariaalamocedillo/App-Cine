@@ -12,6 +12,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap5.min.css">
     <link href="${pageContext.request.contextPath}/resources/assets/css/style.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/assets/img/favicon.png" rel="icon">
+    <link href="${pageContext.request.contextPath}/resources/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
     <!-- Custom styles for this template -->
     <link href="${pageContext.request.contextPath}/resources/css/album.css" rel="stylesheet"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -66,22 +69,13 @@
         </c:if>
         <a href="${mvc.basePath}/admin/proyeccion/nueva/0" class="text-light"><button class="btn btn-info">Nueva proyección</button></a>
         <c:if test="${not empty mensaje.texto}">
-            <div class="alert alert-danger mt-2">
+            <div class="alert alert-success mt-2">
                     ${mensaje.texto}
             </div>
         </c:if>
 
     </div>
 </main>
-
-<footer class="text-muted">
-    <div class="container">
-        <p class="float-right">
-            <a href="#">Back to top</a>
-        </p>
-        <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-    </div>
-</footer>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->

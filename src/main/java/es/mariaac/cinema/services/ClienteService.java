@@ -1,10 +1,10 @@
 package es.mariaac.cinema.services;
 
 import es.mariaac.cinema.entities.Cliente;
-import es.mariaac.cinema.entities.Pelicula;
 import es.mariaac.cinema.repositories.ClienteRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.persistence.NoResultException;
 
 import java.util.List;
 import java.util.Objects;
@@ -25,8 +25,16 @@ public class ClienteService {
 
     public void guardar(Cliente cliente){clienteRepository.save(cliente);}
 
-    public Cliente buscarPorEmail(String email){return clienteRepository.findByEmail(email);}
+    public Optional<Cliente> buscarPorEmail(String email){return clienteRepository.findByEmail(email);}
 
-    public Boolean logear(String email, String contrasena){return clienteRepository.logear(email, contrasena) != null;}
+    public Boolean logear(String email, String contrasena){
+        Cliente cliente;
+        try{
+            cliente = clienteRepository.logear(email, contrasena);
+            return cliente != null;
+        } catch (NoResultException nre){
+            return false;
+        }
+    }
 
 }
