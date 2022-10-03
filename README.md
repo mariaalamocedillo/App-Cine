@@ -10,7 +10,7 @@ En esta vista podemos ver una tabla con todos los datos necesarios para el admin
 - [Editar la película](http://localhost:8080/cinema/mvc/pelicula/admin/editar/3) > redirige al formulario para editar la película; mostrará los datos que tenía la película originalmente para editarlos
 - Crear proyección > redirige al formulario de la proyecciones (explicado más adelante)
 
-En los datos de cada película se ha añadido una columna de valor boolean llamada `enProyeccion`; esto nos sirve para editar fácilmente el estado de dicha película; si está en proyección, podremos crear nuevas proyecciones, pero si no lo está, ese botón estará deshabilitado. En un cine sirve para dejar de proyectar una película que aún tenía proyecciones establecidas, pero que por alguna razón no se puede seguir proyectando
+En los datos de cada película se ha añadido una columna de valor boolean llamada `enProyeccion`; esto nos sirve para editar fácilmente el estado de dicha película; si está en proyección, podremos crear nuevas proyecciones, pero si no lo está, ese botón estará deshabilitado. En un cine sirve para dejar de proyectar una película que aún tenía proyecciones establecidas, pero que por alguna razón no se puede seguir proyectando, o para preparar las proyecciones de una película que aún no se quiere mostrar. 
 
 Al final de la página podemos ver un botón para crear una [nueva película](http://localhost:8080/cinema/mvc/pelicula/admin/nueva), el cual dirige al mismo formulario que el de editarlo, pero en este caso estará vacío
 

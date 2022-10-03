@@ -39,7 +39,7 @@ public class PeliculaService {
     public Pelicula guardar(Pelicula pelicula){ return peliculaRepository.save(pelicula);}
 
     public void borrar(Pelicula pelicula) throws SystemException {
-        log.debug("Borrando peli y sus proyecciones asociadas");
+        log.debug("Borrando pelicula y sus proyecciones asociadas");
         try {
             transaction.begin();
             peliculaRepository.attachAndRemove(pelicula);
