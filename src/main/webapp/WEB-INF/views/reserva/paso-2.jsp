@@ -162,7 +162,7 @@
                                                 </div>
                                             </div>
                                             <p class="text">
-                                                Seleccionaste <span id="count">0</span> asientos; el precio se queda en <span id="total">0</span>€
+                                                Seleccionaste <span id="count">0</span> asientos; el precio se queda en <span id="total">0</span>€ (descuentos aplicables durante el pago)
                                             </p>
                                             <c:if test="${mensaje.texto != null}">
                                                 <div class="col-md-12">

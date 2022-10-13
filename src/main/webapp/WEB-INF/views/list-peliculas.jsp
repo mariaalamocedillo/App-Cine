@@ -54,12 +54,16 @@
                                     <h2>${pelicula.titulo}</h2>
                                     <div class="d-flex justify-content-between align-items-center mt-2">
                                         <div class="btn-group">
-                                            <c:if test="${pelicula.enProyeccion}">
-                                                <a href="${mvc.basePath}/pelicula/${pelicula.id}"><button type="button" class="btn btn-sm btn-outline-secondary bg-info text-white">Horarios</button></a>
-                                            </c:if>
-                                            <c:if test="${!pelicula.enProyeccion}">
-                                            <a href="${mvc.basePath}/pelicula/${pelicula.id}"><button type="button" class="btn btn-sm btn-outline-secondary">No proyectando | Ver info</button></a>
-                                            </c:if>
+                                            <c:forEach var="peliculaProyectando" items="${peliculasProyectando}">
+                                                <c:choose>
+                                                    <c:when test="${peliculaProyectando.getId() == pelicula.getId()}">
+                                                        <a href="${mvc.basePath}/pelicula/${pelicula.id}"><button type="button" class="btn btn-sm btn-outline-secondary bg-info text-white">Horarios</button></a>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <a href="${mvc.basePath}/pelicula/${pelicula.id}"><button type="button" class="btn btn-sm btn-outline-secondary">No proyectando | Ver info</button></a>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:forEach>
 
                                         </div>
                                         <small class="text-muted">${pelicula.duracion} mins</small>

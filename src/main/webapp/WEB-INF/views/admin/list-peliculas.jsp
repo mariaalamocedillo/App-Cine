@@ -62,8 +62,8 @@
                         <td>${peli.estudio}</td>
                         <td>${peli.enProyeccion == false ? '-' : peli.getProyecciones().size()}</td>
                         <td>
-                            <a href="${mvc.basePath}/pelicula/admin/borrar/${peli.id}" class="text-light"><button class="btn btn-danger">Borrar</button></a>
-                            <a href="${mvc.basePath}/pelicula/admin/editar/${peli.id}" class="text-light"><button class="btn btn-info">Editar</button></a>
+                            <a href="${mvc.basePath}/admin/borrar/${peli.id}" class="text-light"><button class="btn btn-danger">Borrar</button></a>
+                            <a href="${mvc.basePath}/admin/editar/${peli.id}" class="text-light"><button class="btn btn-info">Editar</button></a>
                         </td>
                         <td>
                             <c:choose>
@@ -91,7 +91,7 @@
             </div>
         </c:if>
 
-        <a href="${mvc.basePath}/pelicula/admin/nueva" class="text-light"><button class="btn btn-info">Nueva pelicula</button></a>
+        <a href="${mvc.basePath}/admin/pelicula/nueva" class="text-light"><button class="btn btn-info">Nueva pelicula</button></a>
 
     </div>
 </main>

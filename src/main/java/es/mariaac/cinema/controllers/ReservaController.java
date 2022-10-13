@@ -98,7 +98,9 @@ public class ReservaController {
         //configuramos los datos que necesitaremos
         reserva.setCliente(cliente);
         models.put("asientosOcupados", asientoReservadoService.sacarEstadosAsientos(proyeccion.get()));
-        models.put("precio", "8.5");
+
+
+        models.put("precio", reservaService.selectPrice().get().getPrecioFinal());
 
         //guardamos la reserva
         try {
@@ -140,17 +142,24 @@ public class ReservaController {
             models.put("reserva", reserva);
             return "reserva/paso-2";
         }
-        models.put("precio", "8.5");
+        Precios precioHoy = reservaService.selectPrice().get();
+        models.put("precio", precioHoy);
+        if (!Objects.equals(precioHoy.getNombre(), "Dia del espectador")) {
+            List<Precios> precios = reservaService.findPrecios();
+            precios.remove(precioHoy);
+            models.put("listadoPrecios", precios);
+        }
+
         //comprueba si cliente de la reserva es igual al de la sesión
         if (!Objects.equals(cliente.getId(), reserva.getCliente().getId())){
             mensaje.setTexto("Hubo un error con su reserva, inténtelo de nuevo más tarde");
             return "redirect:reserva/paso-1/"+reserva.getProyeccion().getId();
         }
 
-        reserva.setPrecio(Float.valueOf(precio));
         reserva.setReservada(true);
         reservaService.guardar(reserva);
         models.put("reserva", reserva);
+        models.put("precioTemp", precio);
 
         String[] sitios = idsSeats.trim().replaceAll(" ", "").split(",");
         //lista de asientos reservados (hay que asociarlo a asientoreservado) -> método de Reserva de asiento
@@ -186,9 +195,9 @@ public class ReservaController {
     @POST
     @Path("/pagada")
     @ValidateOnExecution(type = ExecutableType.NONE)
-    public String nuevaSubmit(@FormParam("num-tarjeta") String numTarj, @FormParam("cc-cvv") String numCvv) {
+    public String nuevaSubmit(@FormParam("num-tarjeta") String numTarj, @FormParam("precioFinal") String precio, @FormParam("cc-cvv") String numCvv) {
         HttpSession session = request.getSession();
-        Reserva reserva ;
+        Reserva reserva;
         try {
             Optional<Reserva> reservaOpt = reservaService.buscarPorId(Long.parseLong(session.getAttribute("reservaId").toString()));
             if (reservaOpt.isEmpty()) {
@@ -200,6 +209,7 @@ public class ReservaController {
             mensaje.setTexto("Hubo un problema con su reserva, inténtelo más tarde");
             return "reserva/paso-3";
         }
+        reserva.setPrecio(Float.valueOf(precio));
 
         Cliente cliente = compruebaSesion();
         if (cliente == null)
@@ -221,7 +231,6 @@ public class ReservaController {
         }
 
         reserva.setPagada(true);    //la establecemos como pagada
-
         models.put("entradas", models.get("entradas"));
 
         try {

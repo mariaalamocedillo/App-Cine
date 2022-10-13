@@ -6,10 +6,12 @@ import es.mariaac.cinema.repositories.PeliculaRepository;
 import es.mariaac.cinema.repositories.ProyeccionRepository;
 import jakarta.annotation.Resource;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.faces.lifecycle.LifecycleFactory;
 import jakarta.inject.Inject;
 import jakarta.transaction.SystemException;
 import jakarta.transaction.UserTransaction;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -32,10 +34,6 @@ public class PeliculaService {
         return peliculaRepository.findOptionalBy(id);
     }
 
-    public List<Pelicula> findProyectandoQ() {
-        return peliculaRepository.findProyectando();
-    }
-
     public Pelicula guardar(Pelicula pelicula){ return peliculaRepository.save(pelicula);}
 
     public void borrar(Pelicula pelicula) throws SystemException {
@@ -51,6 +49,26 @@ public class PeliculaService {
             }
         }
     }
+    //sacamos el listado de peliculas en proyeccion y las proyecciones para comprobar ambos factores
+    public List<Pelicula> findProyectandoR() {
+        List<Proyeccion> proyecciones = proyeccionRepository.findProyectandoActual();
+        List<Pelicula> peliculas = peliculaRepository.findProyectando();
+        List<Pelicula> peliculasProyectando = new ArrayList<Pelicula>(); ;
+        for (Pelicula pelicula: peliculas) {
+            boolean peliSiProyectando = false;
+            for (Proyeccion proyeccion: proyecciones) {
+                if (Objects.equals(proyeccion.getPelicula().getId(), pelicula.getId())) {
+                    peliSiProyectando = true;
+                    break;
+                }
+            }
+            if (peliSiProyectando)
+                peliculasProyectando.add(pelicula);
+        }
+        log.info("Se han encontrado " + peliculasProyectando.size() + " en proyeccion actualmente");
+        return peliculasProyectando;
+    }
+
 
     public HashMap<LocalDate, List<Long>> proyeccionesDias(Pelicula pelicula){
         List<Proyeccion> proyecciones = proyeccionRepository.findActualId(pelicula.getId());

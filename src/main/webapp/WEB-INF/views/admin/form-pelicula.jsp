@@ -40,7 +40,7 @@
             <h3 class="m-5 text-center">${not empty pelicula.id ? 'Editar' : 'Nueva'} película</h3>
 
             <!-- General Form Elements -->
-            <form action="${mvc.basePath}/pelicula/admin/nueva/submit" method="post">
+            <form action="${mvc.basePath}/admin/nueva/submit" method="post">
               <c:if test="${not empty pelicula.id}">
                 <input id="id" name="id" type="hidden" value="${pelicula.id}"/>
               </c:if>

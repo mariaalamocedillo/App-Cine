@@ -92,7 +92,7 @@ public class ProyeccionController {
         if (id != null && pelicula.isPresent()){
             models.put("pelicula", pelicula.get());
         }else {
-            models.put("peliculas", peliculaService.findProyectandoQ());
+            models.put("peliculas", peliculaService.findProyectandoR());
         }
 
         models.put("salas", salas);

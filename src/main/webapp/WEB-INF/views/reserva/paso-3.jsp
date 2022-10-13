@@ -43,7 +43,7 @@
         <section class="section register min-vh-100 d-flex flex-column text-center py-4">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-lg-10 d-flex flex-column align-items-center justify-content-center">
+                    <div class="col-lg-12 d-flex flex-column align-items-center justify-content-center">
 
                         <div class="card rounded-xl justify-content-between m-auto w-100">
                             <div class="card-header">
@@ -60,33 +60,44 @@
 
                                 <div>
                                     <div class="row">
-                                        <div class="col-md-4 order-md-2 mb-4">
+                                        <div class="col-md-6 order-md-2 mb-4">
                                             <h4 class="d-flex justify-content-between align-items-center mb-3">
-                                                <span class="text-muted">Entradas para ${reserva.proyeccion.pelicula.titulo}</span>
+                                                <span class="text-muted">Entradas para ${reserva.proyeccion.pelicula.titulo} </span>
                                                 <span class="badge badge-secondary badge-pill">${entradas.size()}</span>
                                             </h4>
                                             <!--Resumen de la compra-->
                                             <ul class="list-group mb-3">
-                                                <c:forEach var="entrada" items="${entradas}">
+                                                <c:forEach var="entrada" items="${entradas}" varStatus="indexEntrada">      <!--hay que hacer qeu cada entrada sea independiente y cada select igual-->
                                                     <li class="list-group-item d-flex justify-content-between lh-condensed">
                                                         <div>
-                                                            <h6 class="my-0">Entrada adulto ${entrada.getName()}</h6>
-                                                            <small class="text-muted">${entrada.sala.nombre}</small>
+
+                                                            <select id="listaPrecios-${indexEntrada.index}" class="form-select" aria-label="Default select example"
+                                                                    onchange="actualizoPrecios(${indexEntrada.index}, this.value);">
+
+                                                                <option value="${precio.precioFinal}" selected>${precio.nombre}</option>
+                                                                <c:forEach var="elementoPrecios" items="${listadoPrecios}">
+                                                                    <option value="${elementoPrecios.precioFinal}">${elementoPrecios.nombre}</option>
+                                                                </c:forEach>
+
+                                                            </select>
+
+                                                            <small class="text-muted">${entrada.sala.nombre} | ${entrada.getName()}</small>
                                                         </div>
-                                                        <span class="text-muted">8,50€</span>
+                                                        <span class="text-muted"> <span name="preciosEntradas" id="precioEntrada-${indexEntrada.index}">${precio.getPrecioFinal()}</span> €</span>
                                                     </li>
                                                 </c:forEach>
 
                                                 <li class="list-group-item d-flex justify-content-between">
                                                     <span>Total </span>
-                                                    <strong>${reserva.precio}€</strong>
+                                                    <strong><span id="precioReserva">${precioTemp}</span> €</strong>
                                                 </li>
                                             </ul>
                                         </div>
-                                        <div class="col-md-8 order-md-1">
+                                        <div class="col-md-6 order-md-1">
                                             <form class="needs-validation" novalidate="" method="post" action="${mvc.basePath}/reserva/pagada">
                                                 <h4 class="mb-3">Pago</h4>
 
+                                                <input hidden id="precioFinal" value="${precioTemp}"/>
                                                 <div class="d-block my-3">
                                                     <div class="custom-control custom-radio">
                                                         <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked="" required="">
@@ -173,6 +184,26 @@
             });
         }, false);
     })();
+
+    function actualizoPrecios(indiceElemento, precio) {
+        document.getElementById('precioEntrada-'+ indiceElemento).innerText = precio;
+
+
+        var precioFinalElmn = document.getElementById('precioReserva');
+
+        var preciosSeleccionados = document.getElementsByName('preciosEntradas');
+
+        var cantidadTotal = 0;
+
+        for (let i = 0; i <preciosSeleccionados.length; i++) {
+            cantidadTotal += parseFloat(preciosSeleccionados.item(i).innerHTML);
+            console.log(preciosSeleccionados.item(i).innerHTML)
+        }
+        document.getElementById('precioFinal').innerText = cantidadTotal;
+
+        precioFinalElmn.innerText = cantidadTotal;
+    }
+
 </script>
 
 <script src="${pageContext.request.contextPath}/resources/js/popper.min.js"></script>

@@ -579,7 +579,7 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (min-width: 1200px) {
   #main:not(.formul), #footer {
-    margin-left: 300px;
+    margin-left: 0px;
   }
 }
 @media (max-width: 1199px) {
