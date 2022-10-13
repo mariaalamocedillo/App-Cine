@@ -43,9 +43,28 @@ public class ReservaService {
         GregorianCalendar cal = new GregorianCalendar();
         cal.setTime(new Date());
         int diaSemana = cal.get(Calendar.DAY_OF_WEEK);
-        if (diaSemana != 4)
+        if (diaSemana == 4)
             return preciosRepository.findByNombre("Dia del espectador");
         return preciosRepository.findByNombre("Normal");
     }
+
+
+    public List<Double> listadoVentas () {
+        List<Double> listaVentas = new ArrayList<>();
+        listaVentas.add(reservaRepository.ventasHoy());
+        listaVentas.add(reservaRepository.ventasEsteMes());
+        listaVentas.add(reservaRepository.ventasEsteAño());
+        return listaVentas;
+    }
+
+    public Float listadoOcupacion () {
+        List<Float> listado = new ArrayList<>();
+        listado.add(reservaRepository.ocupacionHoy());
+
+
+
+        return reservaRepository.ocupacionHoy();
+    }
+
 
 }

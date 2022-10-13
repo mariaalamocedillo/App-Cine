@@ -19,6 +19,7 @@ import jakarta.ws.rs.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -55,6 +56,9 @@ public class AdminController {
     @GET
     @Path("/")
     public String index() {
+        models.put("ventasHoy", reservaService.listadoVentas().get(0));
+        models.put("ventasSemana", reservaService.listadoVentas().get(1));
+        models.put("ventasMes", reservaService.listadoVentas().get(2));
 
 
         return "admin/dashboard";
