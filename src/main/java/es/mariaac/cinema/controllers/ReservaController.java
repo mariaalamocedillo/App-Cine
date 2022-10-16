@@ -138,7 +138,7 @@ public class ReservaController {
         }
         models.put("asientosOcupados", asientoReservadoService.sacarEstadosAsientos(reserva.getProyeccion()));
         if (idsSeats == null || idsSeats.equals("")){
-            mensaje.setTexto("Debe seleccionar al menos un asiento");
+            mensaje.setTexto("Debe seleccionar al menos un asiento"); //TODO comprobar que haya filtro de esto en parte de js
             models.put("reserva", reserva);
             return "reserva/paso-2";
         }

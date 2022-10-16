@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: maria
-  Date: 20/02/2022
-  Time: 14:20
+  Date: 16/10/2022
+  Time: 20:20
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -34,6 +34,22 @@
 
     <!-- Template Main CSS File -->
     <link href="${pageContext.request.contextPath}/resources/assets/css/style.css" rel="stylesheet">
+    <style>
+
+        .selected {
+            background: red !important;
+        }
+        table{
+            border-collapse: collapse;
+        }
+        tr, td, th{
+            border: 2px black solid;
+            border-collapse: collapse;
+            height: 20px;
+            width: 20px;
+
+        }
+    </style>
 
 </head>
 
@@ -63,9 +79,6 @@
                             <!--IMAGEN-->
                             <div class="row">
                                 <div class="col-lg-6 text-center">
-                                    <div class="justify-content-between m-auto">
-                                        <img class="" src="${proyeccion.getPelicula().getPoster()}" alt="" width="400">
-                                    </div>
 
                                 </div>
 
@@ -75,29 +88,29 @@
                                         <div class="row">
                                             <div class="justify-content-between m-auto">
                                                 <div class="">
-                                                    <h5 class="card-title text-center pb-0 fs-4">Reserva</h5>
+                                                    <h5 class="card-title text-center pb-0 fs-4">Creación de sala</h5>
                                                 </div>
 
-                                                <form class="row g-3 needs-validation" action="${mvc.basePath}/reserva/paso2" method="post">
-                                                    <input type="text" name="id" value="${proyeccion.id}" hidden>
-                                                    <h5>${proyeccion.pelicula.titulo} | <span class="small">${proyeccion.pelicula.duracion} mins</span></h5>
+                                                <form class="row g-3 needs-validation" action="${mvc.basePath}/admin/sala/submit" method="post">
 
-                                                    <div class="col-lg-6">
-                                                        <label for="dia">Día</label>
-                                                        <input type="date" id="dia" name="dia" class="form-control" value="${proyeccion.dia}" disabled>
-                                                    </div>
-
-                                                    <div class="col-lg-6">
-                                                        <label for="comienzo">Hora sesión</label>
-                                                        <select id="comienzo" name="comienzo" class="form-select" aria-label="Default select example" disabled>
-                                                            <option selected>${proyeccion.comienzo}</option>
-                                                        </select>
-                                                    </div>
-                                                    <c:if test="${mensaje.texto != null}">
-                                                        <div class="col-md-12">
-                                                            <p class="alert alert-danger">${mensaje.texto}</p>
-                                                        </div>
+                                                    <c:if test="${not empty sala.id}">
+                                                        <input id="id" name="id" type="hidden" value="${sala.id}"/>
                                                     </c:if>
+                                                    <label for="nombre">Nombre de la sala</label>
+                                                    <input type="text" id="nombre" name="nombre" value="${sala.nombre}">
+                                                    <div id="contenedor">
+
+                                                    </div>
+
+                                                    <label for="filas">Filas</label>
+                                                    <input type="number" id="filas" autofocus>
+                                                    <label for="columnas">columnas</label>
+                                                    <input type="number" id="columnas">
+                                                    <input type="button" value="Genera una tabla" onclick="genera_tabla(document.getElementById('filas').value, document.getElementById('columnas').value)">
+
+                                                    <input type="text" id="listado" name="listado" hidden>
+
+
                                                     <div class="col-12 mt-3 text-center">
                                                         <button class="btn btn-primary w-50" type="submit">Siguiente</button>
                                                     </div>
@@ -148,6 +161,7 @@
 </script>
 <!-- Template Main JS File -->
 <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/disposicionAsientos.js"></script>
 
 </body>
 

@@ -22,6 +22,9 @@ public class SalaService {
         return salaRepository.findOptionalBy(id);
     }
 
+    public void guardar(Sala sala){salaRepository.save(sala);}
+
+
     //Método usado para cargar los datos de los asientos (en lugar de manualmente)
     /*public Boolean establecerAsientos(Long idSala){
         Optional<Sala> salaOpt = buscarPorId(idSala);

@@ -1,9 +1,6 @@
 package es.mariaac.cinema.controllers;
 
-import es.mariaac.cinema.entities.Asiento;
-import es.mariaac.cinema.entities.Cliente;
-import es.mariaac.cinema.entities.Pelicula;
-import es.mariaac.cinema.entities.Reserva;
+import es.mariaac.cinema.entities.*;
 import es.mariaac.cinema.services.*;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -19,6 +16,7 @@ import jakarta.ws.rs.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -37,6 +35,9 @@ public class AdminController {
 
     @Inject
     PeliculaService peliculaService;
+
+    @Inject
+    SalaService salaService;
 
     @Inject
     ProyeccionService proyeccionService;
@@ -65,6 +66,58 @@ public class AdminController {
     }
 
 
+//  *********   CONTROL DE SALAS   *********
+
+    @GET
+    @Path("sala/form")
+    public String irCrearSala() {
+        log.debug("Añadir nueva sala");
+        Sala sala = new Sala();
+        models.put("sala", sala);
+        return "admin/creacion-sala";
+    }
+
+
+    @POST
+    @Path("sala/submit")
+    @ValidateOnExecution(type = ExecutableType.NONE)
+    public String guardarSala(@FormParam("id") Long id, @FormParam("nombre") String nombre, @FormParam("listado") String listado) {
+
+        Optional<Sala> salaOpt = salaService.buscarPorId(id);
+        Sala sala;
+        //nueva sala
+        sala = salaOpt.orElseGet(Sala::new);
+        sala.setNombre(nombre);
+
+        try {
+            salaService.guardar(sala);
+            mensaje.setTexto("La sala " + sala.getId() + " " + sala.getNombre() + " se guardó satisfactoriamente ! ");
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            mensaje.setTexto("Ocurrió un error y la sala " + sala.getId() + " " + sala.getNombre() + " no se pudo almacenar.");
+        }
+
+        String[] sitios = listado.trim().replaceAll(" ", "").split(",");
+        //recorremos los ids para crear nuevos sitios
+        for (String idSitio: sitios) {
+            Asiento newAsiento = new Asiento();
+            newAsiento.setSala(sala);
+            newAsiento.setLetra(String.valueOf(idSitio.charAt(0)));
+            newAsiento.setFila(String.valueOf(idSitio.charAt(1)));
+            try {
+                asientoService.guardar(newAsiento);
+                mensaje.setTexto("El asiento " + newAsiento.getId() + " " + newAsiento.getName() + " se guardó satisfactoriamente ! ");
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+                mensaje.setTexto("Ocurrió un error y el asiento " + newAsiento.getName() + " no se pudo almacenar.");
+            }
+
+        }
+
+        //TODO - los ids que recibimos en el form nos indican el num de filas y columnas maximo que habrá y la ubicación exacta. Se pueden renombrar despues, pero la idea es poder mostrarlos en esa misma disosicion
+
+        return "admin/sala-mostrar";
+    }
 
 
 //  *********   CONTROL DE PELÍCULAS   *********
@@ -137,7 +190,6 @@ public class AdminController {
         pelicula.setEstudio(estudio);
         pelicula.setDuracion(duracion);
         pelicula.setPoster(poster);
-        System.out.println("--------------------------" + enProyeccion);
         pelicula.setEnProyeccion(enProyeccion != null);
 
         try {
