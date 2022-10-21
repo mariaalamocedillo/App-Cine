@@ -117,7 +117,7 @@ public class ClienteController {
         File f = new File(reportPath+"/qrCode"+ reserva.get().getId() +".png");
         String text = "Reserva num.: " + id +
                 " Sala: " + reserva.get().getProyeccion().getSala().getId()+
-                "Num. asientos: " + reserva.get().getAsientos().size();
+                "Num. asientos: " + reserva.get().getEntradas().size();
         try {
             qr.generateQR(f, text, 300, 300);
             System.out.println("QRCode Generated: " + f.getAbsolutePath());

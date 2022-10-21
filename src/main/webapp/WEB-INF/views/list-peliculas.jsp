@@ -32,8 +32,8 @@
         <div class="container">
             <h1 class="h-50 text-light fontPraise">Cines Petri®</h1>
             <p>
-                <a href="${mvc.basePath}/pelicula/proyectando" class="btn btn-primary my-2">Películas en proyección</a>
-                <a href="${mvc.basePath}/pelicula/" class="btn btn-secondary my-2">Explorar todas las películas</a>
+                <a href="${mvc.basePath}/cartelera/proyectando" class="btn btn-primary my-2">Películas en proyección</a>
+                <a href="${mvc.basePath}/cartelera/" class="btn btn-secondary my-2">Explorar todas las películas</a>
             </p>
         </div>
     </section>
@@ -54,17 +54,7 @@
                                     <h2>${pelicula.titulo}</h2>
                                     <div class="d-flex justify-content-between align-items-center mt-2">
                                         <div class="btn-group">
-                                            <c:forEach var="peliculaProyectando" items="${peliculasProyectando}">
-                                                <c:choose>
-                                                    <c:when test="${peliculaProyectando.getId() == pelicula.getId()}">
-                                                        <a href="${mvc.basePath}/pelicula/${pelicula.id}"><button type="button" class="btn btn-sm btn-outline-secondary bg-info text-white">Horarios</button></a>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <a href="${mvc.basePath}/pelicula/${pelicula.id}"><button type="button" class="btn btn-sm btn-outline-secondary">No proyectando | Ver info</button></a>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </c:forEach>
-
+                                            <a href="${mvc.basePath}/cartelera/${pelicula.id}"><button type="button" class="btn btn-sm btn-outline-secondary bg-info text-white">Detalles</button></a>
                                         </div>
                                         <small class="text-muted">${pelicula.duracion} mins</small>
                                     </div>

@@ -70,13 +70,13 @@
                                                 <c:forEach var="entrada" items="${entradas}" varStatus="indexEntrada">      <!--hay que hacer qeu cada entrada sea independiente y cada select igual-->
                                                     <li class="list-group-item d-flex justify-content-between lh-condensed">
                                                         <div>
+                                                            <select name="selectPrecio" id="listaPrecios-${indexEntrada.index}" class="form-select" aria-label="Default select example"
+                                                                    onchange="actualizoPrecios(${indexEntrada.index}, this.value); actualizoEntradas()"
+                                                                    ${precio.nombre == 'Dia del espectador' ? 'disabled' : ''}> <!--si es el dia del espectador, deshabilitamos el seleccionable-->
 
-                                                            <select id="listaPrecios-${indexEntrada.index}" class="form-select" aria-label="Default select example"
-                                                                    onchange="actualizoPrecios(${indexEntrada.index}, this.value);">
-
-                                                                <option value="${precio.precioFinal}" selected>${precio.nombre}</option>
+                                                                <option name="infoEntrada" id="${entrada.id}-${elementoPrecios.id}-${elementoPrecios.precioFinal}" value="${precio.precioFinal}" selected>${precio.nombre}</option>
                                                                 <c:forEach var="elementoPrecios" items="${listadoPrecios}">
-                                                                    <option value="${elementoPrecios.precioFinal}">${elementoPrecios.nombre}</option>
+                                                                    <option name="infoEntrada" value="${entrada.id}-${elementoPrecios.id}-${elementoPrecios.precioFinal}">${elementoPrecios.nombre}</option>
                                                                 </c:forEach>
 
                                                             </select>
@@ -89,7 +89,7 @@
 
                                                 <li class="list-group-item d-flex justify-content-between">
                                                     <span>Total </span>
-                                                    <strong><span id="precioReserva">${precioTemp}</span> €</strong>
+                                                    <strong><span id="precioReserva">${precioTempTotal}</span> €</strong>
                                                 </li>
                                             </ul>
                                         </div>
@@ -97,7 +97,8 @@
                                             <form class="needs-validation" novalidate="" method="post" action="${mvc.basePath}/reserva/pagada">
                                                 <h4 class="mb-3">Pago</h4>
 
-                                                <input hidden id="precioFinal" value="${precioTemp}"/>
+                                                <input hidden id="precioFinal" value="${precioTempTotal}"/>
+                                                <input hidden id="listPreciosEntradas" value=""/>
                                                 <div class="d-block my-3">
                                                     <div class="custom-control custom-radio">
                                                         <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked="" required="">
@@ -164,14 +165,16 @@
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function() {
+//TODO comprobar form js esto resto pags tmbn
+    import {valueOrDefault} from "../../../resources/assets/vendor/chart.js/helpers.esm";
+
+(function() {
         'use strict';
 
         window.addEventListener('load', function() {
+            actualizoEntradas()
             // Fetch all the forms we want to apply custom Bootstrap validation styles to
             var forms = document.getElementsByClassName('needs-validation');
-
             // Loop over them and prevent submission
             var validation = Array.prototype.filter.call(forms, function(form) {
                 form.addEventListener('submit', function(event) {
@@ -185,23 +188,36 @@
         }, false);
     })();
 
-    function actualizoPrecios(indiceElemento, precio) {
-        document.getElementById('precioEntrada-'+ indiceElemento).innerText = precio;
 
+    function actualizoPrecios(indiceElemento, precio) {
+        document.getElementById('precioEntrada-'+ indiceElemento).innerText = precio.split('-')[2];
 
         var precioFinalElmn = document.getElementById('precioReserva');
-
         var preciosSeleccionados = document.getElementsByName('preciosEntradas');
 
         var cantidadTotal = 0;
 
-        for (let i = 0; i <preciosSeleccionados.length; i++) {
-            cantidadTotal += parseFloat(preciosSeleccionados.item(i).innerHTML);
-            console.log(preciosSeleccionados.item(i).innerHTML)
+        for (let i = 0; i < preciosSeleccionados.length; i++) {
+            var valor = preciosSeleccionados.item(i).innerHTML;
+            cantidadTotal += parseFloat(valor);
         }
         document.getElementById('precioFinal').innerText = cantidadTotal;
 
         precioFinalElmn.innerText = cantidadTotal;
+    }
+
+    function actualizoEntradas() {
+        var preciosEntradasElem = document.getElementById('listPreciosEntradas');
+        var listSelectPrecios = document.getElementsByName('selectPrecio');
+        var stringEntradas = "";
+        for (let i = 0; i < listSelectPrecios.length; i++) {
+            if(stringEntradas !== "") {
+                stringEntradas += ',';
+            }
+            stringEntradas += listSelectPrecios[i].value
+            console.log(stringEntradas);
+        }
+        preciosEntradasElem.innerText = stringEntradas;
     }
 
 </script>

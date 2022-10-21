@@ -32,10 +32,7 @@ public class Reserva {
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
-    @Column(name = "precio")
-    private Float precio;
-
     @OneToMany(mappedBy = "reserva", orphanRemoval = true)
-    private List<Asiento_reservado> asientos = new ArrayList<>();
+    private List<Entrada> entradas = new ArrayList<>();
 
 }

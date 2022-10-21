@@ -10,7 +10,7 @@
 <header id="header" class="header d-flex align-items-center mb-4">
 
     <div class="d-flex align-items-center justify-content-between">
-        <a href="${mvc.basePath}/pelicula" class="logo d-flex align-items-center">
+        <a href="${mvc.basePath}/cartelera" class="logo d-flex align-items-center">
             <img src="${pageContext.request.contextPath}/resources/assets/img/logo.png" alt="">
             <span class="fontPraise">Cines Petri</span>
         </a>
@@ -21,7 +21,7 @@
 
 
             <li class="nav-item ">
-                <a class="nav-link nav-icon search-bar-toggle " href="${mvc.basePath}/pelicula">
+                <a class="nav-link nav-icon search-bar-toggle " href="${mvc.basePath}/cartelera">
                     Interfaz user
                 </a>
             </li>
@@ -50,7 +50,7 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="${mvc.basePath}/pelicula/admin">
+                        <a class="dropdown-item d-flex align-items-center" href="${mvc.basePath}/admin/pelicula">
                             <i class="bi bi-box-arrow-right"></i>
                             <span>Peliculas</span>
                         </a>

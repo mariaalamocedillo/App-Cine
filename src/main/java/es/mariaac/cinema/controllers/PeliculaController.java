@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.Optional;
 
 @Slf4j
-@Path("/pelicula")
+@Path("/cartelera")
 @Controller
 @RequestScoped
 public class PeliculaController {
@@ -45,7 +45,7 @@ public class PeliculaController {
     @Path("/")
     public String index() {
         models.put("peliculas", peliculaService.findAll());
-        models.put("peliculasProyectando", peliculaService.findProyectandoR());
+        models.put("peliculasProyectando", peliculaService.findProyectandoR()); //TODO usar para horarios y dias por js
         return "list-peliculas";
     }
 
@@ -87,7 +87,7 @@ public class PeliculaController {
             models.put("proyecciones", proyeccionService.findActualId(pelicula.get().getId()));
             return "detalle-pelicula";
         }
-        return "redirect:pelicula";
+        return "redirect:cartelera";
     }
 
 

@@ -31,14 +31,6 @@ public class ReservaService {
 
     public List<Reserva> findReservasAntiguas(Long id){return reservaRepository.findReservasAntiguas(id);}
 
-    public Optional<Precios> findPrecioPorNombre  (String nombre) {
-        return preciosRepository.findByNombre(nombre);
-    }
-
-    public List<Precios> findPrecios () {
-        return preciosRepository.findAll();
-    }
-
     public Optional<Precios> selectPrice () {
         GregorianCalendar cal = new GregorianCalendar();
         cal.setTime(new Date());
@@ -46,6 +38,19 @@ public class ReservaService {
         if (diaSemana == 4)
             return preciosRepository.findByNombre("Dia del espectador");
         return preciosRepository.findByNombre("Normal");
+    }
+
+    public List<Precios> listadoPrecios() {
+        List<Precios> precios = preciosRepository.findAll();
+        if (preciosRepository.findByNombre("Dia del espectador").isPresent()){
+            precios.remove(preciosRepository.findByNombre("Dia del espectador").get());
+            precios.remove(preciosRepository.findByNombre("Normal").get());
+        }
+        return precios;
+    }
+
+    public Optional<Precios> buscarPrecioPorId(Long id) {
+        return preciosRepository.findOptionalBy(id);
     }
 
 

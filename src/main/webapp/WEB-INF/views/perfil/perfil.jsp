@@ -112,7 +112,7 @@
                                         </div>
                                         <div class="col">
                                             <div class="card-body">
-                                                <h5 class="card-title">Reserva para <a href="${mvc.basePath}/pelicula/${reserva.proyeccion.pelicula.id}">${reserva.proyeccion.pelicula.titulo}</a></h5>
+                                                <h5 class="card-title">Reserva para <a href="${mvc.basePath}/cartelera/${reserva.proyeccion.pelicula.id}">${reserva.proyeccion.pelicula.titulo}</a></h5>
                                                 <div class="row">
                                                     <div class="col-lg-3 col-md-4 label ">Día</div>
                                                     <div class="col-lg-6 col-md-4">${reserva.proyeccion.getDia()}</div>
