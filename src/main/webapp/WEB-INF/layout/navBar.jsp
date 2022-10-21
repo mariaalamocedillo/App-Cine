@@ -12,7 +12,7 @@
 
     <div class="d-flex align-items-center justify-content-between">
         <a href="${mvc.basePath}/cartelera" class="logo d-flex align-items-center">
-            <img src="${pageContext.request.contextPath}/resources/assets/img/logo.png" alt="">
+            <img src="${pageContext.request.contextPath}/resources/img/logo.png" alt="">
             <span class="fontPraise">Cines Petri</span>
         </a>
     </div><!-- End Logo -->
@@ -31,7 +31,7 @@
             <li class="nav-item dropdown pe-3">
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                    <img src="${pageContext.request.contextPath}/resources/assets/img/icon.jpg" alt="Profile" class="rounded-circle">
+                    <img src="${pageContext.request.contextPath}/resources/img/icon.jpg" alt="Profile" class="rounded-circle">
                     <span class="d-none d-md-block dropdown-toggle ps-2">${not empty clienteName ? clienteName : "Anónimo"}</span>
                 </a><!-- End Profile Iamge Icon -->
 

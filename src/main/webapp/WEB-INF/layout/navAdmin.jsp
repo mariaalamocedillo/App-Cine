@@ -11,7 +11,7 @@
 
     <div class="d-flex align-items-center justify-content-between">
         <a href="${mvc.basePath}/cartelera" class="logo d-flex align-items-center">
-            <img src="${pageContext.request.contextPath}/resources/assets/img/logo.png" alt="">
+            <img src="${pageContext.request.contextPath}/resources/img/logo.png" alt="">
             <span class="fontPraise">Cines Petri</span>
         </a>
     </div><!-- End Logo -->

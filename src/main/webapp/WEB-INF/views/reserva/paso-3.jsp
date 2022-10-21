@@ -17,20 +17,20 @@
     <title>Pago reserva</title>
 
     <!-- Favicons -->
-    <link href="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/assets/img/favicon.png" rel="icon">
-    <link href="${pageContext.request.contextPath}/resources/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
+    <link href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
     <!-- Vendor CSS Files -->
-    <link href="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/css/estilos.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/assets/css/style.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
 
 </head>
 
@@ -166,7 +166,7 @@
 
 <script>
 //TODO comprobar form js esto resto pags tmbn
-    //import {valueOrDefault} from "../../../resources/assets/vendor/chart.js/helpers.esm";
+    //import {valueOrDefault} from "../../../resources/vendor/chart.js/helpers.esm";
 
 (function() {
         'use strict';
@@ -225,13 +225,13 @@
 </script>
 
 <script src="${pageContext.request.contextPath}/resources/js/popper.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/holder.min.js"></script></body>
-<script src="${pageContext.request.contextPath}/resources/assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/vendor/tinymce/tinymce.min.js"></script>
 
 
 <!-- Template Main JS File -->
-<script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 
 </body>
 
