@@ -70,7 +70,7 @@ public class PeliculaService {
     }
 
 
-    public HashMap<LocalDate, List<Long>> proyeccionesDias(Pelicula pelicula){
+    public HashMap<LocalDate, List<Long>> proyeccionesDiasPelicula(Pelicula pelicula){
         List<Proyeccion> proyecciones = proyeccionRepository.findActualId(pelicula.getId());
         List<LocalDate> dias =  new ArrayList<>();
         List<Long> ids;

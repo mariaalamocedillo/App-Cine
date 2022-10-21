@@ -9,8 +9,13 @@ import jakarta.transaction.SystemException;
 import jakarta.transaction.UserTransaction;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Slf4j
 @ApplicationScoped
@@ -62,5 +67,29 @@ public class ProyeccionService {
                 transaction.rollback();
             }
         }
+    }
+
+
+    public HashMap<LocalDate, List<Proyeccion>> diasProyecciones(){
+        List<Proyeccion> proyecciones = new ArrayList<>();
+        List<LocalDate> dias = split(proyeccionRepository.findDiasProyecciones());
+        HashMap<LocalDate, List<Proyeccion>> resultados = new HashMap<>();
+        for (LocalDate dia: dias) {
+            resultados.put(dia, proyeccionRepository.findProyeccionDia(dia));
+        }
+        return resultados;
+    }
+
+
+    // Generic method to split a list from a certain position
+    public static<LocalDate> List<LocalDate> split(List<LocalDate> list)
+    {
+        // endpoints to use in `list.subList()` method
+        int[] endpoints = {0, 7, list.size()};
+        List<LocalDate> listaFinal =
+                IntStream.rangeClosed(0, 1)
+                        .mapToObj(i -> list.subList(endpoints[i], endpoints[i + 1]))
+                        .collect(Collectors.toList()).get(0);
+        return listaFinal;
     }
 }

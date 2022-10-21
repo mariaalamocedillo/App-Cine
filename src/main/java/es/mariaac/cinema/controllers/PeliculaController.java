@@ -66,6 +66,26 @@ public class PeliculaController {
     }
 
     /**
+     *
+     *
+     *
+     * @return página listado de películas
+     * @since 1.0
+     */
+    @GET
+    @Path("/pruebas")
+    public String proyectandoProvis() {
+
+        models.put("peliculas", peliculaService.findProyectandoR());
+        models.put("peliculasProyectando", peliculaService.findProyectandoR());
+        models.put("diasProyecciones", proyeccionService.diasProyecciones());
+
+
+
+        return "list-provis";
+    }
+
+    /**
      *  Método que busca si existe una pelicula con ese id para obtener sus
      *  detalles y las proyecciones de la misma. Devuelve dicha información
      *  en caso de que exista, si no redirige de nuevo al listado de peliculas
@@ -83,7 +103,7 @@ public class PeliculaController {
 
         if (pelicula.isPresent()) {
             models.put("pelicula", pelicula.get());
-            models.put("organizacionProyecciones", peliculaService.proyeccionesDias(pelicula.get()));
+            models.put("organizacionProyecciones", peliculaService.proyeccionesDiasPelicula(pelicula.get()));
             models.put("proyecciones", proyeccionService.findActualId(pelicula.get().getId()));
             return "detalle-pelicula";
         }
