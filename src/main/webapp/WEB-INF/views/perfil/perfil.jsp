@@ -139,8 +139,8 @@
                                                 <div class="row">
                                                     <div class="col-lg-3 col-md-4 label">Asientos</div>
                                                     <div class="col-lg-9 col-md-8">
-                                                        <c:forEach var="reservado" items="${reserva.getAsientos()}">
-                                                            <span>${reservado.asiento.getName()}</span>
+                                                        <c:forEach var="elemEntrada" items="${reserva.entradas}">
+                                                            <span>${elemEntrada.asiento.getName()}</span>
                                                         </c:forEach>
                                                     </div>
                                                 </div>
@@ -177,10 +177,12 @@
                                                             <div class="col-md-8">${reserva.getProyeccion().getComienzo()}</div>
                                                         </div>
 
+<%--
                                                         <div class="row">
                                                             <div class="col-md-4 label">Asientos reservados</div>
-                                                            <div class="col-md-8">${reserva.getAsientos().size()}</div>
+                                                            <div class="col-md-8">${reserva.entrada.getAsientos().size()}</div>
                                                         </div>
+--%>
 
 
 
@@ -219,36 +221,3 @@
 
 </html>
 
-
-
-
-
-
-
-<%--
-<html>
-<head>
-    <title>Mi perfil</title>
-</head>
-<body>
-<h1>HOLA</h1>
-
-<c:if test="${mensaje.texto != null}">
-    <div class="col-md-12">
-        <p class="alert alert-danger" id="success-alert">${mensaje.texto}</p>
-    </div>
-</c:if>
-
-<p class="alert alert-danger" id="cliente">${cliente.nombre}</p>
-<c:if test="${not empty reserva}">
-
-<c:forEach var="reserva" items="${reserva}">
-
-    <p class="alert alert-danger" id="cliente">${reserva.id}</p>
-    <p class="alert alert-danger" >${reserva.proyeccion.pelicula.titulo}</p>
-
-</c:forEach>
-</c:if>
-</body>
-</html>
---%>

@@ -58,25 +58,25 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-lg-3 col-md-4 label ">Película</div>
-                                        <div class="col-lg-9 col-md-8">${reserva.getProyeccion().getPelicula().getTitulo()}</div>
+                                        <div class="col-lg-3 col-md-4 col-6 label ">Película</div>
+                                        <div class="col-lg-9 col-md-8 col-6">${reserva.getProyeccion().getPelicula().getTitulo()}</div>
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-lg-3 col-md-4 label ">Comienzo</div>
-                                        <div class="col-lg-9 col-md-8">${reserva.getProyeccion().getComienzo()} || ${reserva.getProyeccion().getDia()}</div>
+                                        <div class="col-lg-3 col-md-4 col-6 label ">Comienzo</div>
+                                        <div class="col-lg-9 col-md-8 col-6">${reserva.getProyeccion().getDia()} a las ${reserva.getProyeccion().getComienzo()}</div>
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-lg-3 col-md-4 label ">Sala</div>
-                                        <div class="col-lg-9 col-md-8">${reserva.getProyeccion().getSala().getNombre()}</div>
+                                        <div class="col-lg-3 col-md-4 col-6 label ">Sala</div>
+                                        <div class="col-lg-9 col-md-8 col-6">${reserva.getProyeccion().getSala().getNombre()}</div>
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-lg-3 col-md-4 label">Asientos</div>
-                                        <div class="col-lg-9 col-md-8">
-                                            <c:forEach var="reservado" items="${reserva.getAsientos()}">
-                                                <span>${reservado.getAsiento().getName()}</span>
+                                        <div class="col-lg-3 col-md-4 col-6 label">Asientos</div>
+                                        <div class="col-lg-9 col-md-8 col-6">
+                                            <c:forEach var="entradasElem" items="${reserva.entradas}">
+                                                <span>${entradasElem.getAsiento().getName()}</span>
                                             </c:forEach>
 
                                         </div>

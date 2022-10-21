@@ -365,7 +365,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-right: 6px;
 }
 .logo span {
-  font-size: 50px;
+  font-size: 40px;
   color: #012970;
   font-family: 'Praise', cursive !important;
 }
@@ -450,7 +450,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .header-nav .nav-icon {
   font-family: 'Praise', cursive !important;
-  font-size: 35px;
+  font-size: 30px;
   color: #012970;
 }
 .header-nav .nav-profile {
@@ -1105,4 +1105,10 @@ h1, h2, h3, h4, h5, h6 {
 .fontPraise{
   font-family: 'Praise', cursive !important;
   font-size: 150px;
+}
+
+@media (min-width: 425px) {
+  .fontPraise{
+    font-size: 150px;
+  }
 }

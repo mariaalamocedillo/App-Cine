@@ -23,7 +23,7 @@
 
             <li class="nav-item ">
                 <a class="nav-link nav-icon search-bar-toggle " href="${mvc.basePath}/cartelera">
-                    Películas
+                    Cartelera
                 </a>
             </li>
 

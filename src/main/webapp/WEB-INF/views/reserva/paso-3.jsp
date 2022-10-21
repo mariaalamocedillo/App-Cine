@@ -71,10 +71,10 @@
                                                     <li class="list-group-item d-flex justify-content-between lh-condensed">
                                                         <div>
                                                             <select name="selectPrecio" id="listaPrecios-${indexEntrada.index}" class="form-select" aria-label="Default select example"
-                                                                    onchange="actualizoPrecios(${indexEntrada.index}, this.value); actualizoEntradas()"
+                                                                    onchange="actualizoPrecios(${indexEntrada.index}, this.value)"
                                                                     ${precio.nombre == 'Dia del espectador' ? 'disabled' : ''}> <!--si es el dia del espectador, deshabilitamos el seleccionable-->
 
-                                                                <option name="infoEntrada" id="${entrada.id}-${elementoPrecios.id}-${elementoPrecios.precioFinal}" value="${precio.precioFinal}" selected>${precio.nombre}</option>
+                                                                <option name="infoEntrada" value="${entrada.id}-${precio.id}-${precio.precioFinal}" selected>${precio.nombre}</option>
                                                                 <c:forEach var="elementoPrecios" items="${listadoPrecios}">
                                                                     <option name="infoEntrada" value="${entrada.id}-${elementoPrecios.id}-${elementoPrecios.precioFinal}">${elementoPrecios.nombre}</option>
                                                                 </c:forEach>
@@ -97,8 +97,8 @@
                                             <form class="needs-validation" novalidate="" method="post" action="${mvc.basePath}/reserva/pagada">
                                                 <h4 class="mb-3">Pago</h4>
 
-                                                <input hidden id="precioFinal" value="${precioTempTotal}"/>
-                                                <input hidden id="listPreciosEntradas" value=""/>
+                                                <input hidden id="precioFinal" name="precioFinal" value="${precioTempTotal}"/>
+                                                <input hidden id="listPreciosEntradas" name="listPreciosEntradas" value=""/>
                                                 <div class="d-block my-3">
                                                     <div class="custom-control custom-radio">
                                                         <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked="" required="">
@@ -166,7 +166,7 @@
 
 <script>
 //TODO comprobar form js esto resto pags tmbn
-    import {valueOrDefault} from "../../../resources/assets/vendor/chart.js/helpers.esm";
+    //import {valueOrDefault} from "../../../resources/assets/vendor/chart.js/helpers.esm";
 
 (function() {
         'use strict';
@@ -186,7 +186,8 @@
                 }, false);
             });
         }, false);
-    })();
+
+})();
 
 
     function actualizoPrecios(indiceElemento, precio) {
@@ -201,9 +202,10 @@
             var valor = preciosSeleccionados.item(i).innerHTML;
             cantidadTotal += parseFloat(valor);
         }
-        document.getElementById('precioFinal').innerText = cantidadTotal;
-
         precioFinalElmn.innerText = cantidadTotal;
+
+        document.getElementById('precioFinal').setAttribute('value', cantidadTotal);
+        actualizoEntradas();
     }
 
     function actualizoEntradas() {
@@ -217,7 +219,7 @@
             stringEntradas += listSelectPrecios[i].value
             console.log(stringEntradas);
         }
-        preciosEntradasElem.innerText = stringEntradas;
+        preciosEntradasElem.setAttribute('value', stringEntradas);
     }
 
 </script>
