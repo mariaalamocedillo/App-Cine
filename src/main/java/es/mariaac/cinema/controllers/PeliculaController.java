@@ -78,7 +78,13 @@ public class PeliculaController {
 
         models.put("peliculas", peliculaService.findProyectandoR());
         models.put("peliculasProyectando", peliculaService.findProyectandoR());
-        models.put("diasProyecciones", proyeccionService.diasProyecciones());
+
+
+        models.put("diasPeliculas", proyeccionService.diasPeliculas());
+
+        models.put("proyecciones7Dias", proyeccionService.proyecciones7Dias());
+
+        models.put("diasDeProyecciones", proyeccionService.diasDeProyecciones());
 
 
 

@@ -10,6 +10,7 @@ import jakarta.transaction.UserTransaction;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -70,12 +71,28 @@ public class ProyeccionService {
     }
 
 
-    public HashMap<LocalDate, List<Proyeccion>> diasProyecciones(){
+    public List<String> diasDeProyecciones(){
+        List<LocalDate> dias = split(proyeccionRepository.findDiasProyecciones());
+        List<String> diasString = new ArrayList<>();
+        for (LocalDate dia: dias) {
+            diasString.add(dia.format(DateTimeFormatter.ofPattern("dd/MM")));
+        }
+        return diasString;
+    }
+    public List<Proyeccion> proyecciones7Dias(){
         List<Proyeccion> proyecciones = new ArrayList<>();
         List<LocalDate> dias = split(proyeccionRepository.findDiasProyecciones());
-        HashMap<LocalDate, List<Proyeccion>> resultados = new HashMap<>();
         for (LocalDate dia: dias) {
-            resultados.put(dia, proyeccionRepository.findProyeccionDia(dia));
+            proyecciones.addAll(proyeccionRepository.findProyeccionDia(dia));
+        }
+        return proyecciones;
+    }
+
+    public HashMap<LocalDate, List<Pelicula>> diasPeliculas(){
+        List<LocalDate> dias = split(proyeccionRepository.findDiasProyecciones());
+        HashMap<LocalDate, List<Pelicula>> resultados = new HashMap<>();
+        for (LocalDate dia: dias) {
+            resultados.put(dia, proyeccionRepository.findPeliculasProyecciones(dia));
         }
         return resultados;
     }
