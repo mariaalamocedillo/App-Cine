@@ -34,22 +34,7 @@
 
     <!-- Template Main CSS File -->
     <link href="${pageContext.request.contextPath}/resources/assets/css/style.css" rel="stylesheet">
-    <style>
-
-        .selected {
-            background: red !important;
-        }
-        table{
-            border-collapse: collapse;
-        }
-        tr, td, th{
-            border: 2px black solid;
-            border-collapse: collapse;
-            height: 20px;
-            width: 20px;
-
-        }
-    </style>
+    <link href="${pageContext.request.contextPath}/resources/css/seats-style.css" rel="stylesheet">
 
 </head>
 
@@ -69,19 +54,13 @@
                             <div class="card-header">
                                 <nav>
                                     <ol class="breadcrumb mb-0" style="--bs-breadcrumb-divider: '>';">
-                                        <li class="breadcrumb-item active">Reserva</li>
-                                        <li class="breadcrumb-item">Asientos</li>
-                                        <li class="breadcrumb-item">Pago</li>
+                                        <li class="breadcrumb-item active">Creación de sala</li>
                                     </ol>
                                 </nav>
                             </div>
 
-                            <!--IMAGEN-->
                             <div class="row">
-                                <div class="col-lg-6 text-center">
-
-                                </div>
-
+                                <div class="col-lg-6 text-center"></div>
                                 <div class="card col-lg-5 col-sm-10 rounded-xl  m-auto">
                                     <div class="card-body">
 
@@ -98,9 +77,13 @@
                                                     </c:if>
                                                     <label for="nombre">Nombre de la sala</label>
                                                     <input type="text" id="nombre" name="nombre" value="${sala.nombre}">
-                                                    <div id="contenedor">
 
+                                                    <div class="container justify-content-center">
+                                                        <div class="screen"></div>
+                                                        <div id="contenedor"></div>
                                                     </div>
+
+
 
                                                     <label for="filas">Filas</label>
                                                     <input type="number" id="filas" autofocus>
@@ -130,8 +113,6 @@
 
     </div>
 </main><!-- End #main -->
-
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->
 <script src="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

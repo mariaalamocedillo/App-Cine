@@ -21,7 +21,7 @@ function genera_tabla(filas, columnas) {
   for (var i = 0; i < filas; i++) {
     // Crea las hileras de la tabla
     var hilera = document.createElement("tr");
-
+    hilera.classList.add("rowSeats")
     for (var j = 0; j < columnas; j++) {
       // Crea un elemento <td> y un nodo de texto, haz que el nodo de
       // texto sea el contenido de <td>, ubica el elemento <td> al final
@@ -29,6 +29,7 @@ function genera_tabla(filas, columnas) {
       var celda = document.createElement("td");
       //var textoCelda = document.createTextNode(abecedario[i]+(j+1));
       celda.setAttribute('id', abecedario[j]+(i+1));
+      celda.classList.add("seat");
       //celda.appendChild(textoCelda);
       hilera.appendChild(celda);
     }

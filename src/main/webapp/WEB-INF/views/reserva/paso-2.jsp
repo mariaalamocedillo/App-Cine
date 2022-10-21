@@ -90,11 +90,11 @@
                                                 </li>
                                                 <li>
                                                     <div class="seat selected"></div>
-                                                    <small>Selected</small>
+                                                    <small>Seleccionado</small>
                                                 </li>
                                                 <li>
                                                     <div class="seat occupied"></div>
-                                                    <small>Occupied</small>
+                                                    <small>Ocupado</small>
                                                 </li>
                                             </ul>
 

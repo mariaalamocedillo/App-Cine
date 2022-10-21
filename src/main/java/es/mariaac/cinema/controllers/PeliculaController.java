@@ -44,8 +44,9 @@ public class PeliculaController {
     @GET
     @Path("/")
     public String index() {
-        models.put("peliculas", peliculaService.findAll());
-        models.put("peliculasProyectando", peliculaService.findProyectandoR()); //TODO usar para horarios y dias por js
+        models.put("diasPeliculas", proyeccionService.diasPeliculas());
+        models.put("proyecciones7Dias", proyeccionService.proyecciones7Dias());
+        models.put("diasDeProyecciones", proyeccionService.diasDeProyecciones());
         return "list-peliculas";
     }
 
@@ -66,32 +67,6 @@ public class PeliculaController {
     }
 
     /**
-     *
-     *
-     *
-     * @return página listado de películas
-     * @since 1.0
-     */
-    @GET
-    @Path("/pruebas")
-    public String proyectandoProvis() {
-
-        models.put("peliculas", peliculaService.findProyectandoR());
-        models.put("peliculasProyectando", peliculaService.findProyectandoR());
-
-
-        models.put("diasPeliculas", proyeccionService.diasPeliculas());
-
-        models.put("proyecciones7Dias", proyeccionService.proyecciones7Dias());
-
-        models.put("diasDeProyecciones", proyeccionService.diasDeProyecciones());
-
-
-
-        return "list-provis";
-    }
-
-    /**
      *  Método que busca si existe una pelicula con ese id para obtener sus
      *  detalles y las proyecciones de la misma. Devuelve dicha información
      *  en caso de que exista, si no redirige de nuevo al listado de peliculas
@@ -104,7 +79,6 @@ public class PeliculaController {
     @GET
     @Path("{id}")
     public String detalle(@PathParam("id") @NotNull Long id) {
-
         Optional<Pelicula> pelicula = peliculaService.buscarPorId(id);
 
         if (pelicula.isPresent()) {
@@ -115,7 +89,4 @@ public class PeliculaController {
         }
         return "redirect:cartelera";
     }
-
-
-
 }

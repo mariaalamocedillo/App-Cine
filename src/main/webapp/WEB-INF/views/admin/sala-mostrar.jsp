@@ -125,7 +125,6 @@
 
         window.addEventListener('load', function() {
 
-            generarTabla(${filas}, ${columnas});
 
         }, false);
     })();
