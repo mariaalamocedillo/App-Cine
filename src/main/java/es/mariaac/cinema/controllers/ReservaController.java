@@ -125,7 +125,8 @@ public class ReservaController {
             reservaService.guardar(reserva);
             HttpSession session = request.getSession();
             session.setAttribute("reservaId", reserva.getId());
-            session.setAttribute("reservaTimeCreation", LocalDateTime.now());
+            if (session.getAttribute("reservaTimeCreation") == null)
+                session.setAttribute("reservaTimeCreation", LocalDateTime.now());
             models.put("timerTime", session.getAttribute("reservaTimeCreation"));
             models.put("reserva", reserva);
             return "reserva/paso-2";
