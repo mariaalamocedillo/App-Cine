@@ -59,13 +59,20 @@
 
                         <div class="card rounded-xl justify-content-between m-auto w-100">
                             <div class="card-header">
-                                <nav>
-                                    <ol class="breadcrumb mb-0" style="--bs-breadcrumb-divider: '>';">
-                                        <li class="breadcrumb-item">Reserva</li>
-                                        <li class="breadcrumb-item active">Asientos</li>
-                                        <li class="breadcrumb-item">Pago</li>
-                                    </ol>
-                                </nav>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <nav>
+                                            <ol class="breadcrumb mb-0" style="--bs-breadcrumb-divider: '>';">
+                                                <li class="breadcrumb-item">Reserva</li>
+                                                <li class="breadcrumb-item active">Asientos</li>
+                                                <li class="breadcrumb-item">Pago</li>
+                                            </ol>
+                                        </nav>
+                                    </div>
+                                    <div class="col-6">
+                                        <button id="demo" class="bg-danger-light rounded-1" style="float: right;" disabled></button>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="card-body">
@@ -176,6 +183,7 @@
                                                 <input type="submit" class="btn btn-primary text-light" value="Siguiente">
                                             </form>
 
+                                            <span id="reservaTimeCreation" style="display: none;" hidden>${reservaTimeCreation}</span>
 
 
                                         </div><!--fin cuadro-->
@@ -211,6 +219,42 @@
 <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/seats-js.js"></script>
 
+<script>
+
+    window.addEventListener('load', (event) => {
+        crearTimer(document.getElementById("reservaTimeCreation").innerText);
+    });
+
+
+    function crearTimer(fecha){
+        // Set the date we're counting down to
+        var fechaCreacion = new Date(fecha).getTime() + (1000 * 60 * 10);
+
+// Update the count down every 1 second
+        var x = setInterval(function() {
+
+            // Get today's date and time
+            var now = new Date().getTime();
+
+            // Find the distance between now and the count down date
+            var distance = fechaCreacion - now;
+
+            // Time calculations for minutes and seconds
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Output the result in an element with id="demo"
+            document.getElementById("demo").innerHTML = minutes + "m " + seconds + "s ";
+
+            // If the count down is over, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "Reserva cancelada";
+            }
+        }, 1000);
+    }
+
+</script>
 </body>
 
 </html>

@@ -47,22 +47,29 @@
 
                         <div class="card rounded-xl justify-content-between m-auto w-100">
                             <div class="card-header">
-                                <nav>
-                                    <ol class="breadcrumb mb-0" style="--bs-breadcrumb-divider: '>';">
-                                        <li class="breadcrumb-item">Reserva</li>
-                                        <li class="breadcrumb-item">Asientos</li>
-                                        <li class="breadcrumb-item active">Pago</li>
-                                    </ol>
-                                </nav>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <nav>
+                                            <ol class="breadcrumb mb-0" style="--bs-breadcrumb-divider: '>';">
+                                                <li class="breadcrumb-item">Reserva</li>
+                                                <li class="breadcrumb-item">Asientos</li>
+                                                <li class="breadcrumb-item active">Pago</li>
+                                            </ol>
+                                        </nav>
+                                    </div>
+                                    <div class="col-6">
+                                        <button id="demo" class="bg-danger-light rounded-1" style="float: right;" disabled></button>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="card-body">
 
                                 <div>
                                     <div class="row">
-                                        <div class="col-md-6 order-md-2 mb-4">
+                                        <div class="col-md-6 order-md-2 mb-4 mt-2">
                                             <h4 class="d-flex justify-content-between align-items-center mb-3">
-                                                <span class="text-muted">Entradas para ${reserva.proyeccion.pelicula.titulo} </span>
+                                                <span class="text-muted ">Entradas para ${reserva.proyeccion.pelicula.titulo} </span>
                                                 <span class="badge badge-secondary badge-pill">${entradas.size()}</span>
                                             </h4>
                                             <!--Resumen de la compra-->
@@ -93,7 +100,7 @@
                                                 </li>
                                             </ul>
                                         </div>
-                                        <div class="col-md-6 order-md-1">
+                                        <div class="col-md-6 order-md-1  mt-2">
                                             <form class="needs-validation" novalidate="" method="post" action="${mvc.basePath}/reserva/pagada">
                                                 <h4 class="mb-3">Pago</h4>
 
@@ -145,7 +152,9 @@
                                                     </div>
                                                 </c:if>
                                                 <button class="btn col-5 btn-primary btn-lg btn-block" type="submit">Pagar</button>
+                                                <input type="text" id="ids" name="ids" hidden/>
                                             </form>
+                                            <span id="reservaTimeCreation" style="display: none;" hidden>${reservaTimeCreation}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -173,6 +182,7 @@
 
         window.addEventListener('load', function() {
             actualizoEntradas()
+            crearTimer(document.getElementById("reservaTimeCreation").innerText);
             // Fetch all the forms we want to apply custom Bootstrap validation styles to
             var forms = document.getElementsByClassName('needs-validation');
             // Loop over them and prevent submission
@@ -221,6 +231,36 @@
         }
         preciosEntradasElem.setAttribute('value', stringEntradas);
     }
+
+
+
+function crearTimer(fecha){
+    // Set the date we're counting down to
+    var fechaCreacion = new Date(fecha).getTime() + (1000 * 60 * 10);
+
+// Update the count down every 1 second
+    var x = setInterval(function() {
+
+        // Get today's date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now and the count down date
+        var distance = fechaCreacion - now;
+
+        // Time calculations for minutes and seconds
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Output the result in an element with id="demo"
+        document.getElementById("demo").innerHTML = minutes + "m " + seconds + "s ";
+
+        // If the count down is over, write some text
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("demo").innerHTML = "Reserva cancelada";
+        }
+    }, 1000);
+}
 
 </script>
 

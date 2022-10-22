@@ -21,6 +21,8 @@ public class ReservaService {
         return reservaRepository.findAll();
     }
 
+    public void delete (Reserva reserva) {reservaRepository.remove(reserva);}
+
     public Optional<Reserva> buscarPorId(Long id) {
         return reservaRepository.findOptionalBy(id);
     }

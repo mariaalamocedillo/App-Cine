@@ -13,6 +13,8 @@ import jakarta.validation.executable.ValidateOnExecution;
 import jakarta.ws.rs.*;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -123,6 +125,8 @@ public class ReservaController {
             reservaService.guardar(reserva);
             HttpSession session = request.getSession();
             session.setAttribute("reservaId", reserva.getId());
+            session.setAttribute("reservaTimeCreation", LocalDateTime.now());
+            models.put("timerTime", session.getAttribute("reservaTimeCreation"));
             models.put("reserva", reserva);
             return "reserva/paso-2";
         } catch (Exception e) {
@@ -135,8 +139,10 @@ public class ReservaController {
 
     /**
      *  Método que comprueba la sesión del cliente (redirige al login si no se encuentra)
-     *  y la reserva. Se obtiene el id de reserva de la sesión y se procede a obtener dicha
-     *  sesion, se redirige al paso anterior si no se encuentra un id o la sesión del id.Se
+     *  y la reserva, así como el tiempo que ha pasado desde que se comenzó la reserva, pues
+     *  a los clientes se les dan 15 minutos para poder liberar los asientos si no la completan.
+     *  Se obtiene el id de reserva de la sesión y se procede a obtener dicha sesion,
+     *  se redirige al paso anterior si no se encuentra un id o la sesión del id.Se
      *  comprueba que el cliente de la sesion obtenida concuerda con el de la reserva
      *  En caso de no tener ningun asiento seleccionado, se redirecciona al paso 2.
      *  Se procede a obtener el listado de descuentos, eliminando el 'dia del espectador' si
@@ -170,7 +176,11 @@ public class ReservaController {
             mensaje.setTexto("Hubo un problema con su reserva, inténtelo más tarde");
             return "reserva/paso-1";
         }
-
+        if (compruebaTimerReserva()){
+            reservaService.delete(reserva);
+            mensaje.setTexto("Se expiró el tiempo para completar la reserva, inténtelo de nuevo");
+            return "redirect:reserva/pelicula/" + reserva.getProyeccion().getId();
+        }
         //comprueba si cliente de la reserva es igual al de la sesión
         if (!Objects.equals(cliente.getId(), reserva.getCliente().getId())){
             mensaje.setTexto("Hubo un error con su reserva, inténtelo de nuevo más tarde");
@@ -218,6 +228,7 @@ public class ReservaController {
         try {
             reservaService.guardar(reserva);
             session.setAttribute("entradas", asientos);
+            models.put("timerTime", session.getAttribute("reservaTimeCreation"));
             return "reserva/paso-3";
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -263,6 +274,11 @@ public class ReservaController {
             mensaje.setTexto("Hubo un problema con su reserva, inténtelo más tarde");
             return "reserva/paso-3";
         }
+        if (compruebaTimerReserva()){
+            reservaService.delete(reserva);
+            mensaje.setTexto("Se expiró el tiempo para completar la reserva, inténtelo de nuevo");
+            return "redirect:reserva/pelicula/" + reserva.getProyeccion().getId();
+        }
         Cliente cliente = compruebaSesion();
         if (cliente == null)
             return "redirect:usuario";
@@ -281,7 +297,6 @@ public class ReservaController {
             if (entradaOptional.isPresent() && precioOptional.isPresent()){
                 Entrada entrada = entradaOptional.get();
                 entrada.setPrecio(precioOptional.get());
-                System.out.println("······················· "+ entrada.getId());
                 try{
                     entradaService.guardar(entrada);
                 }catch (Exception e) {
@@ -291,7 +306,6 @@ public class ReservaController {
                 }
             }
         }
-        System.out.println("······················· en linea 294");
 
         //comprobar si datos de pago fueron rellenados y son válidos y se almacena
         if (numTarj == null){
@@ -303,11 +317,9 @@ public class ReservaController {
             models.put("reserva", reserva);
             return "reserva/paso-3";
         }
-        System.out.println("······················· en linea 306");
 
         reserva.setPagada(true);    //la establecemos como pagada
         models.put("entradas", models.get("entradas"));
-        System.out.println("······················· en linea 310");
 
         try {
             reservaService.guardar(reserva);
@@ -317,7 +329,6 @@ public class ReservaController {
             mensaje.setTexto("Ocurrió un error y la reserva de " + reserva.getProyeccion().getPelicula().getTitulo() + ") no se pudo almacenar.");
             return "reserva/paso-3";
         }
-        System.out.println("······················· en linea 320");
         models.put("reserva", reservaService.findReservas(reserva.getCliente().getId()));
         session.removeAttribute("reservaId");
         session.removeAttribute("entradas");
@@ -380,5 +391,26 @@ public class ReservaController {
             return null;
         }
         return cliente;
+    }
+
+    /**
+     *  Método que comprueba que la sesión de una reserva no ha excedido el tiempo
+     *  límite permitido para realizarla, borrando los datos de dicha reserva en
+     *  la sesión Http si ya excedió el tiempo.
+     *
+     * @return boolean según si se pasó el tiempo
+     * @since 1.0
+     */
+    private Boolean compruebaTimerReserva(){
+        HttpSession session = request.getSession();
+        LocalDateTime creacion = (LocalDateTime) session.getAttribute("reservaTimeCreation");
+        LocalDateTime ahora = LocalDateTime.now();
+        Duration duration = Duration.between(creacion, ahora);
+        boolean estado = duration.toMinutes() > 10;
+        if (estado){
+            session.removeAttribute("reservaId");
+            session.removeAttribute("reservaTimeCreation");
+        }
+        return estado;
     }
 }
