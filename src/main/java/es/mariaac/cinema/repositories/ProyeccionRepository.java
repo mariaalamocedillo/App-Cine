@@ -23,6 +23,9 @@ public abstract class ProyeccionRepository extends AbstractFullEntityRepository<
     @Query("select p from Proyeccion p where dia >= current_date and pelicula.id = ?1")
     public abstract List<Proyeccion> findActualId(Long id);
 
+    @Query("select p from Proyeccion p where dia = ?1 and sala.id = ?2")
+    public abstract List<Proyeccion> findProyeccionesSalaFecha(LocalDate dia, Long id);
+
     @Query("select DISTINCT p.dia from Proyeccion p where dia >= current_date order by p.dia")
     public abstract List<LocalDate> findDiasProyecciones();
 

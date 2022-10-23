@@ -28,17 +28,16 @@
 
 <main role="main">
 
-<%--
+<%----%>
     <section class="jumbotron text-center">
         <div class="container">
             <h1 class="h-50 text-light fontPraise">Cines Petri®</h1>
             <p>
-                <a href="${mvc.basePath}/cartelera/proyectando" class="btn btn-primary my-2">Películas en proyección</a>
-                <a href="${mvc.basePath}/cartelera/" class="btn btn-secondary my-2">Explorar todas las películas</a>
+                <a href="${mvc.basePath}/cartelera/descubrir" class="btn btn-primary my-2">Explorar todas las películas</a>
             </p>
         </div>
     </section>
---%>
+
 
     <div class="album py-5">
         <div class="container">

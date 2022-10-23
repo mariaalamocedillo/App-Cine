@@ -2,6 +2,7 @@ package es.mariaac.cinema.controllers;
 
 import es.mariaac.cinema.entities.*;
 import es.mariaac.cinema.services.*;
+import jakarta.ejb.Local;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
@@ -12,7 +13,11 @@ import jakarta.validation.executable.ExecutableType;
 import jakarta.validation.executable.ValidateOnExecution;
 import jakarta.ws.rs.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.Nullable;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Optional;
 
 
@@ -23,9 +28,6 @@ import java.util.Optional;
 public class AdminController {
     @Inject
     private Models models;
-
-    @Inject
-    ClienteService clienteService;
 
     @Inject
     PeliculaService peliculaService;
@@ -60,7 +62,7 @@ public class AdminController {
     }
 
 
-//  *********   CONTROL DE SALAS   *********
+/* *********   CONTROL DE SALAS   ********* */
 
     @GET
     @Path("sala/form")
@@ -69,6 +71,26 @@ public class AdminController {
         Sala sala = new Sala();
         models.put("sala", sala);
         return "admin/creacion-sala";
+    }
+
+    @GET
+    @Path("horarios{dia:(/dia/[^/]+?)?}")
+    public String horariosProyeccion(@PathParam("dia") String fecha) {
+        String dia;
+        if (fecha == null || fecha.equals(""))
+            dia = String.valueOf(LocalDate.now());
+        else
+            dia = fecha.split("/")[2];
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
+
+        String[] horarios = {"16:00", "18:30", "21:00", "23:30"};
+        models.put("horarios", horarios);
+        models.put("dia", dia);
+        models.put("infoSalas", proyeccionService.horariosProyecciones(LocalDate.parse(dia, formatter)));
+        models.put("peliculas", peliculaService.findAll());
+
+        return "admin/horarios-sala";
     }
 
 
@@ -114,7 +136,7 @@ public class AdminController {
     }
 
 
-//  *********   CONTROL DE PELÍCULAS   *********
+/*  *********   CONTROL DE PELÍCULAS   *********  */
     /**
      *  Método que obtiene todas las películas proyectandose y las que no
      *  para mostrarlas en la pagina del listado para el administrador (donde
@@ -244,7 +266,7 @@ public class AdminController {
 
         return "redirect:admin/pelicula";
     }
-//  *********   CONTROL DE PROYECCIONES   *********
+/*  *********   CONTROL DE PROYECCIONES   *********  */
 
 
 }

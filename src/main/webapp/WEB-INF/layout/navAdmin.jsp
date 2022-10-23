@@ -56,6 +56,13 @@
                         </a>
                     </li>
 
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="${mvc.basePath}/admin/horarios/">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>Programación proyecciones</span>
+                        </a>
+                    </li>
+
                 </ul><!-- End Profile Dropdown Items -->
             </li><!-- End Profile Nav -->
 

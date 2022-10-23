@@ -35,7 +35,7 @@ public class Pelicula {
     @JsonManagedReference
     private List<Proyeccion> proyecciones = new ArrayList<>();
 
-    @Column(nullable = true)
+    @Column()
     private String estudio;
 
     @Column(nullable = false)

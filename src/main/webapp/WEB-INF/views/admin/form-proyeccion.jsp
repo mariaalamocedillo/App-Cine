@@ -43,7 +43,7 @@
           <div class="card-body m-3">
             <h3 class="m-5 text-center">${not empty proyeccion.id ? 'Editar' : 'Nueva'} proyección</h3>
 
-            <form id="form" method="post" action="${mvc.basePath}/admin/proyeccion/nueva/submit">
+            <form id="form" method="post" action="${mvc.basePath}/admin/proyeccion/submit">
 
               <c:if test="${not empty proyeccion.id}">
                 <input id="id" name="id" type="hidden" value="${proyeccion.id}"/>
@@ -82,7 +82,6 @@
                     <input type="date" id="dia" name="dia" class="form-control" required>
                   </c:otherwise>
                 </c:choose>
-
               </div>
               <div class="invalid-feedback">
                 <span class="alert alert-danger">Debe seleccionar un día</span>
@@ -106,7 +105,7 @@
               <label for="sala" class="form-label">Sala</label>
               <select id="sala" name="sala" class="form-select">
                 <c:forEach var="sala" items="${salas}">
-                  <option value="${sala.id}">${sala.nombre}</option>
+                  <option value="${sala.id}" ${not empty proyeccion.id && proyeccion.sala.id == sala.id ? 'selected' : ''}>${sala.nombre}</option>
                 </c:forEach>
               </select>
             </div>

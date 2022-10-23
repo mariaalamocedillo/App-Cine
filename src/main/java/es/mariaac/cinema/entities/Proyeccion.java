@@ -15,7 +15,7 @@ import java.time.LocalTime;
         @UniqueConstraint(name = "uc_sala_comienzo_dia", columnNames = {"comienzo", "sala_id", "dia"})
 })
 public class Proyeccion {
-    public Proyeccion(LocalTime comienzo, LocalDate dia, Sala sala, Pelicula pelicula) {
+    public Proyeccion(Pelicula pelicula, Sala sala, LocalDate dia, LocalTime comienzo) {
         this.comienzo = comienzo;
         this.dia = dia;
         this.sala = sala;

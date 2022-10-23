@@ -8,8 +8,6 @@ import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
 import jakarta.mvc.Models;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.executable.ExecutableType;
-import jakarta.validation.executable.ValidateOnExecution;
 import jakarta.ws.rs.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,10 +28,6 @@ public class PeliculaController {
     private ProyeccionService proyeccionService;
 
 
-    @Inject
-    private Mensaje mensaje;
-
-
     /**
      *  Método que obtiene todas las películas que están siendo proyectadas
      *  para mostrarlas en la pagina del listado
@@ -52,18 +46,17 @@ public class PeliculaController {
 
 
     /**
-     *  Método que obtiene todas las películas que están siendo proyectadas
-     *  para mostrarlas en la pagina del listado
+     *  Método que obtiene todas las películas que están siendo proyectadas y las
+     *  almacenadas en la base de datos para mostrarlas en la pagina del listado
      *
      * @return página listado de películas
      * @since 1.0
      */
     @GET
-    @Path("/proyectando")
+    @Path("/descubrir")
     public String proyectando() {
-        models.put("peliculas", peliculaService.findProyectandoR());
-        models.put("peliculasProyectando", peliculaService.findProyectandoR());
-        return "list-peliculas";
+        models.put("peliculas", peliculaService.findAll());
+        return "descubrir-peliculas";
     }
 
     /**

@@ -1,4 +1,5 @@
 package es.mariaac.cinema.controllers;
+import es.mariaac.cinema.entities.Cliente;
 import es.mariaac.cinema.entities.Pelicula;
 import es.mariaac.cinema.entities.Proyeccion;
 import es.mariaac.cinema.entities.Sala;
@@ -53,16 +54,16 @@ public class ProyeccionController {
     public String borrar(@PathParam("id") @NotNull Long id) {
         log.debug("Borrando proyección {}", id);
 
-        Optional<Proyeccion> proyeccion = proyeccionService.buscarPorId(id);
+        Optional<Proyeccion> proyeccionOpt = proyeccionService.buscarPorId(id);
 
-        if (proyeccion.isPresent()) {
-            Proyeccion pro = proyeccion.get();
+        if (proyeccionOpt.isPresent()) {
+            Proyeccion proyeccion = proyeccionOpt.get();
             try {
-                proyeccionService.borrar(pro);
-                mensaje.setTexto("La pregunta " + pro.getId() + " se eliminó satisfactoriamente ! ");
+                proyeccionService.borrar(proyeccion);
+                mensaje.setTexto("La pregunta " + proyeccion.getId() + " se eliminó satisfactoriamente ! ");
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
-                mensaje.setTexto("Ocurró un error y la pregunta " + pro.getId() + " no se pudo eliminar.");
+                mensaje.setTexto("Ocurró un error y la pregunta " + proyeccion.getId() + " no se pudo eliminar.");
             }
         }
 
@@ -95,21 +96,45 @@ public class ProyeccionController {
             models.put("peliculas", peliculaService.findProyectandoR());
         }
 
-        models.put("salas", salas);
         return "admin/form-proyeccion";
     }
 
+
+
+    @GET
+    @Path("datosNueva/{idPelicula}/{dia}/{hora}/{idSala}")
+    public String nuevaIdPelicula(@PathParam("idPelicula") Long idPelicula, @PathParam("idSala") Long idSala,
+                                  @PathParam("dia") String dia, @PathParam("hora") String hora) {
+
+        Optional<Sala> salaOpt = salaService.buscarPorId(idSala);
+        Optional<Pelicula> peliculaOpt = peliculaService.buscarPorId(idPelicula);
+        if (salaOpt.isEmpty() || peliculaOpt.isEmpty()){
+            mensaje.setTexto("Ocurrió un error; la sala o pelicula introducida es incorrecta.");
+            return "redirect:admin/horarios";
+        }
+        Pelicula pelicula = peliculaOpt.get();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
+        Proyeccion proyeccion = new Proyeccion(peliculaOpt.get(), salaOpt.get(),
+                LocalDate.parse(dia, formatter), LocalTime.parse(hora));
+
+        almacenarProyeccion(pelicula, proyeccion);
+        return "redirect:admin/horarios";
+
+    }
+
+
+
     @POST
-    @Path("nueva/submit")
+    @Path("submit")
     @ValidateOnExecution(type = ExecutableType.NONE)
     public String submitNueva(@FormParam("id") Long id, @FormParam("comienzo") String comienzo,
                               @FormParam("dia") String dia, @FormParam("sala") Long salaId,
                               @FormParam("peliculaId") Long peliculaId) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
 
-        Optional<Sala> sala = salaService.buscarPorId(salaId);
-        Optional<Pelicula> pelicula = peliculaService.buscarPorId(peliculaId);
-        if (sala.isEmpty() || pelicula.isEmpty()){
+        Optional<Sala> salaOpt = salaService.buscarPorId(salaId);
+        Optional<Pelicula> peliculaOpt = peliculaService.buscarPorId(peliculaId);
+        if (salaOpt.isEmpty() || peliculaOpt.isEmpty()){
             models.put("salas", salaService.findAll());
             models.put("peliculas", peliculaService.findAll());
             mensaje.setTexto("Ocurrió un error; la sala o película no se encuentra disponible.");
@@ -120,22 +145,28 @@ public class ProyeccionController {
         Proyeccion proyeccion;
         //actualiza
         proyeccion = proyeccionOpt.orElseGet(Proyeccion::new);
-        Pelicula pelicula1 = pelicula.get();
+        Pelicula pelicula = peliculaOpt.get();
         proyeccion.setDia(LocalDate.parse(dia, formatter));
         proyeccion.setComienzo(LocalTime.parse(comienzo));
-        proyeccion.setPelicula(pelicula1);
-        proyeccion.setSala(sala.get());
+        proyeccion.setPelicula(pelicula);
+        proyeccion.setSala(salaOpt.get());
 
+        almacenarProyeccion(pelicula, proyeccion);
+        return "redirect:admin/proyeccion";
+    }
+
+    public void almacenarProyeccion(Pelicula pelicula, Proyeccion proyeccion){
         try {
             proyeccionService.guardar(proyeccion);
-            pelicula1.setEnProyeccion(true);
-            peliculaService.guardar(pelicula1);
-            mensaje.setTexto("La proyeccion " + proyeccion.getId() + " de la película " + proyeccion.getPelicula().getTitulo() + " se guardó satisfactoriamente ! ");
+            pelicula.setEnProyeccion(true);
+            peliculaService.guardar(pelicula);
+            mensaje.setTexto("La proyeccion " + proyeccion.getId() + " de la película "
+                    + proyeccion.getPelicula().getTitulo() + " se guardó satisfactoriamente ! ");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            mensaje.setTexto("Ocurrió un error y la proyección " + proyeccion.getId() + " de la película " + proyeccion.getPelicula().getTitulo() + " no se pudo almacenar.");
+            mensaje.setTexto("Ocurrió un error y la proyección " + proyeccion.getId()
+                    + " de la película " + proyeccion.getPelicula().getTitulo() + " no se pudo almacenar.");
         }
-        return "redirect:admin/proyeccion";
     }
 
 }

@@ -2,6 +2,7 @@ package es.mariaac.cinema.services;
 
 import es.mariaac.cinema.entities.*;
 import es.mariaac.cinema.repositories.ProyeccionRepository;
+import es.mariaac.cinema.repositories.SalaRepository;
 import jakarta.annotation.Resource;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -23,6 +24,8 @@ import java.util.stream.IntStream;
 public class ProyeccionService {
     @Inject
     ProyeccionRepository proyeccionRepository;
+    @Inject
+    SalaRepository salaRepository;
 
     @Resource
     UserTransaction transaction;
@@ -79,6 +82,8 @@ public class ProyeccionService {
         }
         return diasString;
     }
+
+
     public List<Proyeccion> proyecciones7Dias(){
         List<Proyeccion> proyecciones = new ArrayList<>();
         List<LocalDate> dias = split(proyeccionRepository.findDiasProyecciones());
@@ -93,6 +98,17 @@ public class ProyeccionService {
         HashMap<LocalDate, List<Pelicula>> resultados = new HashMap<>();
         for (LocalDate dia: dias) {
             resultados.put(dia, proyeccionRepository.findPeliculasProyecciones(dia));
+        }
+        return resultados;
+    }
+
+    //metodo que saca un hasmap de todas las proyecciones dado un dia en todas las salas
+    public HashMap<Sala, List<Proyeccion>> horariosProyecciones(LocalDate dia){
+        HashMap<Sala, List<Proyeccion>> resultados = new HashMap<>();
+        List<Sala> salas = salaRepository.findAll();
+        for (Sala sala: salas) {
+            resultados.put(sala,
+                    proyeccionRepository.findProyeccionesSalaFecha(dia, sala.getId()));
         }
         return resultados;
     }

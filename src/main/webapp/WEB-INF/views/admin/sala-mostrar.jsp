@@ -118,19 +118,6 @@
 <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendor/quill/quill.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendor/php-email-form/validate.js"></script>
-<script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function() {
-        'use strict';
-
-        window.addEventListener('load', function() {
-
-
-        }, false);
-    })();
-
-
-</script>
 <!-- Template Main JS File -->
 <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/disposicionAsientos.js"></script>
