@@ -1,5 +1,5 @@
 # Cines Petri
-El objetivo de esta aplicación web es ofrecer un servicio a los clientes del cine que quieren realizar reservas de manera online.
+[Documento pendiente de edición]. El objetivo de esta aplicación web es ofrecer un servicio a los clientes del cine que quieren realizar reservas de manera online.
 
 ## Interfaz de administrador
 Para el administrador de la página web se han creado cuatro vistas que le permitirá configurar las películas y proyecciones del cine. No se han añadido funciones para las salas y asientos del cine, puesto que son datos fijos qeu no cambian (se creó nada más un método para cargar los datos de los asientos, puesto que se hicieron salas con la misma distribución y asientos por comodidad). En futuras versiones se podrá implementar una vista con diversos datos que resuman los beneficios y reservas del cine. El header del administrador tendrá un botón que dirige a la lista de películas que ve el usuario y un desplegable para navegar entre las páginas explicadas a continuación.
