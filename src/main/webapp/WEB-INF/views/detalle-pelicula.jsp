@@ -74,7 +74,33 @@
         <c:if test="${not empty organizacionProyecciones && not empty proyecciones}">
           <h3 class="text-center">Proyecciones</h3>
 
-            <div class="accordion accordion-flush" id="accordionFlushExample">
+
+          <div class="row">
+            <c:forEach var="info" items="${organizacionProyecciones}">
+            <div class="col-3">
+                <div class="card rounded-3 text-center">
+                  <div class="card-body">
+                    <h5 class="card-title">${info.key}<%-- DIA PROYECCION  --%></h5>
+
+                  <%-- HORAS DE PROYECCIONES  --%>
+                    <c:forEach var="id" items="${info.value}">
+                      <c:forEach var="proyeccion" items="${proyecciones}">
+
+                        <c:if test="${id == proyeccion.id}">
+                          <a id="${info.key}" href="${mvc.basePath}/reserva/pelicula/${proyeccion.id}"
+                             class="badge rounded-pill bg-warning text-dark fs-6">${proyeccion.comienzo}</a>
+                        </c:if>
+
+                      </c:forEach>
+                    </c:forEach>
+                  </div>
+                </div>
+            </div>
+              </c:forEach>
+          </div>
+
+
+<%--            <div class="accordion accordion-flush" id="accordionFlushExample">
               <c:forEach var="info" items="${organizacionProyecciones}">
                 <div class="accordion-item">
 
@@ -103,7 +129,7 @@
                   </div>
                 </div>
               </c:forEach>
-            </div>
+            </div>--%>
 
         </c:if>
           </div>

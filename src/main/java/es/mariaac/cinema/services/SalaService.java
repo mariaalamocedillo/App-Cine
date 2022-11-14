@@ -17,6 +17,9 @@ public class SalaService {
     public List<Sala> findAll () {
         return salaRepository.findAll();
     }
+    public List<Sala> findSalasOrdByNombre () {
+        return salaRepository.findSalasOrdByNombre();
+    }
 
     public Optional<Sala> buscarPorId(Long id) {
         return salaRepository.findOptionalBy(id);

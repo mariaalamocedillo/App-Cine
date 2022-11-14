@@ -85,7 +85,16 @@
                                                     </div>
                                                 </div>
                                                 <%--*** TABLA ***--%>
-                                                <table class="table table-striped table-bordered table-hover">
+
+                                                    <c:if test="${mensaje.texto != null}">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <p class="alert alert-success" id="success-alert">${mensaje.texto}</p>
+                                                            </div>
+                                                        </div>
+                                                    </c:if>
+
+                                                    <table class="table table-striped table-bordered table-hover">
                                                     <thead>
                                                     <tr>
                                                         <th></th>
@@ -136,13 +145,6 @@
                                                         </c:forEach>
                                                     </tbody>
                                                 </table>
-                                                    <c:if test="${mensaje.texto != null}">
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <p class="alert alert-success" id="success-alert">${mensaje.texto}</p>
-                                                            </div>
-                                                        </div>
-                                                    </c:if>
                                             </div>
                                         </div>
                                     </div>

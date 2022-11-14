@@ -90,6 +90,7 @@ public class ProyeccionController {
     public String nueva(@PathParam("idPelicula") Long id) {
         List<Sala> salas = salaService.findAll();
         Optional<Pelicula> pelicula = peliculaService.buscarPorId(id);
+        models.put("salas", salas);
         if (id != null && pelicula.isPresent()){
             models.put("pelicula", pelicula.get());
         }else {

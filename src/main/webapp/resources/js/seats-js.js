@@ -31,7 +31,6 @@ function updateSelectedCount() {
   count.innerText = selectedSeatsCount;
   total.innerText = selectedSeatsCount * ticketPrice;
   totalForm.value = selectedSeatsCount * ticketPrice;
-  console.log('hola')
     cargaInfo();
   setMovieData(movieSelect.selectedIndex, movieSelect.value);
 }

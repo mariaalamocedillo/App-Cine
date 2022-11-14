@@ -42,6 +42,9 @@
           <element id="library" level="project" name="Maven: com.google.zxing:javase:3.2.1" />
           <element id="library" level="project" name="Maven: com.beust:jcommander:1.48" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.13.0" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.13.3" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.12.1" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3" />
         </element>
       </element>
       <element id="directory" name="META-INF">

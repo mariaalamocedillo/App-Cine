@@ -74,11 +74,11 @@ public class ProyeccionService {
     }
 
 
-    public List<String> diasDeProyecciones(){
-        List<LocalDate> dias = split(proyeccionRepository.findDiasProyecciones());
-        List<String> diasString = new ArrayList<>();
+    public HashMap<LocalDate, String> diasDeProyecciones(){
+        List<LocalDate> dias = split(proyeccionRepository.findDiasProyecciones(), 7);
+        HashMap<LocalDate, String> diasString = new HashMap<>();
         for (LocalDate dia: dias) {
-            diasString.add(dia.format(DateTimeFormatter.ofPattern("dd/MM")));
+            diasString.put(dia, dia.format(DateTimeFormatter.ofPattern("dd/MM")));
         }
         return diasString;
     }
@@ -86,7 +86,7 @@ public class ProyeccionService {
 
     public List<Proyeccion> proyecciones7Dias(){
         List<Proyeccion> proyecciones = new ArrayList<>();
-        List<LocalDate> dias = split(proyeccionRepository.findDiasProyecciones());
+        List<LocalDate> dias = split(proyeccionRepository.findDiasProyecciones(), 7);
         for (LocalDate dia: dias) {
             proyecciones.addAll(proyeccionRepository.findProyeccionDia(dia));
         }
@@ -94,7 +94,7 @@ public class ProyeccionService {
     }
 
     public HashMap<LocalDate, List<Pelicula>> diasPeliculas(){
-        List<LocalDate> dias = split(proyeccionRepository.findDiasProyecciones());
+        List<LocalDate> dias = split(proyeccionRepository.findDiasProyecciones(), 7);
         HashMap<LocalDate, List<Pelicula>> resultados = new HashMap<>();
         for (LocalDate dia: dias) {
             resultados.put(dia, proyeccionRepository.findPeliculasProyecciones(dia));
@@ -105,7 +105,7 @@ public class ProyeccionService {
     //metodo que saca un hasmap de todas las proyecciones dado un dia en todas las salas
     public HashMap<Sala, List<Proyeccion>> horariosProyecciones(LocalDate dia){
         HashMap<Sala, List<Proyeccion>> resultados = new HashMap<>();
-        List<Sala> salas = salaRepository.findAll();
+        List<Sala> salas = salaRepository.findSalasOrdByNombre();
         for (Sala sala: salas) {
             resultados.put(sala,
                     proyeccionRepository.findProyeccionesSalaFecha(dia, sala.getId()));
@@ -115,10 +115,13 @@ public class ProyeccionService {
 
 
     // Generic method to split a list from a certain position
-    public static<LocalDate> List<LocalDate> split(List<LocalDate> list)
+    public static<LocalDate> List<LocalDate> split(List<LocalDate> list, Integer lim)
     {
+        int max = list.size();
         // endpoints to use in `list.subList()` method
-        int[] endpoints = {0, 7, list.size()};
+        if(max > lim )
+            max = lim;
+        int[] endpoints = {0, max, list.size()};
         List<LocalDate> listaFinal =
                 IntStream.rangeClosed(0, 1)
                         .mapToObj(i -> list.subList(endpoints[i], endpoints[i + 1]))

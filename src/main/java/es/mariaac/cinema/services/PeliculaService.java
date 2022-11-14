@@ -6,12 +6,11 @@ import es.mariaac.cinema.repositories.PeliculaRepository;
 import es.mariaac.cinema.repositories.ProyeccionRepository;
 import jakarta.annotation.Resource;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.faces.lifecycle.LifecycleFactory;
 import jakarta.inject.Inject;
 import jakarta.transaction.SystemException;
 import jakarta.transaction.UserTransaction;
+import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -32,6 +31,17 @@ public class PeliculaService {
 
     public Optional<Pelicula> buscarPorId(Long id) {
         return peliculaRepository.findOptionalBy(id);
+    }
+
+    public List<Pelicula> buscarPorDia(LocalDate dia) {
+        List<Long> idsPeliculasDia = peliculaRepository.findIdsByDay(dia);
+
+        List<Pelicula> resultados = new ArrayList<>();
+        for (Long id: idsPeliculasDia) {
+            Optional<Pelicula> pelicula = peliculaRepository.findOptionalBy(id);
+            pelicula.ifPresent(resultados::add);
+        }
+        return resultados;
     }
 
     public Pelicula guardar(Pelicula pelicula){ return peliculaRepository.save(pelicula);}
@@ -76,7 +86,7 @@ public class PeliculaService {
         List<Long> ids;
         HashMap<LocalDate, List<Long>> resultados = new HashMap<>();
         for (Proyeccion proyeccion: proyecciones) {
-            LocalDate dia = proyeccion.getDia();
+            LocalDate dia = LocalDate.parse(proyeccion.getDia());
             ids = new ArrayList<>();
             if (!dias.contains(dia)) {//comprobamos que no pasamos por ello
                 dias.add(dia);
@@ -92,5 +102,7 @@ public class PeliculaService {
         }
         return resultados;
     }
+
+
 
 }

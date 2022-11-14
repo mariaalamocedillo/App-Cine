@@ -15,23 +15,24 @@ import java.time.LocalTime;
         @UniqueConstraint(name = "uc_sala_comienzo_dia", columnNames = {"comienzo", "sala_id", "dia"})
 })
 public class Proyeccion {
+
     public Proyeccion(Pelicula pelicula, Sala sala, LocalDate dia, LocalTime comienzo) {
         this.comienzo = comienzo;
         this.dia = dia;
         this.sala = sala;
         this.pelicula = pelicula;
     }
+
     public Proyeccion(){}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @JsonRawValue
+
     @Column(nullable = false)
     private LocalTime comienzo;
 
-    @JsonRawValue
     @Column(nullable = false)
     private LocalDate dia;
 
@@ -44,4 +45,10 @@ public class Proyeccion {
     @JoinColumn(name = "pelicula_id", nullable = false)
     private Pelicula pelicula;
 
+    public String getComienzo() {
+        return comienzo.toString();
+    }
+    public String getDia() {
+        return dia.toString();
+    }
 }

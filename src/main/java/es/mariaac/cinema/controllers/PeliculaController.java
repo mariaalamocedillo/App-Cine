@@ -45,6 +45,16 @@ public class PeliculaController {
     }
 
 
+    @GET
+    @Path("/prueba")
+    public String cartelera() {
+        models.put("diasPeliculas", proyeccionService.diasPeliculas());
+        models.put("proyecciones7Dias", proyeccionService.proyecciones7Dias());
+        models.put("diasDeProyecciones", proyeccionService.diasDeProyecciones());
+        return "cartelera";
+    }
+
+
     /**
      *  Método que obtiene todas las películas que están siendo proyectadas y las
      *  almacenadas en la base de datos para mostrarlas en la pagina del listado

@@ -8,9 +8,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jdk.dynalink.linker.LinkerServices;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDate;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -27,7 +30,26 @@ public class PeliculaRestController {
     Optional<Pelicula> pelicula = peliculaService.buscarPorId(id);
 
     return pelicula.map(value -> Response.ok(value).build())
-      .orElseGet(() -> Response.status(Response.Status.NOT_FOUND).build());
+            .orElseGet(() -> Response.status(Response.Status.NOT_FOUND).build());
+  }
+
+  @GET
+  @Path("/cartelera/{dia}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response getByDay(@PathParam("dia") @NotNull String dia) {
+
+    List<Pelicula> peliculas = peliculaService.buscarPorDia(LocalDate.parse(dia));
+
+/*  ArrayList<String> listdata = new ArrayList<String>();
+    JSONArray jArray = (JSONArray)jsonObject;
+    if (jArray != null) {
+      for (int i=0;i<jArray.length();i++){
+        listdata.add(jArray.getString(i));
+      }
+    }*/
+
+    return Response.ok(peliculas).build();
+
   }
 
   @POST
