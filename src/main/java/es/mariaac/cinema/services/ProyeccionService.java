@@ -12,10 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -103,8 +100,8 @@ public class ProyeccionService {
     }
 
     //metodo que saca un hasmap de todas las proyecciones dado un dia en todas las salas
-    public HashMap<Sala, List<Proyeccion>> horariosProyecciones(LocalDate dia){
-        HashMap<Sala, List<Proyeccion>> resultados = new HashMap<>();
+    public LinkedHashMap<Sala, List<Proyeccion>> horariosProyecciones(LocalDate dia){
+        LinkedHashMap<Sala, List<Proyeccion>> resultados = new LinkedHashMap<>();
         List<Sala> salas = salaRepository.findSalasOrdByNombre();
         for (Sala sala: salas) {
             resultados.put(sala,
