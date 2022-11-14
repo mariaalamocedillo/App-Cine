@@ -72,24 +72,19 @@
 <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script>
     const DIAS = $("[name='diasProyecciones']");
+    //al cargarse el DOM, se realiza fetch de la primera fecha de proyecciones disponible
     $(document).ready(function() {
         hacerFetch(DIAS[0].id);
-        console.log('nnjnjnjjnjnnj');
+
+        //al clicar en un elemento <a> con dicho nombre se desactiva el anterior y se activa el clicado, así como se realiza el fetch de dicho dia
         $('a[name="diasProyecciones"]').click(function(){
             $(`a[name="diasProyecciones"].active`).removeClass('active'); //buscamos el que tiene la clase de activo y se ñp eliminamos para ponersela al clicado
             $(this).addClass('active');
-
-            console.log($(this).attr('id'));
             hacerFetch($(this).attr('id'));
-
         });
     });
 
-
-
-    //const diaRecibido = '2022-02-28';
-
-
+    //funcion que recoge los datos de las peliculas proyectadas cierto dia por medio de fetch y crea las tarjetas para cada una de ellas
     function hacerFetch(dia) {
         const url = 'http://localhost:8080/cinema/mvc/api/pelicula/cartelera/' + dia;
         fetch(url)

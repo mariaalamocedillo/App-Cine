@@ -42,20 +42,31 @@ public class ClienteController {
     @Inject
     private Mensaje mensaje;
 
+    /**
+     * Metodo envia al login
+     *  Método que envia a la pagina de login
+     *
+     * @return pagina de login
+     */
     @GET
     @Path("/")
     public String index() {return "perfil/login";}
 
+    /**
+     * Metodo logea usuario
+     *  Método que almacena la proyección recibida y actualiza la informacion de la
+     *  pelicula recibida (la correspondiente a dicha proyección)
+     *
+     * @param email String email del user
+     * @param psswd String contraseña del user
+     * @return redireccion al login o al perfil del usuario si ya está logeado
+     */
     @POST
     @Path("login")
     public String login(@FormParam("email") String email, @FormParam("contrasena") String psswd) {
         if (clienteService.logear(email, psswd)) {
-            HttpSession session = request.getSession();
-            session.setAttribute("clienteId", clienteService.buscarPorEmail(email).get().getId());
-            session.setAttribute("clienteName", clienteService.buscarPorEmail(email).get().getNombre());
-            if (session.getAttribute("rutaOrigen") != null){
-                String rutaOrigen = session.getAttribute("rutaOrigen").toString();
-                session.removeAttribute("rutaOrigen");
+            String rutaOrigen = compruebaRedireccion(email);
+            if (!Objects.equals(rutaOrigen, "")){
                 return rutaOrigen;
             }
             return "redirect:usuario/perfil";
@@ -64,6 +75,15 @@ public class ClienteController {
             return "perfil/login";
         }
     }
+
+
+    /**
+     * Metodo logea usuario
+     *  Método que almacena la proyección recibida y actualiza la informacion de la
+     *  pelicula recibida (la correspondiente a dicha proyección)
+     *
+     * @return redireccion a horariosProyeccion() de AdminController
+     */
     @GET
     @Path("logout")
     public String logout() {
@@ -72,6 +92,14 @@ public class ClienteController {
         return "redirect:usuario";
     }
 
+    /**
+     * Metodo envia al perfil del usuario
+     *  Método que obtiene la informacion del usuario, un listado de las reservas
+     *  aun activas del cliente y un listado de las antiguas para mostrarlas en la
+     *  dashboard
+     *
+     * @return redireccion a perfil de usuario
+     */
     @GET
     @Path("perfil")
     public String perfil() {
@@ -89,6 +117,13 @@ public class ClienteController {
         return "redirect:usuario";
     }
 
+    /**
+     * Metodo que canjea una reserva
+     *  Método que obtiene la información de una reserva, comprueba que pertenece al cliente que la canjea
+     *  y crea un documento con un qr para el chequeo de la entrada.
+     *
+     * @return pagina con QR para canjeo
+     */
     @GET
     @Path("canjeo/{id}")
     public String canjeo(@PathParam("id") Long id) {
@@ -128,12 +163,20 @@ public class ClienteController {
         return "reserva/canjeo";
     }
 
+    /**
+     * Metodo que envia al formulario de registro
+     *  Método que comprueba si hay una sesión de un cliente y la recupera para redirigir al perfil
+     *  en caso de que sí, o crea un usuario provisional sin datos que envia al formulario de registro
+     *
+     * @return formulario de registro
+     */
     @GET
     @Path("registro")
     public String nueva() {
         try {
             HttpSession session = request.getSession();
-            Optional<Cliente> cliente = clienteService.buscarPorId(Long.parseLong(session.getAttribute("clienteId").toString()));
+            Optional<Cliente> cliente = clienteService.buscarPorId(Long
+                    .parseLong(session.getAttribute("clienteId").toString()));
             if (cliente.isPresent()) {
                 return "redirect:usuario/perfil";
             }
@@ -144,6 +187,19 @@ public class ClienteController {
         return "perfil/signup";
     }
 
+    /**
+     * Metodo que registra al usuario
+     *  Método que registra a un nuevo usuario segun los datos enviados desde el formulario
+     *  de registro. Comprueba que no hay ningun usuario con el mismo email, en tal caso reenvia
+     *  a l formulario para indicarselo. Si viene de otra pagina, se reenvia a ella, si no, se
+     *  envia a la dashboard de usuario una vez se registra
+     *
+     * @param email String email del usuario
+     * @param psswd String contraseña del usuario
+     * @param tlfn Long numero de telefono
+     * @param nombre String nombre del usuario
+     * @return pagina de registro o perfil del usuario
+     */
     @POST
     @Path("/registro/submit")
     @ValidateOnExecution(type = ExecutableType.NONE)
@@ -164,17 +220,34 @@ public class ClienteController {
             mensaje.setTexto("Ocurrió un error y la cuenta de " + cliente.getEmail() + " (" + cliente.getNombre() + ") no se pudo almacenar.");
             return "perfil/signup";
         }
+        String rutaOrigen = compruebaRedireccion(email);
+        if (!Objects.equals(rutaOrigen, "")){
+            return rutaOrigen;
+        }
+        mensaje.setTexto("La cuenta de " + cliente.getEmail() + " se creó satisfactoriamente ! ");
+        return "perfil/perfil";
+    }
+
+
+    /**
+     * Metodo que canjea una reserva
+     *  Método que añade la informacion del usuario en la sesión y devuelve
+     *  una string con la ruta desde donde viene el usuario en caso de que venga
+     *  de otra pagina y nada si no
+     *
+     * @param email String email del usuario
+     * @return String ruta de origen o vacia
+     */
+    public String compruebaRedireccion(String email){
         HttpSession session = request.getSession();
         session.setAttribute("clienteId", clienteService.buscarPorEmail(email).get().getId());
         session.setAttribute("clienteName", clienteService.buscarPorEmail(email).get().getNombre());
-        //comprobamos si viene de otra página (del primer paso de una reserva)
         if (session.getAttribute("rutaOrigen") != null){
             String rutaOrigen = session.getAttribute("rutaOrigen").toString();
             session.removeAttribute("rutaOrigen");
             return rutaOrigen;
         }
-        mensaje.setTexto("La cuenta de " + cliente.getEmail() + " se creó satisfactoriamente ! ");
-        return "perfil/perfil";
+        return "";
     }
 
 }

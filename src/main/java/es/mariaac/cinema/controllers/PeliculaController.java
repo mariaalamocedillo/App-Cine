@@ -37,19 +37,7 @@ public class PeliculaController {
      */
     @GET
     @Path("/")
-    public String index() {
-        models.put("diasPeliculas", proyeccionService.diasPeliculas());
-        models.put("proyecciones7Dias", proyeccionService.proyecciones7Dias());
-        models.put("diasDeProyecciones", proyeccionService.diasDeProyecciones());
-        return "list-peliculas";
-    }
-
-
-    @GET
-    @Path("/prueba")
     public String cartelera() {
-        models.put("diasPeliculas", proyeccionService.diasPeliculas());
-        models.put("proyecciones7Dias", proyeccionService.proyecciones7Dias());
         models.put("diasDeProyecciones", proyeccionService.diasDeProyecciones());
         return "cartelera";
     }

@@ -40,14 +40,6 @@ public class PeliculaRestController {
 
     List<Pelicula> peliculas = peliculaService.buscarPorDia(LocalDate.parse(dia));
 
-/*  ArrayList<String> listdata = new ArrayList<String>();
-    JSONArray jArray = (JSONArray)jsonObject;
-    if (jArray != null) {
-      for (int i=0;i<jArray.length();i++){
-        listdata.add(jArray.getString(i));
-      }
-    }*/
-
     return Response.ok(peliculas).build();
 
   }

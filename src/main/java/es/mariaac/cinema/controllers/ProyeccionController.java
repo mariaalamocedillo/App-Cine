@@ -1,5 +1,4 @@
 package es.mariaac.cinema.controllers;
-import es.mariaac.cinema.entities.Cliente;
 import es.mariaac.cinema.entities.Pelicula;
 import es.mariaac.cinema.entities.Proyeccion;
 import es.mariaac.cinema.entities.Sala;
@@ -42,6 +41,12 @@ public class ProyeccionController {
     @Inject
     private SalaService salaService;
 
+    /**
+     * Metodo envia a listado de proyecciones
+     * Metodo que obtiene todas las proyecciones para mostrarlas en una datatable
+     *
+     * @return página listado de proyecciones
+     */
     @GET
     @Path("/")
     public String index() {
@@ -49,6 +54,14 @@ public class ProyeccionController {
         return "admin/list-proyecciones";
     }
 
+
+    /**
+     * Metodo elimina proyeccion
+     *  Método que elimina una proyección según su id si dicha proyección existe
+     *
+     * @param id Long id de la proyección a eliminar
+     * @return redireccion metodo index()
+     */
     @GET
     @Path("borrar/{id}")
     public String borrar(@PathParam("id") @NotNull Long id) {
@@ -60,16 +73,23 @@ public class ProyeccionController {
             Proyeccion proyeccion = proyeccionOpt.get();
             try {
                 proyeccionService.borrar(proyeccion);
-                mensaje.setTexto("La pregunta " + proyeccion.getId() + " se eliminó satisfactoriamente ! ");
+                mensaje.setTexto("La proyeccion " + proyeccion.getId() + " se eliminó satisfactoriamente ! ");
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
-                mensaje.setTexto("Ocurró un error y la pregunta " + proyeccion.getId() + " no se pudo eliminar.");
+                mensaje.setTexto("Ocurró un error y la proyeccion " + proyeccion.getId() + " no se pudo eliminar.");
             }
         }
 
         return "redirect:admin/proyeccion";
     }
 
+    /**
+     * Metodo editar proyeccion
+     *  Método que envia al formulario de edicion de una proyeccion dado un id
+     *
+     * @param id Long id de la proyección a editar
+     * @return formulario proyeccion
+     */
     @GET
     @Path("editar/{id}")
     public String editar(@PathParam("id") @NotNull Long id) {
@@ -85,6 +105,13 @@ public class ProyeccionController {
         return "redirect:admin/proyeccion";
     }
 
+    /**
+     * Metodo crea una nueva proyeccion
+     *  Método que crea una proyección según su el id de la pelicula recibido por parametro
+     *
+     * @param id Long id de la proyección a eliminar
+     * @return formulario proyeccion
+     */
     @GET
     @Path("nueva/{idPelicula}")
     public String nueva(@PathParam("idPelicula") Long id) {
@@ -101,7 +128,19 @@ public class ProyeccionController {
     }
 
 
-
+    /**
+     * Metodo crea una nueva proyeccion por GET
+     *  Método que crea una proyección según la información enviada por GET de la pelicula,
+     *  fecha, hora y sala. Este método se utiliza desde el jsp horarios-sala.jsp, donde desde
+     *  la posición en la propia tabla y con el desplegable del listado de películas disponibles
+     *  se crea una proyeccion con oslo seleccionar dicha pelicula y clicar 'enviar'
+     *
+     * @param idPelicula Long id de la pelicula a proyectar
+     * @param idSala Long id sala a utilizar
+     * @param dia String dia a proyectar
+     * @param hora String hora a proyectar
+     * @return redireccion a horariosProyeccion() de AdminController
+     */
     @GET
     @Path("datosNueva/{idPelicula}/{dia}/{hora}/{idSala}")
     public String nuevaIdPelicula(@PathParam("idPelicula") Long idPelicula, @PathParam("idSala") Long idSala,
@@ -124,7 +163,19 @@ public class ProyeccionController {
     }
 
 
-
+    /**
+     * Metodo crea una nueva proyeccion por POST
+     *  Método que crea o edita una proyección según los datos recibidos por el id
+     *  de la misma. Este método se utiliza desde el jsp del formulario de creacion
+     *  de una proyeccion
+     *
+     * @param id Long id de la proyeccion
+     * @param salaId Long id sala a utilizar
+     * @param dia String dia a proyectar
+     * @param comienzo String hora a proyectar
+     * @param peliculaId Long id de la pelicula a proyectar
+     * @return redireccion a horariosProyeccion() de AdminController
+     */
     @POST
     @Path("submit")
     @ValidateOnExecution(type = ExecutableType.NONE)
@@ -156,6 +207,15 @@ public class ProyeccionController {
         return "redirect:admin/proyeccion";
     }
 
+    /**
+     * Metodo almacena una proyeccion
+     *  Método que almacena la proyección recibida y actualiza la informacion de la
+     *  pelicula recibida (la correspondiente a dicha proyección)
+     *
+     * @param pelicula Pelicula a actualizar
+     * @param proyeccion Proyeccion a crear
+     * @return redireccion a horariosProyeccion() de AdminController
+     */
     public void almacenarProyeccion(Pelicula pelicula, Proyeccion proyeccion){
         try {
             proyeccionService.guardar(proyeccion);

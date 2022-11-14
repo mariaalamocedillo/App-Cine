@@ -2,22 +2,18 @@ package es.mariaac.cinema.controllers;
 
 import es.mariaac.cinema.entities.*;
 import es.mariaac.cinema.services.*;
-import jakarta.ejb.Local;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
 import jakarta.mvc.Models;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.executable.ExecutableType;
 import jakarta.validation.executable.ValidateOnExecution;
 import jakarta.ws.rs.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.lang.Nullable;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Optional;
 
 
@@ -45,11 +41,14 @@ public class AdminController {
     ReservaService reservaService;
 
     @Inject
-    HttpServletRequest request;
-
-    @Inject
     private Mensaje mensaje;
 
+    /**
+     * [no funciona] Metodo envia a la dashboard de administrador
+     *
+     *
+     * @return página formulario de película
+     */
     @GET
     @Path("/")
     public String index() {
@@ -64,6 +63,11 @@ public class AdminController {
 
 /* *********   CONTROL DE SALAS   ********* */
 
+    /**
+     * Metodo envia a crear una nueva sala
+     *
+     * @return página formulario de película
+     */
     @GET
     @Path("sala/form")
     public String irCrearSala() {
@@ -73,6 +77,17 @@ public class AdminController {
         return "admin/creacion-sala";
     }
 
+    /**
+     * Metodo envia al listado de horarios por dia
+     *  Método que busca las proyecciones segun el dia indicado. Obtiene un listado de la informacion
+     *  de las salas con sus respectivas proyecciones, así como las películas disponibles. Se mostrará
+     *  una tabla con los horarios en columnas y las salas en filas, con desplegables de todas las peliculas
+     *  en cada celda.
+     *
+     *
+     * @param fecha String dia a buscar proyecciones
+     * @return página formulario de película
+     */
     @GET
     @Path("horarios{dia:(/dia/[^/]+?)?}")
     public String horariosProyeccion(@PathParam("dia") String fecha) {
@@ -93,7 +108,13 @@ public class AdminController {
         return "admin/horarios-sala";
     }
 
-
+    /**
+     * [no funciona] Metodo creacion de sala dinamica
+     *  Método que crea una nueva sala en la base de datos de forma dinámica desde el jsp
+     *  de creacion-sala. Al finalizar, mostraria el resultado en sala-mostrar
+     *
+     * @return página formulario de película
+     */
     @POST
     @Path("sala/submit")
     @ValidateOnExecution(type = ExecutableType.NONE)
@@ -138,12 +159,12 @@ public class AdminController {
 
 /*  *********   CONTROL DE PELÍCULAS   *********  */
     /**
+     * Metodo obtiene todas las pelicuals de la BD
      *  Método que obtiene todas las películas proyectandose y las que no
      *  para mostrarlas en la pagina del listado para el administrador (donde
      *  se puede editar la informacion de estas)
      *
      * @return página listado de películas administrador
-     * @since 1.0
      */
     @GET
     @Path("peliculas")
@@ -154,12 +175,12 @@ public class AdminController {
     }
 
     /**
+     * Metodo envia al formulario de pelicula
      *  Método que crea una nueva película en la base de datos y la envia
      *  en el modelo para usarla en la página de formulario, donde se
      *  definirá su informacion
      *
      * @return página formulario de película
-     * @since 1.0
      */
     @GET
     @Path("pelicula/nueva")
@@ -171,6 +192,7 @@ public class AdminController {
     }
 
     /**
+     * Metodo que carga una nueva pelicula
      * Método que recoge toda la información de un formulario de una película
      * para subirla a la base de datos. Muestra un mensaje corroborando si se
      * pudo añadir o no a la base de datos y devuelve a la página de listado
@@ -185,8 +207,7 @@ public class AdminController {
      * @param estudio       estudio de la película
      * @param enProyeccion  enProyeccion boolean si está siendo proyectada o no
      *
-     * @return
-     * @since 1.0
+     * @return redirección al metodo listadoPeliculas
      */
     @POST
     @Path("nueva/submit")
@@ -219,12 +240,12 @@ public class AdminController {
     }
 
     /**
+     * Metodo que envia al formulario de edicion de pelicula
      * Método que comprueba si una película existe según su id para
      * mostrar el formulario con la informacion para editar la necesaria
      *
      * @param id id de una película
      * @return página formulario de película
-     * @since 1.0
      */
     @GET
     @Path("editar/{id}")
@@ -239,13 +260,13 @@ public class AdminController {
     }
 
     /**
+     * Metodo que elimina pelicula por id
      * Método que elimina una película tras comprobar si existe, mostrando
      * un mensaje correspondiente a si se hizo o no en la pantalla de listado
      * de películas
      *
      * @param id id de una película (obligatorio que no sea nulo)
      * @return página de listado de películas con mensaje correspondiente
-     * @since 1.0
      */
     @GET
     @Path("borrar/{id}")
