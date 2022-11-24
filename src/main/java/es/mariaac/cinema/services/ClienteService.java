@@ -22,7 +22,7 @@ public class ClienteService {
         return clienteRepository.findOptionalBy(id);
     }
 
-    public void guardar(Cliente cliente){clienteRepository.save(cliente);}
+    public Cliente guardar(Cliente cliente){return clienteRepository.save(cliente);}
 
     public Optional<Cliente> buscarPorEmail(String email){return clienteRepository.findByEmail(email);}
 

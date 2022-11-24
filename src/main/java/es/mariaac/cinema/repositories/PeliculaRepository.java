@@ -14,13 +14,8 @@ public abstract class PeliculaRepository extends AbstractFullEntityRepository<Pe
     @Query("select p from Pelicula p where enProyeccion = true")
     public abstract List<Pelicula> findProyectando();
 
-    //@Query("select distinct p from Pelicula p inner join Proyeccion pro where pro.dia = ?1")
-    //@Query("select distinct p.id from Pelicula p having count(p.proyecciones.dia = ?1)=1")
     @Query("select distinct p.pelicula.id from Proyeccion p where p.dia = ?1")
     public abstract List<Long> findIdsByDay(LocalDate dia);
-/*
-    @Query("select p.pelicula from Proyeccion p where p.dia = ?1")
-    public abstract List<Long> findIdsByDay(LocalDate dia);
-*/
+
 
 }

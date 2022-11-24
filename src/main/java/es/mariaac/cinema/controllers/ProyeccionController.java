@@ -158,7 +158,7 @@ public class ProyeccionController {
                 LocalDate.parse(dia, formatter), LocalTime.parse(hora));
 
         almacenarProyeccion(pelicula, proyeccion);
-        return "redirect:admin/horarios";
+        return "redirect:admin/horarios/"+dia; ///TODO he añadido dia, comprobar que funciona, tambien deberias purgar el js de seats
 
     }
 

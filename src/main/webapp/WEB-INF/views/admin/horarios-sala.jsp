@@ -98,7 +98,7 @@
                                                     <thead>
                                                     <tr>
                                                         <th></th>
-                                                        <c:forEach var="hora" items="${horarios}">
+                                                            <c:forEach var="hora" items="${horarios}">
                                                                 <th>${hora}</th>
                                                             </c:forEach>
                                                         </tr>
@@ -122,7 +122,7 @@
 
                                                                         <c:if test="${not empty peliculas}">
                                                                             <div class="col mb-3 m-auto">
-                                                                                <select id="pelicula" name="peliculaId" class="form-select"
+                                                                                <select id="pelicula-${loopSala.index}-${loopHora.index}" name="peliculaId" class="form-select"
                                                                                         onchange="cargaEnlaceProyeccion('${loopHora.index}', '${loopSala.index}', this.value, '${dia}', '${horario}', '${sala.key.id}')">
                                                                                     <option value="-">Seleccione una película</option>
                                                                                     <c:forEach var="pelicula" items="${peliculas}">
@@ -173,7 +173,7 @@
     function cargaEnlaceProyeccion(indexS, indexH, idPelicula, dia, hora, idSala){
         var boton = document.getElementById('btnProyeccion-'+indexS+'-'+indexH);
         var enlace = document.getElementById('enlaceProyeccion-'+indexS+'-'+indexH);
-        console.log('enlaceProyeccion-'+indexS+'-'+indexH)
+
         if(idPelicula !== '-'){
             enlace.setAttribute('href',
                 '${mvc.basePath}/admin/proyeccion/datosNueva/'

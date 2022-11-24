@@ -84,7 +84,8 @@ public class ReservaController {
      *  modelo los asientos ya ocupados de dicha proyeccion, el precio por defecto
      *  de la entrada según el día de la semana (por el dia del expectaador en
      *  miercoles), y se procede a almacenar la reserva, a la cual se crea una
-     *  sesión. Si todo va correctamente, se envia a la segunda pantalla de reserva
+     *  sesión, y un timer. Si tod va correctamente, se envia a la segunda
+     *  pantalla de reserva
      *
      *
      * @param idProyeccion      id de una proyeccion
@@ -141,7 +142,7 @@ public class ReservaController {
     /**
      *  Método que comprueba la sesión del cliente (redirige al login si no se encuentra)
      *  y la reserva, así como el tiempo que ha pasado desde que se comenzó la reserva, pues
-     *  a los clientes se les dan 15 minutos para poder liberar los asientos si no la completan.
+     *  a los clientes se les dan 10 minutos para poder liberar los asientos si no la completan.
      *  Se obtiene el id de reserva de la sesión y se procede a obtener dicha sesion,
      *  se redirige al paso anterior si no se encuentra un id o la sesión del id.Se
      *  comprueba que el cliente de la sesion obtenida concuerda con el de la reserva
@@ -167,7 +168,8 @@ public class ReservaController {
         HttpSession session = request.getSession();
         Reserva reserva ;
         try {
-            Optional<Reserva> reservaOpt = reservaService.buscarPorId(Long.parseLong(session.getAttribute("reservaId").toString()));
+            Optional<Reserva> reservaOpt = reservaService.buscarPorId(Long
+                    .parseLong(session.getAttribute("reservaId").toString()));
             if (reservaOpt.isEmpty()) {
                 mensaje.setTexto("Hubo un problema con su reserva, inténtelo más tarde");
                 return "reserva/paso-1";
@@ -191,7 +193,7 @@ public class ReservaController {
         //comprobacion de asientos seleccionados
         if (idsSeats == null || idsSeats.equals("")){
             models.put("asientosOcupados", entradaService.sacarEstadosAsientos(reserva.getProyeccion()));
-            mensaje.setTexto("Debe seleccionar al menos un asiento"); //TODO comprobar que haya filtro de esto en parte de js
+            mensaje.setTexto("Debe seleccionar al menos un asiento");                                                       //TODO comprobar que haya filtro de esto en parte de js
             models.put("reserva", reserva);
             return "reserva/paso-2";
         }

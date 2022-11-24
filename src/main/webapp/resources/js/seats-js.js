@@ -21,11 +21,6 @@ function setMovieData(movieIndex, moviePrice) {
 function updateSelectedCount() {
   const selectedSeats = document.querySelectorAll('.row.rowSeats .seat.selected');
 
-  const seatsIndex = [...selectedSeats].map(seat => [...seats].indexOf(seat));
-
-  //localStorage.setItem('selectedSeats', JSON.stringify(seatsIndex));
-  //localStorage.setItem('ids', JSON.stringify(ids))
-  
   const selectedSeatsCount = selectedSeats.length;
 
   count.innerText = selectedSeatsCount;
@@ -93,8 +88,6 @@ updateSelectedCount();
 function cargaInfo(){
     let asientos = document.querySelectorAll(".seat");
     let ocupados = document.getElementById("ocupados").value.replace('[', '').replace(']', '');
-    console.log(ocupados)
-    console.log(ocupados.split(','))
     let array = ocupados.split(',');
     asientos.forEach(seat => {
         array.forEach(sitioLlega => {
