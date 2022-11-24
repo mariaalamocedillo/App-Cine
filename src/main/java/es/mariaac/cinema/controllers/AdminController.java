@@ -14,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -138,9 +140,9 @@ public class AdminController {
         //recorremos los ids para crear nuevos sitios
         for (String idSitio: sitios) {
             Asiento newAsiento = new Asiento();
-            newAsiento.setSala(sala);
             newAsiento.setLetra(String.valueOf(idSitio.charAt(0)));
             newAsiento.setFila(String.valueOf(idSitio.charAt(1)));
+            sala.addAsiento(newAsiento);
             try {
                 asientoService.guardar(newAsiento);
                 mensaje.setTexto("El asiento " + newAsiento.getId() + " " + newAsiento.getName() + " se guardó satisfactoriamente ! ");

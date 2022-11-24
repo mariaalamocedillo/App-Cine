@@ -19,7 +19,10 @@ public class Sala {
     private String nombre;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "sala", orphanRemoval = true)
+    @OneToMany(orphanRemoval = true)
     private List<Asiento> asientos = new ArrayList<>();
 
+    public void addAsiento(Asiento asiento){
+        this.asientos.add(asiento);
+    }
 }

@@ -5,18 +5,21 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "entrada", uniqueConstraints = {
-        @UniqueConstraint(name = "uc_entrada", columnNames = {"asiento_id", "reserva_id"})
-})
+@Table(name = "entrada")
 public class Entrada {
+
+    public Entrada(){
+    }
+
+    public Entrada(Asiento asiento, Precios precio) {
+        this.asiento = asiento;
+        this.precio = precio;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "reserva_id", nullable = false)
-    private Reserva reserva;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "asiento_id", nullable = false)

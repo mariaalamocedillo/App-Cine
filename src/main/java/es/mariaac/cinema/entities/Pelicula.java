@@ -45,4 +45,18 @@ public class Pelicula {
     private Boolean enProyeccion;
 
 
+    public Pelicula(String titulo, String director, String descripcion,
+                    Integer duracion, String estudio, String poster, Boolean enProyeccion) {
+        this.titulo = titulo;
+        this.director = director;
+        this.descripcion = descripcion;
+        this.duracion = duracion;
+        this.estudio = estudio;
+        this.poster = poster;
+        this.enProyeccion = enProyeccion;
+    }
+
+    public Pelicula() {
+
+    }
 }

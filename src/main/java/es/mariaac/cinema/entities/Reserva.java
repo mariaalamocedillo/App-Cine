@@ -10,6 +10,17 @@ import java.util.List;
 @Entity
 @Table(name = "reserva")
 public class Reserva {
+    public Reserva(){
+
+    }
+    public Reserva(Boolean activa, Boolean pagada, Boolean reservada, Proyeccion proyeccion, Cliente cliente) {
+        this.activa = activa;
+        this.pagada = pagada;
+        this.reservada = reservada;
+        this.proyeccion = proyeccion;
+        this.cliente = cliente;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -32,7 +43,7 @@ public class Reserva {
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "reserva", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Entrada> entradas = new ArrayList<>();
 
 }

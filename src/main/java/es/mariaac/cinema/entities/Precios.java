@@ -7,6 +7,13 @@ import lombok.Data;
 @Entity
 @Table(name = "precios")
 public class Precios {
+
+    public Precios(String nombre, String condiciones, Double precioFinal) {
+        this.nombre = nombre;
+        this.condiciones = condiciones;
+        this.precioFinal = precioFinal;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

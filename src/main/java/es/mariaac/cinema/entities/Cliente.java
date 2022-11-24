@@ -39,4 +39,7 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente", orphanRemoval = true)
     private Set<Reserva> reserva = new LinkedHashSet<>();
 
+    public void addReserva(Reserva reserva){
+        this.reserva.add(reserva);
+    }
 }

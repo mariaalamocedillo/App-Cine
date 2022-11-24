@@ -27,7 +27,6 @@ public class EntradaService {
     public void reservarAsiento(Reserva reserva, Asiento asiento,Precios precioHoy){
         Entrada entrada = new Entrada();
         entrada.setAsiento(asiento);
-        entrada.setReserva(reserva);
         entrada.setPrecio(precioHoy);
         guardar(entrada);
     }
