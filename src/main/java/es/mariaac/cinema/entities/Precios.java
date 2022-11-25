@@ -8,11 +8,6 @@ import lombok.Data;
 @Table(name = "precios")
 public class Precios {
 
-    public Precios(String nombre, String condiciones, Double precioFinal) {
-        this.nombre = nombre;
-        this.condiciones = condiciones;
-        this.precioFinal = precioFinal;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,4 +23,12 @@ public class Precios {
     @Column(name = "precio_final", nullable = false, length = 100)
     private Double precioFinal;
 
+    public Precios() {
+    }
+
+    public Precios(String nombre, String condiciones, Double precioFinal) {
+        this.nombre = nombre;
+        this.condiciones = condiciones;
+        this.precioFinal = precioFinal;
+    }
 }

@@ -3,7 +3,14 @@ import es.mariaac.cinema.entities.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import javassist.CannotCompileException;
+import javassist.NotFoundException;
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
+import org.junit.jupiter.api.BeforeAll;
+import org.meanbean.test.BeanTester;
 
+import java.io.IOException;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,8 +18,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class ClienteTest {
 
     @Test
-    @DisplayName("probando creacion de cliente")
-    void testCreationClient() {
+    @DisplayName("probando creacion de cliente con parametros")
+    void testCreateClientParam() {
         Cliente cliente = new Cliente(Data.CLIENT_NAME, Data.CLIENT_TELEPHONE,
                 Data.CLIENT_EMAIL, Data.CLIENT_PSSWD);
         cliente.setId(Data.GENERAL_ID);
@@ -25,23 +32,11 @@ class ClienteTest {
     }
 
     @Test
-    @DisplayName("probando creacion de cliente con setters")
-    void testCreationClientSetters() {
+    @DisplayName("test crea cliente sin parametros")
+    void testCreateClientNoParam() {
         Cliente cliente = new Cliente();
-        cliente.setId(Data.GENERAL_ID);
-        cliente.setNombre(Data.CLIENT_NAME);
-        cliente.setEmail(Data.CLIENT_EMAIL);
-        cliente.setTlfn(Data.CLIENT_TELEPHONE);
-        cliente.setContrasena(Data.CLIENT_PSSWD);
-
-        assertAll("los datos del cliente son incorrectos",
-                () -> assertEquals(Data.GENERAL_ID, cliente.getId()),
-                () -> assertEquals(Data.CLIENT_NAME, cliente.getNombre()),
-                () -> assertEquals(Data.CLIENT_TELEPHONE, cliente.getTlfn()),
-                () -> assertEquals(Data.CLIENT_EMAIL, cliente.getEmail()),
-                () -> assertEquals(Data.CLIENT_PSSWD, cliente.getContrasena()));
+        assertNotNull(cliente);
     }
-
 
     @Test
     @DisplayName("probando realizacion reserva")
@@ -73,11 +68,10 @@ class ClienteTest {
 
         reserva.setEntradas(new ArrayList<>(List.of(entrada_1, entrada_2, entrada_3)));
 
-        cliente.addReserva(reserva);
 
-        assertFalse(cliente.getReserva().isEmpty());
 
+        assertTrue(cliente.addReserva(reserva));
     }
 
-
+    
 }

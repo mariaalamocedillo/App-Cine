@@ -22,7 +22,7 @@ public class Sala {
     @OneToMany(orphanRemoval = true)
     private List<Asiento> asientos = new ArrayList<>();
 
-    public void addAsiento(Asiento asiento){
-        this.asientos.add(asiento);
+    public boolean addAsiento(Asiento asiento){
+        return this.asientos.add(asiento);
     }
 }

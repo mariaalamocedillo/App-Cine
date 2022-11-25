@@ -5,8 +5,7 @@ import es.mariaac.cinema.entities.Reserva;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ReservaTest {
 
@@ -24,5 +23,12 @@ class ReservaTest {
                 () -> assertEquals(Data.CLIENT_TELEPHONE, cliente.getTlfn()),
                 () -> assertEquals(Data.CLIENT_EMAIL, cliente.getEmail()),
                 () -> assertEquals(Data.CLIENT_PSSWD, cliente.getContrasena()));
+    }
+
+    @Test
+    @DisplayName("test crea reserva sin parametros")
+    void testConstructorNoArgs() {
+        Reserva reserva = new Reserva();
+        assertNotNull(reserva);
     }
 }

@@ -10,7 +10,7 @@ import java.time.LocalTime;
 
 @Entity
 @Data
-@AllArgsConstructor
+//@AllArgsConstructor
 @Table(name = "proyeccion", uniqueConstraints = {
         @UniqueConstraint(name = "uc_sala_comienzo_dia", columnNames = {"comienzo", "sala_id", "dia"})
 })
@@ -24,11 +24,11 @@ public class Proyeccion {
     }
 
     public Proyeccion(){}
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-
 
     @Column(nullable = false)
     private LocalTime comienzo;

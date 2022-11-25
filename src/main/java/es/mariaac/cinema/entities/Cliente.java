@@ -37,9 +37,10 @@ public class Cliente {
     private String contrasena;
 
     @OneToMany(mappedBy = "cliente", orphanRemoval = true)
+    @Column(name = "reserva")
     private Set<Reserva> reserva = new LinkedHashSet<>();
 
-    public void addReserva(Reserva reserva){
-        this.reserva.add(reserva);
+    public boolean addReserva(Reserva reserva){
+        return this.reserva.add(reserva);
     }
 }

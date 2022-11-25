@@ -10,9 +10,10 @@ import java.util.List;
 @Entity
 @Table(name = "reserva")
 public class Reserva {
-    public Reserva(){
 
+    public Reserva(){
     }
+
     public Reserva(Boolean activa, Boolean pagada, Boolean reservada, Proyeccion proyeccion, Cliente cliente) {
         this.activa = activa;
         this.pagada = pagada;

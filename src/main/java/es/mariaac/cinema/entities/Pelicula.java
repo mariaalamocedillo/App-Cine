@@ -44,6 +44,10 @@ public class Pelicula {
     @Column(nullable = false)
     private Boolean enProyeccion;
 
+    public boolean addProyeccion(Proyeccion proyeccion){
+        return this.proyecciones.add(proyeccion);
+    }
+
 
     public Pelicula(String titulo, String director, String descripcion,
                     Integer duracion, String estudio, String poster, Boolean enProyeccion) {
