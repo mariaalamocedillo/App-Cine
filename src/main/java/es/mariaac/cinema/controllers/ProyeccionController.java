@@ -148,6 +148,7 @@ public class ProyeccionController {
 
         Optional<Sala> salaOpt = salaService.buscarPorId(idSala);
         Optional<Pelicula> peliculaOpt = peliculaService.buscarPorId(idPelicula);
+        System.out.println("kasdnkafdnkadnfknankfnndafknaknfnafnkaknfkn");
         if (salaOpt.isEmpty() || peliculaOpt.isEmpty()){
             mensaje.setTexto("Ocurrió un error; la sala o pelicula introducida es incorrecta.");
             return "redirect:admin/horarios";
@@ -158,16 +159,16 @@ public class ProyeccionController {
                 LocalDate.parse(dia, formatter), LocalTime.parse(hora));
 
         almacenarProyeccion(pelicula, proyeccion);
-        return "redirect:admin/horarios/"+dia; ///TODO he añadido dia, comprobar que funciona, tambien deberias purgar el js de seats
+        return "redirect:admin/horarios/dia/"+dia;
 
     }
 
 
     /**
-     * Metodo crea una nueva proyeccion por POST
+     * Método crea una nueva proyección por POST
      *  Método que crea o edita una proyección según los datos recibidos por el id
      *  de la misma. Este método se utiliza desde el jsp del formulario de creacion
-     *  de una proyeccion
+     *  de una proyección
      *
      * @param id Long id de la proyeccion
      * @param salaId Long id sala a utilizar

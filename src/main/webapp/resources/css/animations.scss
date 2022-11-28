@@ -1,0 +1,33 @@
+$trans-ease: transform 0.2s ease-out;
+$transform-04: translateX(4px);
+
+
+.arrow {
+  color: #0c5449;
+  background-color: #f6f3ed;
+  margin: 1em 0;
+
+  &::after {
+    display: inline-block;
+    padding-left: 8px;
+    content: "\0279E"; // arrow right unicode
+    -webkit-transition: $trans-ease;
+    -moz-transition: $trans-ease;
+    -ms-transition: $trans-ease;
+    -o-transition: $trans-ease;
+    transition: $trans-ease;
+  }
+
+  &:hover {
+    color: #0c5449;
+    background-color: #f6f3ed;
+
+    &::after {
+      -webkit-transform: $transform-04;
+      -moz-transform: $transform-04;
+      -ms-transform: $transform-04;
+      -o-transform: $transform-04;
+      transform: $transform-04;
+    }
+  }
+}

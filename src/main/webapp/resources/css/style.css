@@ -4,7 +4,28 @@
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 */
-@import url('https://fonts.googleapis.com/css2?family=Praise&display=swap');
+@font-face {
+  font-family: Griastetrial;
+  src: url("fonts/Griastetrial.otf") format("opentype");
+}
+
+@font-face {
+  font-family: Griastetrial;
+  font-weight: bold;
+  src: url("fonts/Griastetrial.otf") format("opentype");
+}
+
+@font-face {
+  font-family: Hittamig;
+  src: url("fonts/Hittamig.otf") format("opentype"), /* IE6-IE8 */
+      url("fonts/Hittamig.ttf")  format("truetype"); /* Safari, Android, iOS */
+}
+
+@font-face {
+  font-family: Quartist;
+  src: url("fonts/Quartist.otf") format("opentype"), /* IE6-IE8 */
+      url("fonts/Quartist.ttf")  format("truetype"); /* Safari, Android, iOS */
+}
 
 /*--------------------------------------------------------------
 # General
@@ -14,7 +35,7 @@
 }
 
 body {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Quartist", sans-serif;
   background: #f6f9ff;
   color: #444444;
 }
@@ -30,7 +51,9 @@ a:hover {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Nunito", sans-serif;
+  font-family: "Hittamig", sans-serif;
+  margin-top: 1rem!important;
+  margin-bottom: 1rem!important;
 }
 .perfil{
   background-image: url('https://wallpaperaccess.com/full/1988378.jpg');
@@ -56,6 +79,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 10px;
 }
 .pagetitle h1 {
+  font-family: "Quartist", sans-serif;
   font-size: 24px;
   margin-bottom: 0;
   font-weight: 600;
@@ -230,7 +254,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 18px;
   font-weight: 500;
   color: #012970;
-  font-family: "Poppins", sans-serif;
+  font-family: "Hittamig", sans-serif;
 }
 .card-title span {
   color: #899bbd;
@@ -239,6 +263,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 .card-body {
   padding: 0 20px 20px 20px;
+}
+
+.card-body p {
+  font-family: "Quartist", sans-serif;
+  font-size: 20px;
 }
 
 .card-img-overlay {
@@ -293,7 +322,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Breadcrumbs */
 .breadcrumb {
   font-size: 14px;
-  font-family: "Nunito", sans-serif;
+  font-family: "Quartist", sans-serif;
   color: #899bbd;
   font-weight: 600;
 }
@@ -367,14 +396,14 @@ h1, h2, h3, h4, h5, h6 {
 .logo span {
   font-size: 40px;
   color: #012970;
-  font-family: 'Praise', cursive !important;
+  font-family: 'Griastetrial', cursive !important;
 }
 
 .header {
   transition: all 0.5s;
   z-index: 997;
   height: 60px;
-  box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
+  box-shadow: 0 2px 20px rgba(1, 41, 112, 0.1);
   background-color: #fff;
   padding-left: 20px;
   /* Toggle Sidebar Button */
@@ -397,7 +426,7 @@ h1, h2, h3, h4, h5, h6 {
     left: 0;
     right: 0;
     padding: 20px;
-    box-shadow: 0px 0px 15px 0px rgba(1, 41, 112, 0.1);
+    box-shadow: 0 0 15px 0 rgba(1, 41, 112, 0.1);
     background: white;
     z-index: 9999;
     transition: 0.3s;
@@ -414,7 +443,6 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
 }
 .header .search-form input {
-  border: 0;
   font-size: 14px;
   color: #012970;
   border: 1px solid rgba(1, 41, 112, 0.2);
@@ -449,9 +477,10 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0;
 }
 .header-nav .nav-icon {
-  font-family: 'Praise', cursive !important;
-  font-size: 30px;
+  font-family: 'Quartist', sans-serif;
   color: #012970;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 .header-nav .nav-profile {
   color: #012970;
@@ -460,7 +489,7 @@ h1, h2, h3, h4, h5, h6 {
   max-height: 36px;
 }
 .header-nav .nav-profile span {
-  font-size: 14px;
+  font-size: 1.2rem;
   font-weight: 600;
 }
 .header-nav .badge-number {
@@ -560,7 +589,7 @@ h1, h2, h3, h4, h5, h6 {
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #aab7cf transparent;
-  box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
+  box-shadow: 0 0 20px rgba(1, 41, 112, 0.1);
   background-color: #fff;
 }
 @media (max-width: 1199px) {
@@ -1103,7 +1132,7 @@ h1, h2, h3, h4, h5, h6 {
   color: #012970;
 }
 .fontPraise{
-  font-family: 'Praise', cursive !important;
+  font-family: 'Griastetrial', sans-serif !important;
   font-size: 150px;
 }
 
@@ -1197,4 +1226,44 @@ SEGMENTED
 .p-segmented-grey {
   --color-segmented: #555761;
   --color-lighter-segment: #d4d4d4;
+}
+
+.card-proyeccion {
+  border: 1px solid #6c757d;
+  border-radius: 5px;
+}
+
+.btn-group-sm>.btn, .btn-sm {
+  font-size: 1.2rem;
+}
+
+.btn-navigate {
+  font-size: 1.2rem;
+}
+
+.arrow {
+  color: #0c5449;
+  background-color: #f6f3ed;
+  margin: 1em 0;
+}
+.arrow::after {
+  display: inline-block;
+  padding-left: 8px;
+  content: "\0279E";
+  -webkit-transition: transform 0.2s ease-out;
+  -moz-transition: transform 0.2s ease-out;
+  -ms-transition: transform 0.2s ease-out;
+  -o-transition: transform 0.2s ease-out;
+  transition: transform 0.2s ease-out;
+}
+.arrow:hover {
+  color: #0c5449;
+  background-color: #f6f3ed;
+}
+.arrow:hover::after {
+  -webkit-transform: translateX(4px);
+  -moz-transform: translateX(4px);
+  -ms-transform: translateX(4px);
+  -o-transform: translateX(4px);
+  transform: translateX(4px);
 }

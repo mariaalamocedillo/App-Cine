@@ -65,7 +65,7 @@
       <div class="col-lg-8 m-auto">
         <div class="card">
           <div class="card-body">
-            <h1 class="title m-3">${pelicula.titulo} - A growing company</h1>
+            <h1 class="title m-3">${pelicula.titulo}</h1>
             <h5 class="m-3 ">${pelicula.director} |<span class="text-muted" id="duracion"> ${pelicula.duracion} mins </span></h5>
             <p class="m-3">
               ${pelicula.descripcion}
@@ -79,7 +79,7 @@
             <c:forEach var="info" items="${organizacionProyecciones}">
             <div class="col-3">
                 <div class="card rounded-3 text-center">
-                  <div class="card-body">
+                  <div class="card-body card-proyeccion">
                     <h5 class="card-title">${info.key}<%-- DIA PROYECCION  --%></h5>
 
                   <%-- HORAS DE PROYECCIONES  --%>

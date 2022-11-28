@@ -31,9 +31,9 @@
 <%----%>
     <section class="jumbotron text-center">
         <div class="container">
-            <h1 class="h-50 text-light fontPraise">Cines Petri®</h1>
+            <h1 class="h-50 text-light fontPraise">Cines Petri</h1>
             <p>
-                <a href="${mvc.basePath}/cartelera/descubrir" class="btn btn-primary my-2">Explorar todas las películas</a>
+                <a href="${mvc.basePath}/cartelera/descubrir" class="btn btn-primary my-2 btn-navigate">Explorar todas las películas</a>
             </p>
         </div>
     </section>
@@ -75,7 +75,6 @@
     //al cargarse el DOM, se realiza fetch de la primera fecha de proyecciones disponible
     $(document).ready(function() {
         hacerFetch(DIAS[0].id);
-
         //al clicar en un elemento <a> con dicho nombre se desactiva el anterior y se activa el clicado, así como se realiza el fetch de dicho dia
         $('a[name="diasProyecciones"]').click(function(){
             $(`a[name="diasProyecciones"].active`).removeClass('active'); //buscamos el que tiene la clase de activo y se ñp eliminamos para ponersela al clicado
@@ -91,6 +90,7 @@
             .then((resp) => resp.json())
             .then(function(data) {
                 let peliculas = data;
+                console.log(data)
                 //vaciamos el contenedor para volver a rellenarlo con el contenido del nuevo dia
                 $('#contenedorPeliculasUnDia').empty();
 
@@ -124,7 +124,7 @@
                                                     <h2>` + pelicula.titulo + `</h2>
                                                     <div class="d-flex justify-content-between align-items-center mt-2">
                                                         <div class="btn-group">
-                                                            <a href="${mvc.basePath}/cartelera/` + pelicula.id + `"><button type="button" class="btn btn-sm btn-outline-secondary bg-info text-white">Detalles</button></a>
+                                                            <a href="${mvc.basePath}/cartelera/` + pelicula.id + `"><button type="button" class="btn btn-sm bg-info text-white arrow">Detalles</button></a>
                                                         </div>
                                                         <small class="text-muted">` + pelicula.duracion + ` mins</small>
                                                     </div>

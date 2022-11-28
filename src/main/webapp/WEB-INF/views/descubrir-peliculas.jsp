@@ -30,9 +30,9 @@
 
     <section class="jumbotron text-center">
         <div class="container">
-            <h1 class="h-50 text-light fontPraise">Cines Petri®</h1>
+            <h1 class="h-50 text-light fontPraise">Cines Petri</h1>
             <p>
-                <a href="${mvc.basePath}/cartelera/" class="btn btn-primary my-2">Ver cartelera</a>
+                <a href="${mvc.basePath}/cartelera/" class="btn btn-primary my-2 btn-navigate">Ver cartelera</a>
             </p>
         </div>
     </section>
@@ -53,7 +53,7 @@
                                     <h2>${pelicula.titulo}</h2>
                                     <div class="d-flex justify-content-between align-items-center mt-2">
                                         <div class="btn-group">
-                                            <a href="${mvc.basePath}/cartelera/${pelicula.id}"><button type="button" class="btn btn-sm btn-outline-secondary bg-info text-white">Detalles</button></a>
+                                            <a href="${mvc.basePath}/cartelera/${pelicula.id}"><button type="button" class="btn btn-sm bg-info text-white arrow">Detalles</button></a>
                                         </div>
                                         <small class="text-muted">${pelicula.duracion} mins</small>
                                     </div>
