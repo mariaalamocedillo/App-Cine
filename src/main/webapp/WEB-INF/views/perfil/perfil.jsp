@@ -166,7 +166,7 @@
                                             <div class="row g-0 mb-0">
                                                 <div class="col">
                                                     <div class="card-body">
-                                                        <h5 class="card-title">Reserva para ${reserva.getProyeccion().getPelicula().getTitulo()}</h5>
+                                                        <h5 class="card-title">Reserva para <a href="${mvc.basePath}/cartelera/${reserva.proyeccion.pelicula.id}">${reserva.getProyeccion().getPelicula().getTitulo()}</a> </h5>
                                                         <div class="row">
                                                             <div class="col-md-4 label ">Día</div>
                                                             <div class="col-md-8">${reserva.getProyeccion().getDia()}</div>
@@ -176,15 +176,6 @@
                                                             <div class="col-md-4 label ">Comienzo</div>
                                                             <div class="col-md-8">${reserva.getProyeccion().getComienzo()}</div>
                                                         </div>
-
-<%--
-                                                        <div class="row">
-                                                            <div class="col-md-4 label">Asientos reservados</div>
-                                                            <div class="col-md-8">${reserva.entrada.getAsientos().size()}</div>
-                                                        </div>
---%>
-
-
 
                                                     </div>
 

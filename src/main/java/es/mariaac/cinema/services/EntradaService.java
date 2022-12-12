@@ -2,6 +2,7 @@ package es.mariaac.cinema.services;
 
 import es.mariaac.cinema.entities.*;
 import es.mariaac.cinema.repositories.EntradaRepository;
+import es.mariaac.cinema.repositories.ReservaRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -11,6 +12,9 @@ import java.util.*;
 public class EntradaService {
     @Inject
     EntradaRepository entradaRepository;
+
+    @Inject
+    ReservaRepository reservaRepository;
 
     public List<Entrada> findAll () {
         return entradaRepository.findAll();
@@ -29,11 +33,12 @@ public class EntradaService {
         entrada.setAsiento(asiento);
         entrada.setPrecio(precioHoy);
         guardar(entrada);
+        reserva.addEntrada(entrada);
     }
 
     public List<String> sacarEstadosAsientos(Proyeccion proyeccion){
         //sacar todas las reservas con el id de esta proyeccion
-        List<Entrada> asientosProyeccion = entradaRepository.findEntradasProyeccion(proyeccion.getId());
+        List<Entrada> asientosProyeccion = reservaRepository.findEntradasProyeccion(proyeccion.getId());
         List<String> asientosNames = new ArrayList<String>();
         for (Entrada entrada : asientosProyeccion) {
             Asiento reservado = entrada.getAsiento();

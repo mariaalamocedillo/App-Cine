@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Components / Accordion - NiceAdmin Bootstrap Template</title>
+  <title>${pelicula.titulo}</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -23,8 +23,6 @@
   <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/resources/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="${pageContext.request.contextPath}/resources/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="${pageContext.request.contextPath}/resources/vendor/quill/quill.bubble.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/resources/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/resources/vendor/simple-datatables/style.css" rel="stylesheet">
 
@@ -98,39 +96,6 @@
             </div>
               </c:forEach>
           </div>
-
-
-<%--            <div class="accordion accordion-flush" id="accordionFlushExample">
-              <c:forEach var="info" items="${organizacionProyecciones}">
-                <div class="accordion-item">
-
-                  <h2 class="accordion-header" id="flush-headingOne">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#tabs-${info.key}" aria-expanded="false" aria-controls="flush-collapseOne">
-                      ${info.key}
-                    </button>
-                  </h2>
-
-                  <div id="tabs-${info.key}" class="accordion-collapse collapse show"
-                       aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                          <div class="accordion-body">
-                            <c:forEach var="id" items="${info.value}">
-                              <c:forEach var="proyeccion" items="${proyecciones}">
-
-                                <c:if test="${id == proyeccion.id}">
-                                  <a id="${info.key}" href="${mvc.basePath}/reserva/pelicula/${proyeccion.id}"
-                                      class="badge rounded-pill bg-warning text-dark">${proyeccion.comienzo}</a>
-                                </c:if>
-
-                              </c:forEach>
-                            </c:forEach>
-                          </div>
-
-                  </div>
-                </div>
-              </c:forEach>
-            </div>--%>
-
         </c:if>
           </div>
         </div>
@@ -145,13 +110,8 @@
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->
-<script src="${pageContext.request.contextPath}/resources/vendor/apexcharts/apexcharts.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendor/chart.js/chart.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendor/echarts/echarts.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendor/quill/quill.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendor/simple-datatables/simple-datatables.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendor/tinymce/tinymce.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendor/php-email-form/validate.js"></script>
 
 <!-- Template Main JS File -->

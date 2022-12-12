@@ -1267,3 +1267,6 @@ SEGMENTED
   -o-transform: translateX(4px);
   transform: translateX(4px);
 }
+.hora-pill {
+  font-size: 1.25em;
+}

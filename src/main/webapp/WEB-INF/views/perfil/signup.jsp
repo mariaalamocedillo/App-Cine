@@ -33,6 +33,29 @@
 
     <!-- Template Main CSS File -->
     <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
+    <style>
+        :root {
+            --error-color: #dc3545;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+        }
+
+        input:focus {
+            outline: none;
+        }
+
+        .error input {
+            border-color: var(--error-color);
+        }
+
+        .success input {
+            border-color: var(--success-color);
+        }
+
+        small {
+            color: var(--error-color);
+        }
+    </style>
 </head>
 
 <body class="perfil">
@@ -54,35 +77,45 @@
                                     <p class="text-center small">Introduzca los datos para crear una cuenta</p>
                                 </div>
 
-                                <form method="post" action="${mvc.basePath}/usuario/registro/submit" class="row g-3 needs-validation" novalidate>
+                                <form method="post" action="${mvc.basePath}/usuario/registro/submit" id="signup" class="row g-3 needs-validation" novalidate>
                                     <input type="text" name="id" value="${cliente.id}" hidden>
                                     <div class="col-12">
-                                        <label for="yourName" class="form-label">Nombre completo</label>
-                                        <input type="text" name="nombre" value="${cliente.nombre}" class="form-control" id="yourName" required>
+                                        <label for="nombre" class="form-label">Nombre completo</label>
+                                        <input type="text" name="nombre" value="${cliente.nombre}" class="form-control" id="nombre" required>
+                                        <small></small>
                                     </div>
 
                                     <div class="col-12">
-                                        <label for="yourEmail" class="form-label">Email</label>
-                                        <input type="email" name="email" value="${cliente.email}" class="form-control" id="yourEmail" required>
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" name="email" value="${cliente.email}" class="form-control" id="email" required>
+                                        <small></small>
                                     </div>
 
                                     <div class="col-12">
-                                        <label for="yourPhn" class="form-label">Teléfono</label>
+                                        <label for="tlfn" class="form-label">Teléfono</label>
                                         <div class="input-group">
                                             <span class="input-group-text" id="inputGroupPrepend2">+(34)</span>
-                                            <input type="number" name="tlfn" value="${cliente.tlfn}" class="form-control" id="yourPhn" required>
+                                            <input type="number" name="tlfn" value="${cliente.tlfn}" class="form-control" id="tlfn" required>
                                         </div>
+                                        <small></small>
                                     </div>
 
                                     <div class="col-12">
-                                        <label for="yourPassword" class="form-label">Contraseña</label>
-                                        <input type="password" name="contrasena" class="form-control" id="yourPassword" required>
+                                        <label for="contrasena" class="form-label">Contraseña</label>
+                                        <input type="password" name="contrasena" class="form-control" id="contrasena" required>
+                                        <small></small>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label for="conf-contrasena" class="form-label">Confirma contraseña</label>
+                                        <input type="password" name="conf-contrasena" class="form-control" id="conf-contrasena" required>
+                                        <small></small>
                                     </div>
 
                                     <div class="col-12">
                                         <div class="form-check">
                                             <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
-                                            <label class="form-check-label" for="acceptTerms">Acepto y estoy de acuerdo los <a href="https://i.imgur.com/qh2CT.jpg">términos y condiciones</a></label>
+                                            <label class="form-check-label" for="acceptTerms">Acepto y estoy de acuerdo los <a href="https://i.imgur.com/qh2CT.jpeg">términos y condiciones</a></label>
                                         </div>
                                     </div>
 
@@ -116,11 +149,10 @@
 
 <!-- Vendor JS Files -->
 <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/form-validation.js"></script>
 
 <!-- Template Main JS File -->
+<script src="${pageContext.request.contextPath}/resources/js/form-validation.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
-
 </body>
 
 </html>

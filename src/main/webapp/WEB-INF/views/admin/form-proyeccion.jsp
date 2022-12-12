@@ -140,10 +140,11 @@
 
 <!-- Vendor JS Files -->
 <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/form-validation.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/form-signup-validation.js"></script>
 
 <!-- Template Main JS File -->
 <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/general-validation-form.js"></script>
 
 </body>
 

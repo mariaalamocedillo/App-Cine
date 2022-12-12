@@ -45,22 +45,19 @@ public class AdminController {
     @Inject
     private Mensaje mensaje;
 
-    /**
-     * [no funciona] Metodo envia a la dashboard de administrador
+/**
+     * Método dirige a panel de administración
      *
      *
      * @return página formulario de película
      */
+
     @GET
     @Path("/")
     public String index() {
-        models.put("ventasHoy", reservaService.listadoVentas().get(0));
-        models.put("ventasSemana", reservaService.listadoVentas().get(1));
-        models.put("ventasMes", reservaService.listadoVentas().get(2));
-
-
-        return "admin/dashboard";
+        return "admin/panel-admin";
     }
+
 
 
 /* *********   CONTROL DE SALAS   ********* */
@@ -71,7 +68,7 @@ public class AdminController {
      * @return página formulario de película
      */
     @GET
-    @Path("sala/form")
+    @Path("sala/nueva")
     public String irCrearSala() {
         log.debug("Añadir nueva sala");
         Sala sala = new Sala();

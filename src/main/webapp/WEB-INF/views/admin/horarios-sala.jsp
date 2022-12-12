@@ -53,7 +53,7 @@
                             <div class="card-header">
                                 <nav>
                                     <ol class="breadcrumb mb-0" style="--bs-breadcrumb-divider: '>';">
-                                        <li class="breadcrumb-item active">Salas horarios</li>
+                                        <li class="breadcrumb-item active">Programación horarios-salas</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -72,14 +72,10 @@
                                                         <h5 class="card-title text-center pb-0 fs-4">Ocupacion de las salas dia ${dia}</h5>
                                                     </div>
                                                     <div class="col mb-2">
-                                                            <div class="row pt-2">
-                                                                <div class="col pt-2">
-                                                                    <input id="diaInput" name="dia" type="date" onchange="document.getElementById('enlaceDia').setAttribute('href', '${mvc.basePath}/admin/horarios/dia/'+this.value);">
-                                                                </div>
-                                                                <div class="col">
-                                                                    <a href="" id="enlaceDia">
-                                                                        <button id="boton" class="btn btn-primary">Buscar horarios</button>
-                                                                    </a>
+                                                            <div class="row pt-2 float-end">
+                                                                <div class="col pt-2 ">
+                                                                    <label for="diaInput">Elija un dia:</label>
+                                                                    <input id="diaInput" name="dia" type="date">
                                                                 </div>
                                                             </div>
                                                     </div>
@@ -161,11 +157,15 @@
 </main><!-- End #main -->
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="js/jquery-slim.min.js"><\/script>')</script>
+
+<script src="https://unpkg.com/@popperjs/core@2.9.1/dist/umd/popper.min.js" charset="utf-8"></script>
 
 <!-- Vendor JS Files -->
 <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendor/quill/quill.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/form-validation.js"></script>
+<%--<script src="${pageContext.request.contextPath}/resources/js/form-validation.js"></script>--%>
 <!-- Template Main JS File -->
 <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 
@@ -177,7 +177,7 @@
         if(idPelicula !== '-'){
             enlace.setAttribute('href',
                 '${mvc.basePath}/admin/proyeccion/datosNueva/'
-                    +idPelicula+'/'+dia+'/'+hora+'/'+idSala);
+                +idPelicula+'/'+dia+'/'+hora+'/'+idSala);
             boton.disabled=false;
             enlace.disabled=false;
         }else {
@@ -186,6 +186,12 @@
             boton.disabled=true;
         }
     }
+
+
+    //redireccion según se cambia el dia del que se quiere ver el horario
+    $( "#diaInput" ).change(function() {
+        window.location.href = "${mvc.basePath}/admin/horarios/dia/"+ this.value;
+    });
 
 </script>
 

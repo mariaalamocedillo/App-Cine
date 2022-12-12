@@ -1,10 +1,33 @@
-const usernameEl = document.querySelector('#nombre');
-const emailEl = document.querySelector('#email');
-const telephoneEl = document.querySelector('#tlfn');
-const passwordEl = document.querySelector('#contrasena');
-const confirmPasswordEl = document.querySelector('#conf-contrasena');
+(function() {
+    'use strict';
 
-const form = document.querySelector('#signup');
+    window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+})();
+
+
+
+const tituloEl = document.querySelector('#titulo');
+const directorEl = document.querySelector('#director');
+const estudioEl = document.querySelector('#estudio');
+const posterEl = document.querySelector('#poster');
+const duracionEl = document.querySelector('#duracion');
+const sipnosisEl = document.querySelector('#descripcion');
+
+const form = document.querySelector('#formPelicula');
 
 
 const checkUsername = () => {
@@ -18,7 +41,7 @@ const checkUsername = () => {
 
     if (!isRequired(username)) {
         showError(usernameEl, 'Debe introducir su nombre.');
-    } else if (!isBetween(username.length, min, max)) {
+    } else if (!isValidUrl(posterEl)) {
         showError(usernameEl, `El nombre debe contener al menos ${min} caracteres.`)
     } else {
         showSuccess(usernameEl);
@@ -41,7 +64,7 @@ const checkEmail = () => {
     return valid;
 };
 
-const checkPhone = () => {
+const checkPoster = () => {
 
     let valid = false;
 
@@ -160,6 +183,14 @@ form.addEventListener('submit', function (e) {
     }
 });
 
+const isValidUrl = urlString=> {
+    try {
+        return Boolean(new URL(urlString));
+    }
+    catch(e){
+        return false;
+    }
+}
 
 const debounce = (fn, delay = 500) => {
     let timeoutId;
@@ -178,13 +209,13 @@ const debounce = (fn, delay = 500) => {
 
 form.addEventListener('input', debounce(function (e) {
     switch (e.target.id) {
-        case 'nombre':
+        case 'titulo':
             checkUsername();
             break;
-        case 'email':
+        case 'director':
             checkEmail();
             break;
-        case 'tlfn':
+        case 'estudio':
             checkPhone();
             break;
         case 'contrasena':

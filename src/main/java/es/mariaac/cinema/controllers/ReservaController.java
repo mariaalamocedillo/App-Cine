@@ -46,6 +46,9 @@ public class ReservaController {
     EntradaService entradaService;
 
     @Inject
+    SalaService salaService;
+
+    @Inject
     ProyeccionService proyeccionService;
 
 
@@ -96,40 +99,37 @@ public class ReservaController {
     @Path("paso2")
     public String paso1Submit(@FormParam("id") Long idProyeccion) {
         //comprobamos si está loggeado (si no lo está, le redigirá automáticamente a login)
-        Optional<Proyeccion> proyeccion = proyeccionService.buscarPorId(idProyeccion);
-        if (proyeccion.isEmpty()){
+        Optional<Proyeccion> proyeccionOpt = proyeccionService.buscarPorId(idProyeccion);
+        if (proyeccionOpt.isEmpty()){
             mensaje.setTexto("Parece que hubo un problema con su reserva, inténtelo más tarde");
             return "reserva/paso-1";
         }
+        Proyeccion proyeccion = proyeccionOpt.get();
         Cliente cliente = compruebaSesion();
         if (cliente == null) {
             HttpSession session = request.getSession();
-            session.setAttribute("rutaOrigen", "redirect:reserva/pelicula/" + proyeccion.get().getId());
+            session.setAttribute("rutaOrigen", "redirect:reserva/pelicula/" + proyeccion.getId());
             return "redirect:usuario";
         }
 
-        Reserva reserva = new Reserva();
         //actualizamos la reserva
-        reserva.setProyeccion(proyeccion.get());
-        reserva.setPagada(false);
-        reserva.setActiva(true);
-        reserva.setReservada(false);
+        Reserva reserva = new Reserva(true, false, false, proyeccion, cliente);
+
 
         //configuramos los datos que necesitaremos
-        reserva.setCliente(cliente);
-        models.put("asientosOcupados", entradaService.sacarEstadosAsientos(proyeccion.get()));
+        models.put("asientosOcupados", entradaService.sacarEstadosAsientos(proyeccion));
 
         models.put("precio", reservaService.selectPrice().get().getPrecioFinal());
 
         //guardamos la reserva
         try {
-            reservaService.guardar(reserva);
+            Reserva reservaGuardada = reservaService.guardar(reserva);
             HttpSession session = request.getSession();
-            session.setAttribute("reservaId", reserva.getId());
-            if (session.getAttribute("reservaTimeCreation") == null)
+            session.setAttribute("reservaId", reservaGuardada.getId());
+            if (session.getAttribute("reservaTimeCreation") == null || session.getAttribute("reservaTimeCreation") == "0")
                 session.setAttribute("reservaTimeCreation", LocalDateTime.now());
             models.put("timerTime", session.getAttribute("reservaTimeCreation"));
-            models.put("reserva", reserva);
+            models.put("reserva", reservaGuardada);
             return "reserva/paso-2";
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -208,6 +208,21 @@ public class ReservaController {
         reserva.setReservada(true);
         models.put("reserva", reserva);
         models.put("precioTempTotal", precio);
+        Reserva reservaGuardada;
+
+
+        System.out.println(reserva.getId());
+
+        //guardamos la reserva
+        try {
+            reservaGuardada = reservaService.guardar(reserva);
+            models.put("timerTime", session.getAttribute("reservaTimeCreation"));
+
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            mensaje.setTexto("Ocurrió un error y la reserva " + reserva.getId() + " no se pudo realizar.");
+            return "reserva/paso-2";
+        }
 
         String[] sitios = idsSeats.trim().replaceAll(" ", "").split(",");
         //lista de asientos reservados (hay que asociarlo a asientoreservado) -> método de Reserva de asiento
@@ -218,7 +233,7 @@ public class ReservaController {
             if (asientoTemp != null){
                 asientos.add(asientoTemp);
                 try{
-                    entradaService.reservarAsiento(reserva, asientoTemp, precioHoy);
+                    entradaService.reservarAsiento(reservaGuardada, asientoTemp, precioHoy);
                 }catch (Exception e) {
                     log.error(e.getMessage(), e);
                     mensaje.setTexto("Ocurrió un error y no pudimos almacenar la reserva de los asientos. ");
@@ -227,17 +242,10 @@ public class ReservaController {
             }
         }
 
-        //guardamos la reserva
-        try {
-            reservaService.guardar(reserva);
-            session.setAttribute("entradas", asientos);
-            models.put("timerTime", session.getAttribute("reservaTimeCreation"));
-            return "reserva/paso-3";
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            mensaje.setTexto("Ocurrió un error y la reserva " + reserva.getId() + " no se pudo realizar.");
-            return "reserva/paso-2";
-        }
+        session.setAttribute("asientos", asientos);
+        models.put("salaDeLaEntrada", salaService.salaDelAsiento(asientos.get(0)));
+
+        return "reserva/paso-3";
     }
 
 

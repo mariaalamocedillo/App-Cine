@@ -40,7 +40,7 @@
             <h3 class="m-5 text-center">${not empty pelicula.id ? 'Editar' : 'Nueva'} película</h3>
 
             <!-- General Form Elements -->
-            <form action="${mvc.basePath}/admin/nueva/submit" method="post">
+            <form action="${mvc.basePath}/admin/nueva/submit" id="formPelicula" method="post">
               <c:if test="${not empty pelicula.id}">
                 <input id="id" name="id" type="hidden" value="${pelicula.id}"/>
               </c:if>
@@ -119,17 +119,14 @@
 
 </main><!-- End #main -->
 
-<!-- ======= Footer ======= -->
-</footer><!-- End Footer -->
-
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->
 <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/form-validation.js"></script>
 
 <!-- Template Main JS File -->
 <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/general-validation-form.js"></script>
 
 </body>
 

@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Lista de peliculas</title>
+    <title>Cartelera</title>
 
     <!-- Favicons -->
     <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
@@ -124,7 +124,7 @@
                                                     <h2>` + pelicula.titulo + `</h2>
                                                     <div class="d-flex justify-content-between align-items-center mt-2">
                                                         <div class="btn-group">
-                                                            <a href="${mvc.basePath}/cartelera/` + pelicula.id + `"><button type="button" class="btn btn-sm bg-info text-white arrow">Detalles</button></a>
+                                                            <a href="${mvc.basePath}/cartelera/` + pelicula.id + `"><button type="button" class="btn btn-lg bg-info text-white arrow">Detalles</button></a>
                                                         </div>
                                                         <small class="text-muted">` + pelicula.duracion + ` mins</small>
                                                     </div>
@@ -140,7 +140,7 @@
     function badgesProyeccion(proyeccion, diaRecibido) {
         if(proyeccion.dia === diaRecibido) {
             return `<a id="` + proyeccion.id + ` " href="${mvc.basePath}/reserva/pelicula/` + proyeccion.id +`"
-                class="badge rounded-pill bg-warning text-dark">` + proyeccion.comienzo + ` </a>`;
+                class="badge rounded-pill bg-warning text-dark hora-pill">` + proyeccion.comienzo + ` </a>`;
         } else {
             return '';
         }

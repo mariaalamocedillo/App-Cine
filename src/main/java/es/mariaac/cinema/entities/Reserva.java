@@ -47,4 +47,7 @@ public class Reserva {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Entrada> entradas = new ArrayList<>();
 
+    public boolean addEntrada(Entrada entrada){
+        return this.entradas.add(entrada);
+    }
 }

@@ -29,21 +29,11 @@
     <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/vendor/quill/quill.snow.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/vendor/quill/quill.bubble.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/vendor/simple-datatables/style.css" rel="stylesheet">
 
     <!-- Template Main CSS File -->
     <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/css/seats-style.css" rel="stylesheet">
-
-    <!-- =======================================================
-      * Template Name: NiceAdmin - v2.2.2
-      * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-      * Author: BootstrapMade.com
-      * License: https://bootstrapmade.com/license/
-      ======================================================== -->
 </head>
 
 <body class="imgfondo">
@@ -169,7 +159,8 @@
                                                 </div>
                                             </div>
                                             <p class="text">
-                                                Seleccionaste <span id="count">0</span> asientos; el precio se queda en <span id="total">0</span>€ (descuentos aplicables durante el pago)
+                                                Seleccionaste <span id="count">0</span> asientos
+                                                ; el precio se queda en <span id="total">0</span>€ (descuentos aplicables durante el pago)
                                             </p>
                                             <c:if test="${mensaje.texto != null}">
                                                 <div class="col-md-12">
@@ -206,13 +197,7 @@
 <input id="ocupados" value="${asientosOcupados}" hidden>
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 <!-- Vendor JS Files -->
-<script src="${pageContext.request.contextPath}/resources/vendor/apexcharts/apexcharts.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendor/chart.js/chart.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendor/echarts/echarts.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendor/quill/quill.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendor/simple-datatables/simple-datatables.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendor/tinymce/tinymce.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendor/php-email-form/validate.js"></script>
 
 <!-- Template Main JS File -->
@@ -222,6 +207,7 @@
 <script>
 
     window.addEventListener('load', (event) => {
+
         crearTimer(document.getElementById("reservaTimeCreation").innerText);
     });
 
@@ -230,7 +216,7 @@
         // Set the date we're counting down to
         var fechaCreacion = new Date(fecha).getTime() + (1000 * 60 * 10);
 
-// Update the count down every 1 second
+        // Update the count down every 1 second
         var x = setInterval(function() {
 
             // Get today's date and time
@@ -252,6 +238,7 @@
                 document.getElementById("demo").innerHTML = "Reserva cancelada";
             }
         }, 1000);
+        console.log(x);
     }
 
 </script>

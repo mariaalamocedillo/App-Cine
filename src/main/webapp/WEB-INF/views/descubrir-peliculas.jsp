@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Lista de peliculas</title>
+    <title>Descubrir</title>
 
     <!-- Favicons -->
     <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
@@ -78,14 +78,7 @@
 
 <script src="https://unpkg.com/@popperjs/core@2.9.1/dist/umd/popper.min.js" charset="utf-8"></script>
 
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster
-<script src="${pageContext.request.contextPath}/resources/js/popper.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/holder.min.js"></script></body>-->
 <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendor/tinymce/tinymce.min.js"></script>
 
 <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 

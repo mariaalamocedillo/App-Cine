@@ -27,7 +27,7 @@ public class ReservaService {
         return reservaRepository.findOptionalBy(id);
     }
 
-    public void guardar(Reserva reserva){reservaRepository.save(reserva);}
+    public Reserva guardar(Reserva reserva){return reservaRepository.save(reserva);}
 
     public List<Reserva> findReservas(Long id){return reservaRepository.findReservas(id);}
 
@@ -56,6 +56,7 @@ public class ReservaService {
     }
 
 
+/*
     public List<Double> listadoVentas () {
         List<Double> listaVentas = new ArrayList<>();
         listaVentas.add(reservaRepository.ventasHoy());
@@ -63,6 +64,7 @@ public class ReservaService {
         listaVentas.add(reservaRepository.ventasEsteAño());
         return listaVentas;
     }
+*/
 
     public Float listadoOcupacion () {
         List<Float> listado = new ArrayList<>();

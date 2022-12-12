@@ -69,7 +69,7 @@
 
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 col-6 label ">Sala</div>
-                                        <div class="col-lg-9 col-md-8 col-6">${reserva.getProyeccion().getSala().getNombre()}</div>
+                                        <div class="col-lg-9 col-md-8 col-6">${reserva.getProyeccion().getSala()}</div>
                                     </div>
 
                                     <div class="row">

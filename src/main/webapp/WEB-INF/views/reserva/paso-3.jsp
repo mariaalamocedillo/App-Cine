@@ -70,11 +70,11 @@
                                         <div class="col-md-6 order-md-2 mb-4 mt-2">
                                             <h4 class="d-flex justify-content-between align-items-center mb-3">
                                                 <span class="text-muted ">Entradas para ${reserva.proyeccion.pelicula.titulo} </span>
-                                                <span class="badge badge-secondary badge-pill">${entradas.size()}</span>
+                                                <span class="badge badge-secondary badge-pill">${asientos.size()}</span>
                                             </h4>
                                             <!--Resumen de la compra-->
                                             <ul class="list-group mb-3">
-                                                <c:forEach var="entrada" items="${entradas}" varStatus="indexEntrada">      <!--hay que hacer qeu cada entrada sea independiente y cada select igual-->
+                                                <c:forEach var="entrada" items="${asientos}" varStatus="indexEntrada">      <!--hay que hacer qeu cada entrada sea independiente y cada select igual-->
                                                     <li class="list-group-item d-flex justify-content-between lh-condensed">
                                                         <div>
                                                             <select name="selectPrecio" id="listaPrecios-${indexEntrada.index}" class="form-select" aria-label="Default select example"
@@ -88,7 +88,7 @@
 
                                                             </select>
 
-                                                            <small class="text-muted">${entrada.sala.nombre} | ${entrada.getName()}</small>
+                                                            <small class="text-muted">${salaDeLaEntrada.getNombre()} | ${entrada.getName()}</small>
                                                         </div>
                                                         <span class="text-muted"> <span name="preciosEntradas" id="precioEntrada-${indexEntrada.index}">${precio.getPrecioFinal()}</span> €</span>
                                                     </li>

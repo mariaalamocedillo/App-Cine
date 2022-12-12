@@ -22,7 +22,13 @@
 
             <li class="nav-item ">
                 <a class="nav-link nav-icon search-bar-toggle " href="${mvc.basePath}/cartelera">
-                    Interfaz user
+                    Cartelera
+                </a>
+            </li>
+
+            <li class="nav-item ">
+                <a class="nav-link nav-icon search-bar-toggle " href="${mvc.basePath}/admin">
+                    Menú Admin
                 </a>
             </li>
 
@@ -50,9 +56,9 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="${mvc.basePath}/admin/pelicula">
+                        <a class="dropdown-item d-flex align-items-center" href="${mvc.basePath}/admin/peliculas">
                             <i class="bi bi-box-arrow-right"></i>
-                            <span>Peliculas</span>
+                            <span>Películas</span>
                         </a>
                     </li>
 
@@ -60,6 +66,20 @@
                         <a class="dropdown-item d-flex align-items-center" href="${mvc.basePath}/admin/horarios/">
                             <i class="bi bi-box-arrow-right"></i>
                             <span>Programación proyecciones</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="${mvc.basePath}/admin/pelicula/nueva">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>Crear película</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="${mvc.basePath}/admin/proyeccion/nueva/0">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>Crear proyeccion</span>
                         </a>
                     </li>
 
