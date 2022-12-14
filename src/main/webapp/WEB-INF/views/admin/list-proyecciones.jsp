@@ -39,7 +39,7 @@
     <div class="container">
         <c:if test="${not empty proyecciones}">
             <!-- Table with stripped rows -->
-            <table id="proyecciones" class="table datatable table-striped order-column">
+            <table id="proyecciones" class="table table-striped order-column">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -81,6 +81,7 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/simple-datatables.js"></script>
 
 <!-- Template Main JS File -->
 <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>

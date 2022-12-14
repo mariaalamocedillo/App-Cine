@@ -5,8 +5,10 @@ import es.mariaac.cinema.repositories.ClienteRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.NoResultException;
+import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @ApplicationScoped
@@ -35,5 +37,17 @@ public class ClienteService {
             return false;
         }
     }
+
+    public boolean compruebaNoAdministrador(HttpSession session){
+        try {
+            Optional<Cliente> clienteOpt = buscarPorId(Long.parseLong(session.getAttribute("clienteId").toString()));
+            if (clienteOpt.isEmpty() || Objects.equals(clienteOpt.get().getId(), 05122001L))
+                return true; //devuelve true si no es un administrador
+        } catch (NullPointerException n){
+            return true;
+        }
+        return false;
+    }
+
 
 }

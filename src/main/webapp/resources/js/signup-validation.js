@@ -1,33 +1,10 @@
-(function() {
-    'use strict';
+const usernameEl = document.querySelector('#nombre');
+const emailEl = document.querySelector('#email');
+const telephoneEl = document.querySelector('#tlfn');
+const passwordEl = document.querySelector('#contrasena');
+const confirmPasswordEl = document.querySelector('#conf-contrasena');
 
-    window.addEventListener('load', function() {
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.getElementsByClassName('needs-validation');
-
-        // Loop over them and prevent submission
-        var validation = Array.prototype.filter.call(forms, function(form) {
-            form.addEventListener('submit', function(event) {
-                if (form.checkValidity() === false) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                form.classList.add('was-validated');
-            }, false);
-        });
-    }, false);
-})();
-
-
-
-const tituloEl = document.querySelector('#titulo');
-const directorEl = document.querySelector('#director');
-const estudioEl = document.querySelector('#estudio');
-const posterEl = document.querySelector('#poster');
-const duracionEl = document.querySelector('#duracion');
-const sipnosisEl = document.querySelector('#descripcion');
-
-const form = document.querySelector('#formPelicula');
+const form = document.querySelector('#signup');
 
 
 const checkUsername = () => {
@@ -41,7 +18,7 @@ const checkUsername = () => {
 
     if (!isRequired(username)) {
         showError(usernameEl, 'Debe introducir su nombre.');
-    } else if (!isValidUrl(posterEl)) {
+    } else if (!isBetween(username.length, min, max)) {
         showError(usernameEl, `El nombre debe contener al menos ${min} caracteres.`)
     } else {
         showSuccess(usernameEl);
@@ -64,7 +41,7 @@ const checkEmail = () => {
     return valid;
 };
 
-const checkPoster = () => {
+const checkPhone = () => {
 
     let valid = false;
 
@@ -93,7 +70,7 @@ const checkPassword = () => {
     if (!isRequired(password)) {
         showError(passwordEl, 'Debe introducir una contraseña.');
     } else if (!isPasswordSecure(password)) {
-        showError(passwordEl, 'La contraseña debe tener mínimo 8 caracteres, incluyendo una mayúscula, 1 número y un caracter especial (!@#$%^&*)');
+        showError(passwordEl, 'La contraseña debe tener mínimo 8 caracteres, incluyendo una mayúscula y 1 númeroº');
     } else {
         showSuccess(passwordEl);
         valid = true;
@@ -126,38 +103,9 @@ const isEmailValid = (email) => {
 };
 
 const isPasswordSecure = (password) => {
-    const re = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    const re = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})");
     return re.test(password);
 };
-
-const isRequired = value => value === '' ? false : true;
-const isBetween = (length, min, max) => length < min || length > max ? false : true;
-
-
-const showError = (input, message) => {
-    // get the form-field element
-    const formField = input.parentElement;
-    // add the error class
-    formField.classList.remove('success');
-    formField.classList.add('error');
-
-    // show the error message
-    const error = formField.querySelector('small');
-    error.textContent = message;
-};
-
-const showSuccess = (input) => {
-    // get the form-field element
-    const formField = input.parentElement;
-
-    // remove the error class
-    formField.classList.remove('error');
-    formField.classList.add('success');
-
-    // hide the error message
-    const error = formField.querySelector('small');
-    error.textContent = '';
-}
 
 
 form.addEventListener('submit', function (e) {
@@ -179,18 +127,10 @@ form.addEventListener('submit', function (e) {
 
     // submit to the server if the form is valid
     if (isFormValid) {
-        console.log("Validoooooooooooooooooooooooooooooooooo")
+        form.submit();
     }
 });
 
-const isValidUrl = urlString=> {
-    try {
-        return Boolean(new URL(urlString));
-    }
-    catch(e){
-        return false;
-    }
-}
 
 const debounce = (fn, delay = 500) => {
     let timeoutId;
@@ -209,13 +149,13 @@ const debounce = (fn, delay = 500) => {
 
 form.addEventListener('input', debounce(function (e) {
     switch (e.target.id) {
-        case 'titulo':
+        case 'nombre':
             checkUsername();
             break;
-        case 'director':
+        case 'email':
             checkEmail();
             break;
-        case 'estudio':
+        case 'tlfn':
             checkPhone();
             break;
         case 'contrasena':

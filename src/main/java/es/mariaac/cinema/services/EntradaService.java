@@ -28,12 +28,11 @@ public class EntradaService {
         return entradaRepository.save(asiento);
     }
 
-    public void reservarAsiento(Reserva reserva, Asiento asiento,Precios precioHoy){
+    public Entrada reservarAsiento(Asiento asiento,Precios precio){
         Entrada entrada = new Entrada();
         entrada.setAsiento(asiento);
-        entrada.setPrecio(precioHoy);
-        guardar(entrada);
-        reserva.addEntrada(entrada);
+        entrada.setPrecio(precio);
+        return guardar(entrada);
     }
 
     public List<String> sacarEstadosAsientos(Proyeccion proyeccion){

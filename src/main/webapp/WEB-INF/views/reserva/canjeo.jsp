@@ -69,13 +69,13 @@
 
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 col-6 label ">Sala</div>
-                                        <div class="col-lg-9 col-md-8 col-6">${reserva.getProyeccion().getSala()}</div>
+                                        <div class="col-lg-9 col-md-8 col-6">${reserva.getProyeccion().getSala().getNombre()}</div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 col-6 label">Asientos</div>
                                         <div class="col-lg-9 col-md-8 col-6">
-                                            <c:forEach var="entradasElem" items="${reserva.entradas}">
+                                            <c:forEach var="entradasElem" items="${reserva.getEntradas()}">
                                                 <span>${entradasElem.getAsiento().getName()}</span>
                                             </c:forEach>
 
@@ -101,33 +101,9 @@
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-<script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function() {
-        'use strict';
-
-        window.addEventListener('load', function() {
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.getElementsByClassName('needs-validation');
-
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        }, false);
-    })();
-</script>
-
 <script src="${pageContext.request.contextPath}/resources/js/popper.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/holder.min.js"></script></body>
-<script src="${pageContext.request.contextPath}/resources/vendor/tinymce/tinymce.min.js"></script>
 
 
 <!-- Template Main JS File -->

@@ -6,6 +6,7 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
 import jakarta.mvc.Models;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.executable.ExecutableType;
 import jakarta.validation.executable.ValidateOnExecution;
@@ -14,8 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -37,10 +36,10 @@ public class AdminController {
     ProyeccionService proyeccionService;
 
     @Inject
-    AsientoService asientoService;
+    ClienteService clienteService;
 
     @Inject
-    ReservaService reservaService;
+    HttpServletRequest request;
 
     @Inject
     private Mensaje mensaje;
@@ -55,6 +54,9 @@ public class AdminController {
     @GET
     @Path("/")
     public String index() {
+        if (clienteService.compruebaNoAdministrador(request.getSession())){
+            return "redirect:cartelera";
+        }
         return "admin/panel-admin";
     }
 
@@ -70,10 +72,44 @@ public class AdminController {
     @GET
     @Path("sala/nueva")
     public String irCrearSala() {
+        if (clienteService.compruebaNoAdministrador(request.getSession())){
+            return "redirect:cartelera";
+        }
         log.debug("Añadir nueva sala");
         Sala sala = new Sala();
         models.put("sala", sala);
-        return "admin/creacion-sala";
+        return "admin/form-sala";
+    }
+
+    /**
+     * [no funciona] Metodo creacion de sala dinamica
+     *  Método que crea una nueva sala en la base de datos de forma dinámica desde el jsp
+     *  de creacion-sala. Al finalizar, mostraria el resultado en sala-mostrar
+     *
+     * @return página formulario de película
+     */
+    @POST
+    @Path("sala/submit")
+    @ValidateOnExecution(type = ExecutableType.NONE)
+    public String guardarSala(@FormParam("id") Long id, @FormParam("nombre") String nombre) {
+        if (clienteService.compruebaNoAdministrador(request.getSession())){
+            return "redirect:cartelera";
+        }
+        Optional<Sala> salaOpt = salaService.buscarPorId(id);
+        Sala sala;
+        //nueva sala
+        sala = salaOpt.orElseGet(Sala::new);
+        sala.setNombre(nombre);
+        Sala salaCreada;
+        try {
+            salaCreada = salaService.guardar(sala);
+            salaService.establecerAsientos(salaCreada.getId());
+            mensaje.setTexto("La sala " + sala.getId() + " '" + sala.getNombre() + "' se guardó satisfactoriamente! ");
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            mensaje.setTexto("Ocurrió un error y la sala " + nombre + " no se pudo almacenar.");
+        }
+        return "admin/panel-admin";
     }
 
     /**
@@ -83,13 +119,15 @@ public class AdminController {
      *  una tabla con los horarios en columnas y las salas en filas, con desplegables de todas las peliculas
      *  en cada celda.
      *
-     *
      * @param fecha String dia a buscar proyecciones
      * @return página formulario de película
      */
     @GET
     @Path("horarios{dia:(/dia/[^/]+?)?}")
     public String horariosProyeccion(@PathParam("dia") String fecha) {
+        if (clienteService.compruebaNoAdministrador(request.getSession())){
+            return "redirect:cartelera";
+        }
         String dia;
         if (fecha == null || fecha.equals(""))
             dia = String.valueOf(LocalDate.now());
@@ -107,54 +145,6 @@ public class AdminController {
         return "admin/horarios-sala";
     }
 
-    /**
-     * [no funciona] Metodo creacion de sala dinamica
-     *  Método que crea una nueva sala en la base de datos de forma dinámica desde el jsp
-     *  de creacion-sala. Al finalizar, mostraria el resultado en sala-mostrar
-     *
-     * @return página formulario de película
-     */
-    @POST
-    @Path("sala/submit")
-    @ValidateOnExecution(type = ExecutableType.NONE)
-    public String guardarSala(@FormParam("id") Long id, @FormParam("nombre") String nombre, @FormParam("listado") String listado) {
-
-        Optional<Sala> salaOpt = salaService.buscarPorId(id);
-        Sala sala;
-        //nueva sala
-        sala = salaOpt.orElseGet(Sala::new);
-        sala.setNombre(nombre);
-
-        try {
-            salaService.guardar(sala);
-            mensaje.setTexto("La sala " + sala.getId() + " " + sala.getNombre() + " se guardó satisfactoriamente ! ");
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            mensaje.setTexto("Ocurrió un error y la sala " + sala.getId() + " " + sala.getNombre() + " no se pudo almacenar.");
-        }
-
-        String[] sitios = listado.trim().replaceAll(" ", "").split(",");
-        //recorremos los ids para crear nuevos sitios
-        for (String idSitio: sitios) {
-            Asiento newAsiento = new Asiento();
-            newAsiento.setLetra(String.valueOf(idSitio.charAt(0)));
-            newAsiento.setFila(String.valueOf(idSitio.charAt(1)));
-            sala.addAsiento(newAsiento);
-            try {
-                asientoService.guardar(newAsiento);
-                mensaje.setTexto("El asiento " + newAsiento.getId() + " " + newAsiento.getName() + " se guardó satisfactoriamente ! ");
-            } catch (Exception e) {
-                log.error(e.getMessage(), e);
-                mensaje.setTexto("Ocurrió un error y el asiento " + newAsiento.getName() + " no se pudo almacenar.");
-            }
-
-        }
-
-        //TODO - los ids que recibimos en el form nos indican el num de filas y columnas maximo que habrá y la ubicación exacta. Se pueden renombrar despues, pero la idea es poder mostrarlos en esa misma disosicion
-
-        return "admin/sala-mostrar";
-    }
-
 
 /*  *********   CONTROL DE PELÍCULAS   *********  */
     /**
@@ -168,6 +158,9 @@ public class AdminController {
     @GET
     @Path("peliculas")
     public String listadoPeliculas() {
+        if (clienteService.compruebaNoAdministrador(request.getSession())){
+            return "redirect:cartelera";
+        }
         models.put("peliculas", peliculaService.findAll());
         models.put("peliculasProyectando", peliculaService.findProyectandoR());
         return "admin/list-peliculas";
@@ -184,6 +177,9 @@ public class AdminController {
     @GET
     @Path("pelicula/nueva")
     public String nueva() {
+        if (clienteService.compruebaNoAdministrador(request.getSession())){
+            return "redirect:cartelera";
+        }
         log.debug("Añadir nueva pelicula");
         Pelicula pelicula = new Pelicula();
         models.put("pelicula", pelicula);
@@ -216,6 +212,9 @@ public class AdminController {
                               @FormParam("poster") String poster, @FormParam("descripcion") String descripcion,
                               @FormParam("estudio") String estudio, @FormParam("enProyeccion") String enProyeccion) {
 
+        if (clienteService.compruebaNoAdministrador(request.getSession())){
+            return "redirect:cartelera";
+        }
         Optional<Pelicula> peliculaOpt = peliculaService.buscarPorId(id);
         Pelicula pelicula;
         //nueva
@@ -249,6 +248,9 @@ public class AdminController {
     @GET
     @Path("editar/{id}")
     public String editar(@PathParam("id") Long id) {
+        if (clienteService.compruebaNoAdministrador(request.getSession())){
+            return "redirect:cartelera";
+        }
         log.debug("Edit pelicula {}", id);
         Optional<Pelicula> pelicula = peliculaService.buscarPorId(id);
         if (pelicula.isPresent()) {
@@ -270,6 +272,10 @@ public class AdminController {
     @GET
     @Path("borrar/{id}")
     public String borrar(@PathParam("id") @NotNull Long id) {
+        if (clienteService.compruebaNoAdministrador(request.getSession())){
+            return "redirect:cartelera";
+        }
+
         log.debug("Borrando película {}", id);
         Optional<Pelicula> pelicula = peliculaService.buscarPorId(id);
 
@@ -283,10 +289,6 @@ public class AdminController {
                 mensaje.setTexto("Ocurrió un error y la proyección de la pelicula num. " + p.getId() + " (" + p.getTitulo() + ") no se pudo eliminar.");
             }
         }
-
         return "redirect:admin/pelicula";
     }
-/*  *********   CONTROL DE PROYECCIONES   *********  */
-
-
 }

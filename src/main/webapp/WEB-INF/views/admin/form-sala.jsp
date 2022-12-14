@@ -60,57 +60,18 @@
       <div class="col-lg-6 justify-content-between m-auto">
         <div class="card">
           <div class="card-body m-3">
-            <h3 class="m-5 text-center">${not empty pelicula.id ? 'Editar' : 'Nueva'} película</h3>
+            <h3 class="m-5 text-center">Nueva sala</h3>
 
             <!-- General Form Elements -->
-            <form action="${mvc.basePath}/admin/nueva/submit" id="formPelicula" method="post">
-              <c:if test="${not empty pelicula.id}">
-                <input id="id" name="id" type="hidden" value="${pelicula.id}"/>
+            <form action="${mvc.basePath}/admin/sala/submit" id="formSala" method="post">
+              <c:if test="${not empty sala.id}">
+                <input id="id" name="id" type="hidden" value="${sala.id}"/>
               </c:if>
 
               <div class="col mb-3">
-                <label for="titulo" class=" col-form-label">Título</label>
-                <input type="text" id="titulo" name="titulo" class="form-control" value="${pelicula.titulo}" required>
+                <label for="nombre" class=" col-form-label">Nombre de la sala</label>
+                <input type="text" id="nombre" name="nombre" class="form-control" value="${sala.nombre}" required>
                 <small></small>
-              </div>
-
-              <div class="row">
-                <div class="col mb-3">
-                  <label for="director" class="col-form-label">Director</label>
-                  <input type="text" id="director" name="director" class="form-control" value="${pelicula.director}" required>
-                  <small></small>
-                </div>
-                <div class="col mb-3">
-                  <label for="estudio" class="col-form-label">Estudio</label>
-                  <input type="text" id="estudio" name="estudio" class="form-control" value="${pelicula.estudio}" required>
-                  <small></small>
-                </div>
-              </div>
-              <div class="col mb-3">
-                <label for="poster" class=" col-form-label">Url del póster</label>
-                <input type="url" id="poster" name="poster" class="form-control" value="${pelicula.poster}" required>
-                <small></small>
-              </div>
-
-              <div class="col mb-3">
-                <label for="duracion" class="col-form-label">Duración</label>
-                <input type="number" name="duracion" id="duracion" class="form-control" value="${pelicula.duracion}" required>
-                <small></small>
-              </div>
-
-              <div class="col mb-3">
-                <label for="descripcion" class="col-form-label">Sipnosis</label>
-                <input type="text" class="form-control" id="descripcion" name="descripcion" value="${pelicula.descripcion}"/>
-                <small></small>
-              </div>
-              <div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="enProyeccion" name="enProyeccion" value="${pelicula.enProyeccion}">
-                  <label class="form-check-label" for="enProyeccion">
-                    En proyeccion
-                  </label>
-                  <input type="text" id="urlEnvio" hidden value="${mvc.basePath}+'/admin/nueva/submit'">
-                </div>
               </div>
 
               <div class="row mb-3">
@@ -137,9 +98,29 @@
 <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Template Main JS File -->
-<script src="${pageContext.request.contextPath}/resources/js/validation.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/pelicula-form.js"></script>
+<script>
+  (function() {
+    'use strict';
+
+    window.addEventListener('load', function() {
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.getElementsByClassName('needs-validation');
+
+      // Loop over them and prevent submission
+      var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  })();
+</script>
 <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+
 </body>
 
 </html>

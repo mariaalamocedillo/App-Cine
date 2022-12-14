@@ -54,8 +54,8 @@ public class ClienteController {
 
     /**
      * Metodo logea usuario
-     *  Método que almacena la proyección recibida y actualiza la informacion de la
-     *  pelicula recibida (la correspondiente a dicha proyección)
+     *  Método que almacena logea al usuario. En caso de ser el email de administrador,
+     *  se redirige a la página de administrador
      *
      * @param email String email del user
      * @param psswd String contraseña del user
@@ -68,6 +68,9 @@ public class ClienteController {
             String rutaOrigen = compruebaRedireccion(email);
             if (!Objects.equals(rutaOrigen, "")){
                 return rutaOrigen;
+            }
+            if (Objects.equals(email, "administrador@cinespetri.com")) {
+                return "redirect:admin";
             }
             return "redirect:usuario/perfil";
         } else{

@@ -217,7 +217,6 @@ public class ReservaController {
         try {
             reservaGuardada = reservaService.guardar(reserva);
             models.put("timerTime", session.getAttribute("reservaTimeCreation"));
-
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             mensaje.setTexto("Ocurrió un error y la reserva " + reserva.getId() + " no se pudo realizar.");
@@ -233,7 +232,7 @@ public class ReservaController {
             if (asientoTemp != null){
                 asientos.add(asientoTemp);
                 try{
-                    entradaService.reservarAsiento(reservaGuardada, asientoTemp, precioHoy);
+                    reservaGuardada.addEntrada(entradaService.reservarAsiento(asientoTemp, precioHoy));
                 }catch (Exception e) {
                     log.error(e.getMessage(), e);
                     mensaje.setTexto("Ocurrió un error y no pudimos almacenar la reserva de los asientos. ");
@@ -241,7 +240,7 @@ public class ReservaController {
                 }
             }
         }
-
+        reservaService.guardar(reservaGuardada);
         session.setAttribute("asientos", asientos);
         models.put("salaDeLaEntrada", salaService.salaDelAsiento(asientos.get(0)));
 
@@ -271,7 +270,6 @@ public class ReservaController {
                               @FormParam("listPreciosEntradas") String listPreciosEntradas) {
         //obtenemos la sesión de cliente y reserva
         HttpSession session = request.getSession();
-        System.out.println("---------------- " + listPreciosEntradas);
 
         Reserva reserva;
         try {
@@ -331,7 +329,6 @@ public class ReservaController {
 
         reserva.setPagada(true);    //la establecemos como pagada
         models.put("entradas", models.get("entradas"));
-
         try {
             reservaService.guardar(reserva);
             mensaje.setTexto("La reserva de " + reserva.getProyeccion().getPelicula().getTitulo() + " se guardó satisfactoriamente ! ");

@@ -96,8 +96,8 @@
                                         <div class="input-group">
                                             <span class="input-group-text" id="inputGroupPrepend2">+(34)</span>
                                             <input type="number" name="tlfn" value="${cliente.tlfn}" class="form-control" id="tlfn" required>
+                                            <small class="d-block"></small>
                                         </div>
-                                        <small></small>
                                     </div>
 
                                     <div class="col-12">
@@ -112,12 +112,14 @@
                                         <small></small>
                                     </div>
 
+<%--
                                     <div class="col-12">
                                         <div class="form-check">
                                             <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
-                                            <label class="form-check-label" for="acceptTerms">Acepto y estoy de acuerdo los <a href="https://i.imgur.com/qh2CT.jpeg">términos y condiciones</a></label>
+                                            <label class="form-check-label" for="acceptTerms">Acepto y estoy de acuerdo los <a href="javascript:void(0);">términos y condiciones</a></label>
                                         </div>
                                     </div>
+--%>
 
                                     <c:if test="${mensaje.texto != null}">
                                         <div class="col-md-12">
@@ -132,7 +134,6 @@
                                         <p class="small mb-0">¿Ya tienes cuenta? <a href="${mvc.basePath}/usuario">Entrar en mi cuenta</a></p>
                                     </div>
                                 </form>
-
                             </div>
                         </div>
 
@@ -149,9 +150,9 @@
 
 <!-- Vendor JS Files -->
 <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
 <!-- Template Main JS File -->
-<script src="${pageContext.request.contextPath}/resources/js/form-validation.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/validation.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/signup-validation.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 </body>
 

@@ -2,6 +2,7 @@ package es.mariaac.cinema.controllers;
 import es.mariaac.cinema.entities.Pelicula;
 import es.mariaac.cinema.entities.Proyeccion;
 import es.mariaac.cinema.entities.Sala;
+import es.mariaac.cinema.services.ClienteService;
 import es.mariaac.cinema.services.PeliculaService;
 import es.mariaac.cinema.services.ProyeccionService;
 import es.mariaac.cinema.services.SalaService;
@@ -9,6 +10,7 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
 import jakarta.mvc.Models;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.executable.ExecutableType;
 import jakarta.validation.executable.ValidateOnExecution;
@@ -41,6 +43,12 @@ public class ProyeccionController {
     @Inject
     private SalaService salaService;
 
+    @Inject
+    private ClienteService clienteService;
+
+    @Inject
+    HttpServletRequest request;
+
     /**
      * Metodo envia a listado de proyecciones
      * Metodo que obtiene todas las proyecciones para mostrarlas en una datatable
@@ -50,6 +58,9 @@ public class ProyeccionController {
     @GET
     @Path("/")
     public String index() {
+        if (clienteService.compruebaNoAdministrador(request.getSession())){
+            return "redirect:cartelera";
+        }
         models.put("proyecciones", proyeccionService.findProyectandoActual());
         return "admin/list-proyecciones";
     }
@@ -65,6 +76,10 @@ public class ProyeccionController {
     @GET
     @Path("borrar/{id}")
     public String borrar(@PathParam("id") @NotNull Long id) {
+        if (clienteService.compruebaNoAdministrador(request.getSession())){
+            return "redirect:cartelera";
+        }
+
         log.debug("Borrando proyección {}", id);
 
         Optional<Proyeccion> proyeccionOpt = proyeccionService.buscarPorId(id);
@@ -93,6 +108,9 @@ public class ProyeccionController {
     @GET
     @Path("editar/{id}")
     public String editar(@PathParam("id") @NotNull Long id) {
+        if (clienteService.compruebaNoAdministrador(request.getSession())){
+            return "redirect:cartelera";
+        }
 
         Optional<Proyeccion> proyeccion = proyeccionService.buscarPorId(id);
 
@@ -115,6 +133,10 @@ public class ProyeccionController {
     @GET
     @Path("nueva/{idPelicula}")
     public String nueva(@PathParam("idPelicula") Long id) {
+        if (clienteService.compruebaNoAdministrador(request.getSession())){
+            return "redirect:cartelera";
+        }
+
         List<Sala> salas = salaService.findAll();
         Optional<Pelicula> pelicula = peliculaService.buscarPorId(id);
         models.put("salas", salas);
@@ -145,6 +167,9 @@ public class ProyeccionController {
     @Path("datosNueva/{idPelicula}/{dia}/{hora}/{idSala}")
     public String nuevaIdPelicula(@PathParam("idPelicula") Long idPelicula, @PathParam("idSala") Long idSala,
                                   @PathParam("dia") String dia, @PathParam("hora") String hora) {
+        if (clienteService.compruebaNoAdministrador(request.getSession())){
+            return "redirect:cartelera";
+        }
 
         Optional<Sala> salaOpt = salaService.buscarPorId(idSala);
         Optional<Pelicula> peliculaOpt = peliculaService.buscarPorId(idPelicula);
@@ -183,6 +208,10 @@ public class ProyeccionController {
     public String submitNueva(@FormParam("id") Long id, @FormParam("comienzo") String comienzo,
                               @FormParam("dia") String dia, @FormParam("sala") Long salaId,
                               @FormParam("peliculaId") Long peliculaId) {
+        if (clienteService.compruebaNoAdministrador(request.getSession())){
+            return "redirect:cartelera";
+        }
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
 
         Optional<Sala> salaOpt = salaService.buscarPorId(salaId);
@@ -215,7 +244,6 @@ public class ProyeccionController {
      *
      * @param pelicula Pelicula a actualizar
      * @param proyeccion Proyeccion a crear
-     * @return redireccion a horariosProyeccion() de AdminController
      */
     public void almacenarProyeccion(Pelicula pelicula, Proyeccion proyeccion){
         try {
@@ -230,5 +258,4 @@ public class ProyeccionController {
                     + " de la película " + proyeccion.getPelicula().getTitulo() + " no se pudo almacenar.");
         }
     }
-
 }

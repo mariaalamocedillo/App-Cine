@@ -95,11 +95,6 @@
 
                         </ul>
                         <div class="tab-content pt-2">
-                            <c:if test="${mensaje.texto != null}">
-                                <div class="col-md-12">
-                                    <p class="alert alert-success" id="success-alert">${mensaje.texto}</p>
-                                </div>
-                            </c:if>
 
                             <div class="tab-pane fade show active profile-overview" id="reservas-activas">
                                 <h5 class="card-title">Reservas no canjeadas</h5>
@@ -156,6 +151,11 @@
                         <c:if test="${empty reservas}">
                             Actualmente no tiene ninguna reserva activa
                         </c:if>
+                                <c:if test="${mensaje.texto != null}">
+                                    <div class="col-md-12">
+                                        <p class="alert alert-success" id="success-alert">${mensaje.texto}</p>
+                                    </div>
+                                </c:if>
                             </div>
 
                             <div class="tab-pane fade profile-edit pt-3" id="reservas-antiguas">

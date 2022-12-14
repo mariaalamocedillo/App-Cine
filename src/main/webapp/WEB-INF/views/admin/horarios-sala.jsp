@@ -165,7 +165,7 @@
 <!-- Vendor JS Files -->
 <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendor/quill/quill.min.js"></script>
-<%--<script src="${pageContext.request.contextPath}/resources/js/form-validation.js"></script>--%>
+<%--<script src="${pageContext.request.contextPath}/resources/js/signup-validation.js"></script>--%>
 <!-- Template Main JS File -->
 <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 

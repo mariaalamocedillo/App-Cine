@@ -55,25 +55,4 @@ public class ReservaService {
         return preciosRepository.findOptionalBy(id);
     }
 
-
-/*
-    public List<Double> listadoVentas () {
-        List<Double> listaVentas = new ArrayList<>();
-        listaVentas.add(reservaRepository.ventasHoy());
-        listaVentas.add(reservaRepository.ventasEsteMes());
-        listaVentas.add(reservaRepository.ventasEsteAño());
-        return listaVentas;
-    }
-*/
-
-    public Float listadoOcupacion () {
-        List<Float> listado = new ArrayList<>();
-        listado.add(reservaRepository.ocupacionHoy());
-
-
-
-        return reservaRepository.ocupacionHoy();
-    }
-
-
 }

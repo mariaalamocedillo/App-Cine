@@ -88,7 +88,7 @@
 
                                                             </select>
 
-                                                            <small class="text-muted">${salaDeLaEntrada.getNombre()} | ${entrada.getName()}</small>
+                                                            <small class="text-muted">${reserva.getProyeccion().getSala().getNombre()} | ${entrada.getName()}</small>
                                                         </div>
                                                         <span class="text-muted"> <span name="preciosEntradas" id="precioEntrada-${indexEntrada.index}">${precio.getPrecioFinal()}</span> €</span>
                                                     </li>
