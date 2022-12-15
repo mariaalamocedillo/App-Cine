@@ -174,7 +174,6 @@
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <script>
-//TODO comprobar form js esto resto pags tmbn Y PASAR ESTO A UN SCRIPT SEPARADO
     //import {valueOrDefault} from "../../../resources/vendor/chart.js/helpers.esm";
 
 (function() {

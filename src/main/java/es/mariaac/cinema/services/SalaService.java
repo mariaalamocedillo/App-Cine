@@ -2,7 +2,6 @@ package es.mariaac.cinema.services;
 
 import es.mariaac.cinema.entities.Asiento;
 import es.mariaac.cinema.entities.Sala;
-import es.mariaac.cinema.repositories.AsientoRepository;
 import es.mariaac.cinema.repositories.SalaRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -40,10 +39,10 @@ public class SalaService {
     }
 
     //Método usado para cargar los datos de los asientos (en lugar de manualmente)
-    public Boolean establecerAsientos(Long idSala){
+    public void establecerAsientos(Long idSala){
         Optional<Sala> salaOpt = buscarPorId(idSala);
         if (salaOpt.isEmpty()){
-            return false;
+            return;
         }
         Sala sala = salaOpt.get();
         String[] filaNum = {
@@ -64,7 +63,6 @@ public class SalaService {
             asientoService.guardar(asiento);
         }
         guardar(sala);
-        return true;
     }
 
 
