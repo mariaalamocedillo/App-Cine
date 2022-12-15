@@ -63,8 +63,7 @@ public class SalaService {
             sala.addAsiento(asiento);
             asientoService.guardar(asiento);
         }
-        System.out.println(sala);
-
+        guardar(sala);
         return true;
     }
 
